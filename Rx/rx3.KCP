@@ -69,3 +69,33 @@ FMIN
 PILEBURN           1         1
 END
 ENDIF
+
+********************************************************************************
+** Modify fuels based on harvest type.
+********************************************************************************
+* Pre-commercial thin
+IF
+CUT_TYPE = 1
+THEN
+FMIN
+FUELTRET           0         0         3
+END
+ENDIF
+
+* Commercial thin or regeneration harvest on slopes < 40%
+IF
+CUT_TYPE GT 1 AND SLOPE LT 40
+THEN
+FMIN
+FUELTRET           0         0         1
+END
+ENDIF
+
+* Commercial thin or regeneration harvest on slopes >= 40%
+IF
+CUT_TYPE GT 1 AND SLOPE GE 40
+THEN
+FMIN
+FUELTRET           0         0         2
+END
+ENDIF
