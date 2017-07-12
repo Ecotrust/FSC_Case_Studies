@@ -7,9 +7,9 @@
 ********************************************************************************
 DATABASE
 SQLIN              0
-SELECT *
+SELECT RotaAge
 FROM
-LONG 
+LONG
 WHERE
 STANDID = '%StandID%'
 ENDSQL
@@ -46,16 +46,16 @@ THINBTA            0      250.        1.        0.      999.        0.      999.
 ENDIF
 
 ********************************************************************************
-** Commercial thin before final harvest if SDI indicates imminent mortality. 
+** Commercial thin at least 20 years before final harvest if SDI reaches or
+** exceeds 55% of SDImax, indicating imminent density-driven mortality.
 ********************************************************************************
-IF                 0 
-!!AGE LT YD AND BSDI GE SDIent
+IF                 0
 (RotaAge - AGE) GE 20 AND BSDI GE (BSDIMAX*0.55)
 THEN
 THINSDI            0      Parms(BSDIMAX*0.35, 1., Hard, 9, 999., 0.)
 THINSDI            0      Parms(BSDIMAX*0.35, 1., Soft, 7, 999., 0.)
 ENDIF
- 
+
 ********************************************************************************
 ** Pile and burn slash after any harvesting. 
 ********************************************************************************

@@ -7,7 +7,7 @@
 ********************************************************************************
 DATABASE
 SQLIN              0
-SELECT *
+SELECT RotaAge
 FROM
 FSC
 WHERE
