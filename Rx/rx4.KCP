@@ -90,7 +90,7 @@ ENDIF
 ********************************************************************************
 * Pre-commercial thin
 IF
-CUT_TYPE = 1
+CUT_TYPE EQ 1
 THEN
 FMIN
 FUELTRET           0         0         3
