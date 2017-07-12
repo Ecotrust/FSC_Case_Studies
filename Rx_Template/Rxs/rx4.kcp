@@ -1,5 +1,5 @@
 ********************************************************************************
-** FSC - Max Volume (long rotation)
+** FSC - Max Sustained Yield
 ********************************************************************************
 MGMTID
 Rx4
@@ -11,7 +11,7 @@ DATABASE
 SQLIN              0
 SELECT RotaAge
 FROM
-FSC_MAI
+FSC_MSY
 WHERE
 STANDID = '%StandID%'
 ENDSQL
