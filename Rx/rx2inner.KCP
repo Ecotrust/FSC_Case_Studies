@@ -36,7 +36,7 @@ AGE GE RotaAge AND CUT EQ 1.0
 THEN
 RESETAGE           0         0
 ESTAB
-Plant              1    Parms(DF, 450., 100.)
+PLANT              1    Parms(DF, 450., 100.)
 END
 ENDIF
 
