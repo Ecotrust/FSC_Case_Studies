@@ -1,0 +1,97 @@
+!!*****************************************************************
+!! Grow only                                     
+!!*****************************************************************
+
+
+!!****************************************************
+!!**Number Of Cycles and Years Between Cycles
+!!****************************************************
+InvYear         2014
+Timeint            0         5
+NUMCYCLE          20
+ 
+!!************************************************
+!!**Output Tree Data Options
+!!************************************************
+!!Output Treelist
+TreeList           0        3.         0         0         0         0         0
+ 
+!!Output Cutlist
+CutList            0        3.         0                             0
+ 
+!!Output After Treatment Tree List File
+ATRTLIST           0        3.         0
+ 
+!!Output Tree Structural Statistics
+StrClass           1       30.        5.       25.        5.      200.       30.
+ 
+!!Turn-off tripling
+NoTriple
+ 
+!!Turn-off unneeded output: Delete stand composition table
+DelOTab            1
+!!Turn-off unneeded output: Delete selected sample tree table
+DelOTab            2
+
+NoAutoEs
+NOCALIB 
+
+
+
+!!************************************************
+!!**Output To Access Database Keywords
+!!************************************************
+DataBase
+DSNOUT
+rx1.accdb
+SUMMARY
+TREELIST           1
+CUTLIST            1
+ATRTLIST           1
+CARBRPTS           1
+STRCLASS           1
+COMPUTE            1
+End
+
+!!******************************************************************
+!!Define merchantable species and sizes for Pacific coast (PN) variant.
+!!VOLUME for cubic foot (5" min dbh to 4" top diameter), and BFVOLUME 
+!!or boardfoot (sawlogs, 7" or 9" min dhb to 6" or 8" min top diameter).  
+!!******************************************************************
+VOLUME             0       All       5.0       4.0
+BFVOLUME           0       All       999       999
+BFVOLUME           0        RC       9.0       6.0
+BFVOLUME           0        DF       9.0       6.0
+BFVOLUME           0        BM      11.0       8.0
+BFVOLUME           0        RA      11.0       8.0
+BFVOLUME           0        WO      11.0       8.0
+BFVOLUME           0        ES       9.0       6.0
+BFVOLUME           0        IC       9.0       6.0
+BFVOLUME           0        LP       9.0       6.0
+BFVOLUME           0        NF       9.0       6.0
+BFVOLUME           0        PP       9.0       6.0
+BFVOLUME           0        PY       9.0       6.0
+BFVOLUME           0        RW       9.0       6.0
+BFVOLUME           0        SP       9.0       6.0
+BFVOLUME           0        WJ        10         6
+BFVOLUME           0        WP       9.0       6.0
+BFVOLUME           0        YC       9.0       6.0
+BFVOLUME           0        CH      11.0       8.0
+BFVOLUME           0        CW      11.0       8.0
+BFVOLUME           0        GC      11.0       8.0
+BFVOLUME           0        PB      11.0       8.0
+BFVOLUME           0        WA      11.0       8.0
+BFVOLUME           0        SS       9.0       6.0
+BFVOLUME           0        GF       9.0       6.0
+BFVOLUME           0        WF       9.0       6.0
+BFVOLUME           0        WH       9.0       6.0
+
+!!***************************************************************
+!!Create Carbon Reports with units of metric tonnes C per acre. 
+!!***************************************************************
+FMIN 
+CARBREPT                               5 
+CARBCUT                                5    
+CARBCALC           0         2 
+END 
+ 

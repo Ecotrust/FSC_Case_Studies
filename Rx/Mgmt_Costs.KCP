@@ -1,0 +1,31 @@
+COMMENT
+Costs for forestry activities including harvest,
+trucking, road maintenance, harvest administration,
+road maintenance, and planting and site preparation.
+END
+
+* turn on ECON extension
+ECON
+* Minimum harvest volume to be considered commercial
+* harvest entry set for >= 3 MBF per acre
+PCTSPEC          0.0         2         3
+
+* Pre-commercial thinning costs $100 per acre
+PCTFXCST         100
+
+* Logging costs $130 per MBF
+HRVVRCST         130         2
+
+* Hauling costs $100 per MBF
+HRVVRCST         100         2
+
+* Harvest administration $5 per MBF
+HRVVRCST           5         2
+
+* Road maintenance $14 per MBF
+HRVVRCST          14         2
+
+* Site preparation and tree planting $400 per acre
+PLANTCST         400         6
+END
+* END of ECON extension keywords

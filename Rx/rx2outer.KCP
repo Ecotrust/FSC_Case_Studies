@@ -1,0 +1,143 @@
+!!*****************************************************************
+!! Outer riparian Industrial - Oregon Forest Practices                                    
+!!*****************************************************************
+
+
+!!****************************************************
+!!**Number Of Cycles and Years Between Cycles
+!!****************************************************
+InvYear         2014
+Timeint            0         5
+NUMCYCLE          20
+ 
+!!************************************************
+!!**Output Tree Data Options
+!!************************************************
+!!Output Treelist
+TreeList           0        3.         0         0         0         0         0
+ 
+!!Output Cutlist
+CutList            0        3.         0                             0
+ 
+!!Output After Treatment Tree List File
+ATRTLIST           0        3.         0
+ 
+!!Output Tree Structural Statistics
+StrClass           1       30.        5.       25.        5.      200.       30.
+ 
+!!Turn-off tripling
+NoTriple
+ 
+!!Turn-off unneeded output: Delete stand composition table
+DelOTab            1
+!!Turn-off unneeded output: Delete selected sample tree table
+DelOTab            2
+
+
+NoAutoEs
+
+Database
+DSNIN
+Rotation.accdb
+SQLIN              0
+SELECT *
+FROM 
+BAU 
+WHERE
+STANDID = '%StandID%'
+ENDSQL
+END
+
+!!************************************************
+!!**Output To Access Database Keywords
+!!************************************************
+DataBase
+DSNOUT
+rx2outer.accdb
+SUMMARY
+CARBRPTS           1
+ECONRPTS           2
+End
+
+!!***************************************************************
+!!Create Carbon Reports with units of metric tonnes C per acre. 
+!!***************************************************************
+FMIN 
+CARBREPT                               5 
+CARBCUT                                5    
+CARBCALC           0         2 
+END 
+ 
+!!*************************************************************************************
+!!Turn off diameter and height growth calibration and dwarf mistletoe components. 
+!!*************************************************************************************
+NOCALIB 
+MISTOE 
+MISTOFF 
+END
+ 
+!!*************************************************************************************
+!!Create a code indicating what type (if any) of harvesting occurred each cycle. 
+!!CUT_TYPE codes: 
+!!0 = No cut this cycle 
+!!1 = Pre-commercial thin this cycle 
+!!2 = Regeneration harvest this cycle 
+!!************************************************************************************* 
+IF 
+CUT EQ 1
+COMPUTE            0 
+CUT_TYPE = LININT(Age,0,15,40,0,1,2)*CUT 
+END 
+ENDIF 
+
+
+!!*************************************************************** 
+!!Simulate regeneration harvest to 12 TPA >12" at Age 40. 
+!!Salvage snags. 
+!!***************************************************************
+IF                 0 
+AGE GE RotaAge
+THEN 
+THINDBH            0       12.      999.        1.        0.       12.        0.
+THINDBH            0        0.       12.        1.        0.        0.        0. 
+FMIN 
+SALVAGE            0 
+END  
+ENDIF 
+
+ 
+!!***************************************************************
+!!Re-plant to 450 TPA with 100% Douglas-fir.
+!!Also resets stand age. 
+!!***************************************************************
+IF                 0 
+AGE GE RotaAge AND CUT EQ 1.0 
+THEN
+RESETAGE           0         0 
+ESTAB               
+Plant              1    Parms(DF, 450., 100.)
+END 
+ENDIF 
+ 
+ 
+!!*************************************************************** 
+!!Simulate pre-commercial thin to 250 TPA at age 15-20. 
+!!***************************************************************
+IF                40 
+AGE GE 15 AND AGE LE 20
+THEN 
+THINBTA            0      250.        1.        0.      999.        0.      999. 
+ENDIF 
+ 
+ 
+ 
+!!*****************************************
+!!Pile and burn slash after any harvesting. 
+!!*****************************************
+IF 
+CUT EQ 1 
+THEN 
+FMIN 
+PILEBURN           1         1 
+END 
+ENDIF 
