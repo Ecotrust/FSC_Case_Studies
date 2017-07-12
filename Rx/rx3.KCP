@@ -1,129 +1,61 @@
-a!!*****************************************************************
-!! FCS non riparian                                 
-!!*****************************************************************
+********************************************************************************
+** FCS non riparian                                 
+********************************************************************************
 
-
-!!****************************************************
-!!**Number Of Cycles and Years Between Cycles
-!!****************************************************
-InvYear         2014
-Timeint            0         5
-NUMCYCLE          20
- 
-!!************************************************
-!!**Output Tree Data Options
-!!************************************************
-!!Output Treelist
-TreeList           0        3.         0         0         0         0         0
- 
-!!Output Cutlist
-CutList            0        3.         0                             0
- 
-!!Output After Treatment Tree List File
-ATRTLIST           0        3.         0
- 
-!!Output Tree Structural Statistics
-StrClass           1       30.        5.       25.        5.      200.       30.
- 
-!!Turn-off tripling
-NoTriple
- 
-!!Turn-off unneeded output: Delete stand composition table
-DelOTab            1
-!!Turn-off unneeded output: Delete selected sample tree table
-DelOTab            2
-
-
-NoAutoEs
-
-Database
-DSNIN
-Rotation.accdb
+********************************************************************************
+** Read in rotation age from database. Becomes Event Monitor variable "RotaAge".
+********************************************************************************
+DATABASE
 SQLIN              0
 SELECT *
-FROM 
-FSC 
+FROM
+FSC
 WHERE
 STANDID = '%StandID%'
 ENDSQL
 END
 
-!!************************************************
-!!**Output To Access Database Keywords
-!!************************************************
-DataBase
-DSNOUT
-rx3.db
-SUMMARY
-CARBRPTS           1
-ECONRPTS           2
-COMPUTE            0
-End
-
-!!***************************************************************
-!!Create Carbon Reports with units of metric tonnes C per acre. 
-!!***************************************************************
-FMIN 
-CARBREPT                               5 
-CARBCUT                                5    
-CARBCALC           0         2 
-END 
- 
-!!*************************************************************************************
-!!Turn off diameter and height growth calibration and dwarf mistletoe components. 
-!!*************************************************************************************
-NOCALIB 
-MISTOE 
-MISTOFF 
-END
-
-!!*************************************************************** 
-!!Simulate regeneration harvest to 30% retention at Age 40. 
-!!***************************************************************
+********************************************************************************
+** Regeneration harvest retaining 30% of basal area.
+********************************************************************************
 COMPUTE     0
 _bBA     = SPMCDBH(2,  0, 0.,4.)
-_TBA     = _bBA * 0.334 
+_TBA     = _bBA * 0.334
 END
-IF                 0 
-AGE GE RotaAge 
-THEN     
-ThinDBH            0     Parms(4, 999, 1, All, 0, _TBA) 
-ENDIF 
-
- 
-!!***************************************************************
-!!Re-plant to 450 TPA with 100% Douglas-fir.
-!!Also resets stand age. 
-!!***************************************************************
-IF                 0 
-AGE GE RotaAge AND CUT EQ 1.0 
+IF                 0
+AGE GE RotaAge
 THEN
-RESETAGE           0         0 
-ESTAB               
-Plant              1    Parms(DF, 450., 100.)
-END 
-ENDIF 
- 
- 
-!!*************************************************************** 
-!!Simulate pre-commercial thin to 250 TPA at age 15-20. 
-!!***************************************************************
-IF                40 
-AGE GE 15 AND AGE LE 20
-THEN 
-THINBTA            0      250.        1.        0.      999.        0.      999. 
-ENDIF 
- 
- 
- 
-!!*****************************************
-!!Pile and burn slash after any harvesting. 
-!!*****************************************
-IF 
-CUT EQ 1 
-THEN 
-FMIN 
-PILEBURN           1         1 
-END 
-ENDIF 
+ThinDBH            0     Parms(4, 999, 1, All, 0, _TBA)
+ENDIF
 
+********************************************************************************
+** Re-plant to 450 TPA with 100% Douglas-fir. Reset stand age.
+********************************************************************************
+IF                30
+AGE GE RotaAge AND CUT EQ 1.0
+THEN
+RESETAGE           0         0
+ESTAB
+PLANT              1    Parms(DF, 450., 100.)
+END
+ENDIF
+ 
+********************************************************************************
+** Pre-commercial thin to 250 TPA at age 15-20. 
+********************************************************************************
+IF                30 
+AGE GE 15 AND AGE LE 20
+THEN
+THINBTA            0      250.        1.        0.      999.        0.      999.
+ENDIF
+ 
+********************************************************************************
+** Pile and burn slash after any harvesting. 
+********************************************************************************
+IF
+CUT EQ 1
+THEN
+FMIN
+PILEBURN           1         1
+END
+ENDIF
