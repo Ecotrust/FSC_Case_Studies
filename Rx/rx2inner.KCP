@@ -16,12 +16,12 @@ ENDSQL
 END
 
 ********************************************************************************
-** Regeneration harvest to 20 TPA >12" at Age 40. Salvage snags. 
+** Regeneration harvest, retaining 20 smallest TPA >=12" DBH. Salvage snags.
 ********************************************************************************
 IF                30
 AGE GE RotaAge
 THEN
-THINDBH            0       12.      999.        1.        0.       20.        0.
+THINATA            0       20.       1.0       12.      999.        0.      999.
 THINDBH            0        0.       12.        1.        0.        0.        0.
 FMIN
 SALVAGE            0
