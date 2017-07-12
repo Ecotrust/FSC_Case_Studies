@@ -26,7 +26,7 @@ THEN
 THINATA            0       20.       1.0       12.      999.        0.      999.
 THINDBH            0        0.       12.        1.        0.        0.        0.
 FMIN
-SALVAGE            0
+SALVAGE            0        0.      999.      999.        0.        1.        0.
 END
 COMPUTE            0
 CUT_TYPE = 3
