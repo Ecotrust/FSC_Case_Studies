@@ -19,7 +19,7 @@ END
 ** Regeneration harvest, retaining 4 smallest TPA >=12" DBH. Salvage snags.
 ********************************************************************************
 IF                30
-Age GE RotaAge
+Age GE RotaAge + Offset
 THEN
 THINATA            0        4.       1.0       12.      999.        0.      999.
 THINDBH            0        0.       12.        1.        0.        0.        0.
@@ -29,12 +29,16 @@ END
 ENDIF
 
 ********************************************************************************
-** Re-plant to 450 TPA with 100% Douglas-fir. Reset stand age.
+** Reset stand age. Reset offset for future rotations.
+** Re-plant to 450 TPA with 100% Douglas-fir.
 ********************************************************************************
 IF                30
-AGE GE RotaAge AND CUT EQ 1.0
+AGE GE (RotaAge + Offset) AND CUT EQ 1
 THEN
 RESETAGE           0         0
+COMPUTE
+Offset = 0
+END
 ESTAB
 PLANT              1    Parms(DF, 450., 100.)
 END
@@ -48,7 +52,7 @@ AGE GE 15 AND AGE LE 20
 THEN
 THINBTA            0      250.        1.        0.      999.        0.      999.
 ENDIF
- 
+
 ********************************************************************************
 ** Pile and burn slash after any harvesting.
 ********************************************************************************

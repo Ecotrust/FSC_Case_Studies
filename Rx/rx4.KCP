@@ -19,25 +19,29 @@ END
 ** Regeneration harvest retaining 10% of basal area.
 ********************************************************************************
 IF                 0
-Age GE RotaAge
+Age GE (RotaAge + Offset)
 THEN
 ThinDBH            0     Parms(4, 999, 1, All, 0, 0.10*BBA)
 ENDIF
 
 ********************************************************************************
-** Re-plant to 450 TPA with 100% Douglas-fir. Reset stand age.
+** Reset stand age. Reset offset for future rotations.
+** Re-plant to 450 TPA with 100% Douglas-fir.
 ********************************************************************************
-IF                 0
-Age GE RotaAge AND CUT EQ 1.0
+IF                30
+AGE GE (RotaAge + Offset) AND CUT EQ 1
 THEN
 RESETAGE           0         0
+COMPUTE
+Offset = 0
+END
 ESTAB
 PLANT              1    Parms(DF, 450., 100.)
 END
 ENDIF
 
 ********************************************************************************
-** Pre-commercial thin to 250 TPA at age 15-20. 
+** Pre-commercial thin to 250 TPA at age 15-20.
 ********************************************************************************
 IF                30
 AGE GE 15 AND AGE LE 20
@@ -50,14 +54,14 @@ ENDIF
 ** exceeds 55% of SDImax, indicating imminent density-driven mortality.
 ********************************************************************************
 IF                 0
-(RotaAge - AGE) GE 20 AND BSDI GE (BSDIMAX*0.55)
+(RotaAge + Offset - AGE) GE 20 AND BSDI GE (BSDIMAX*0.55)
 THEN
 THINSDI            0      Parms(BSDIMAX*0.35, 1., Hard, 9, 999., 0.)
 THINSDI            0      Parms(BSDIMAX*0.35, 1., Soft, 7, 999., 0.)
 ENDIF
 
 ********************************************************************************
-** Pile and burn slash after any harvesting. 
+** Pile and burn slash after any harvesting.
 ********************************************************************************
 IF
 CUT EQ 1

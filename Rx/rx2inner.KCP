@@ -1,5 +1,5 @@
 ********************************************************************************
-** Outer riparian Industrial - Oregon Forest Practices                                    
+** Outer riparian Industrial - Oregon Forest Practices
 ********************************************************************************
 
 ********************************************************************************
@@ -19,7 +19,7 @@ END
 ** Regeneration harvest, retaining 20 smallest TPA >=12" DBH. Salvage snags.
 ********************************************************************************
 IF                30
-AGE GE RotaAge
+AGE GE RotaAge + Offset
 THEN
 THINATA            0       20.       1.0       12.      999.        0.      999.
 THINDBH            0        0.       12.        1.        0.        0.        0.
@@ -29,19 +29,23 @@ END
 ENDIF
 
 ********************************************************************************
-** Re-plant to 450 TPA with 100% Douglas-fir. Reset stand age.
+** Reset stand age. Reset offset for future rotations.
+** Re-plant to 450 TPA with 100% Douglas-fir.
 ********************************************************************************
-IF                30 
-AGE GE RotaAge AND CUT EQ 1.0 
+IF                30
+AGE GE (RotaAge + Offset) AND CUT EQ 1
 THEN
 RESETAGE           0         0
+COMPUTE
+Offset = 0
+END
 ESTAB
 PLANT              1    Parms(DF, 450., 100.)
 END
 ENDIF
 
 ********************************************************************************
-** Pre-commercial thin to 250 TPA at age 15-20. 
+** Pre-commercial thin to 250 TPA at age 15-20.
 ********************************************************************************
 IF                30
 AGE GE 15 AND AGE LE 20
@@ -50,7 +54,7 @@ THINBTA            0      250.        1.        0.      999.        0.      999.
 ENDIF
 
 ********************************************************************************
-** Pile and burn slash after any harvesting. 
+** Pile and burn slash after any harvesting.
 ********************************************************************************
 IF
 CUT EQ 1
