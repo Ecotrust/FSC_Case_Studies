@@ -16,23 +16,12 @@ ENDSQL
 END
 
 ********************************************************************************
-** COMPUTE variables used in harvest keywords.
-********************************************************************************
-COMPUTE            0
-RotaAge = COUNTY
-lBA     = SPMCDBH(2, 0, 0.,4.)
-TBA     = lBA * 0.1000
-TSDI    = BSDIMAX *.35
-SDIent  = BSDIMAX*.55
-END
-
-********************************************************************************
 ** Regeneration harvest retaining 10% of basal area.
 ********************************************************************************
 IF                 0
 Age GE RotaAge
 THEN
-ThinDBH            0     Parms(4, 999, 1, All, 0, TBA)
+ThinDBH            0     Parms(4, 999, 1, All, 0, 0.10*BBA)
 ENDIF
 
 ********************************************************************************
@@ -61,10 +50,10 @@ ENDIF
 ********************************************************************************
 IF                 0 
 !!AGE LT YD AND BSDI GE SDIent
-(RotaAge - AGE) GE 20 AND BSDI GE SDIent
+(RotaAge - AGE) GE 20 AND BSDI GE (BSDIMAX*0.55)
 THEN
-THINSDI            0      Parms(TSDI, 1., Hard, 9, 999., 0.)
-THINSDI            0      Parms(TSDI, 1., Soft, 7, 999., 0.)
+THINSDI            0      Parms(BSDIMAX*0.35, 1., Hard, 9, 999., 0.)
+THINSDI            0      Parms(BSDIMAX*0.35, 1., Soft, 7, 999., 0.)
 ENDIF
  
 ********************************************************************************
