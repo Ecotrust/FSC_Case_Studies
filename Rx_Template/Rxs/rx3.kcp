@@ -9,9 +9,9 @@ Rx3
 ********************************************************************************
 DATABASE
 SQLIN              0
-SELECT RotaAge
+SELECT FSC_NPV AS RotaAge
 FROM
-FSC_NPV
+Rotation_Age
 WHERE
 STANDID = '%StandID%'
 ENDSQL

@@ -8,12 +8,10 @@ Rx2O
 ** Read in rotation age from database. Becomes Event Monitor variable "RotaAge".
 ********************************************************************************
 DATABASE
-DSNIN
-Rotation.accdb
 SQLIN              0
-SELECT *
+SELECT FPA_NPV AS RotaAge
 FROM
-OFP_NPV
+Rotation_Age
 WHERE
 STANDID = '%StandID%'
 ENDSQL

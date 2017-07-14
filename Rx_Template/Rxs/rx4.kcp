@@ -9,9 +9,9 @@ Rx4
 ********************************************************************************
 DATABASE
 SQLIN              0
-SELECT RotaAge
+SELECT FSC_MSY AS RotaAge
 FROM
-FSC_MSY
+Rotation_Age
 WHERE
 STANDID = '%StandID%'
 ENDSQL
