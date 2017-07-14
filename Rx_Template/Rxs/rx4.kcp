@@ -13,7 +13,7 @@ SELECT FSC_MSY AS RotaAge
 FROM
 Rotation_Age
 WHERE
-STANDID = '%StandID%'
+Stand_ID = '%StandID%'
 ENDSQL
 END
 
