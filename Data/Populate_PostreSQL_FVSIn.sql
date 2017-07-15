@@ -7,3 +7,8 @@ CREATE TABLE tree_init
 (stand_cn varchar(26), stand_id varchar(26), plot_id double precision, tree_id double precision, tree_count double precision, history double precision, species varchar(8), dbh double precision, dg double precision, ht double precision, htg double precision, httopk double precision, crratio double precision, damage1 double precision, severity1 double precision, damage2 double precision, severity2 double precision, damage3 double precision, severity3 double precision, treevalue double precision, prescription double precision, age double precision);
 
 COPY tree_init FROM 'C:\\path\\to\\FVS_TreeInit.csv' DELIMITER ',' CSV HEADER;
+
+CREATE TABLE rotation_age
+(stand_id varchar(26), stand_cn varchar(26), fpa_npv int, fsc_npv int, fpa_msy int, fsc_msy int);
+
+COPY rotation_age FROM 'C:\\path\\to\\Rotation_Age.csv' DELIMITER ',' CSV HEADER;

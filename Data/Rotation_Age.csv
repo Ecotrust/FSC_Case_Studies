@@ -1,4 +1,4 @@
-Stand_ID,Stand_CN,FPA_NPV,FSC_NPV,FPA_MSY,FSC_MSY
+stand_id,stand_cn,fpa_npv,fsc_npv,fpa_msy,fsc_msy
 8002,7,40,35,0,0
 7980,7,40,35,0,0
 8063,7,40,35,0,0
