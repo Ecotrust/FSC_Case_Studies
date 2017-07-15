@@ -9,11 +9,11 @@ Rx2O
 ********************************************************************************
 DATABASE
 SQLIN              0
-SELECT FPA_NPV AS RotaAge
+SELECT fpa_npv AS RotaAge
 FROM
-Rotation_Age
+rotation_age
 WHERE
-Stand_ID = '%StandID%'
+stand_id = '%StandID%'
 ENDSQL
 END
 
