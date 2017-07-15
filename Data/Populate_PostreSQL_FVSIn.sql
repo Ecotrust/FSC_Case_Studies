@@ -1,0 +1,9 @@
+CREATE TABLE stand_init
+(Stand_CN varchar(26), Stand_ID varchar(26), Variant varchar(11), Inv_Year int, Groups text, AddFiles text, FVSKeywords text, Latitude double precision, Longitude double precision, Region int, Forest int, District int, Compartment int, Location int, Ecoregion varchar(6), PV_Code varchar(10), PV_Ref_Code int, Age int, Aspect double precision, Slope double precision, Elevation double precision, ElevFt double precision, Basal_Area_Factor double precision, Inv_Plot_Size double precision, Brk_DBH double precision, Num_Plots int, NonStk_Plots int, Sam_W double precision, Stk_Pcnt double precision, DG_Trans int, DG_Measure int, HTG_Trans int, HTG_Measure int, Mort_Measure int, Max_Ba double precision, Max_SDI double precision, Site_Species varchar(8), Site_Index double precision, Model_Type int, Physio_Region int, Forest_Type int, State int, County int, Fuel_Model int, Fuel_0_25 double precision, Fuel_25_1 double precision, Fuel_0_1 double precision, Fuel_1_3 double precision, Fuel_3_6 double precision, Fuel_6_12 double precision, Fuel_gt_12 double precision, Fuel_Litter double precision, Fuel_Duff double precision, Photo_Ref int, Photo_code varchar(13), GIS_ID int);
+
+COPY stand_init FROM 'C:\\path\\to\\FVS_StandInit.csv' DELIMITER ',' CSV HEADER;
+
+CREATE TABLE tree_init
+(Stand_CN varchar(26), Stand_ID varchar(26), Plot_ID double precision, Tree_ID double precision, Tree_Count double precision, History double precision, Species varchar(8), DBH double precision, DG double precision, Ht double precision, HTG double precision, HtTopK double precision, CrRatio double precision, Damage1 double precision, Severity1 double precision, Damage2 double precision, Severity2 double precision, Damage3 double precision, Severity3 double precision, TreeValue double precision, Prescription double precision, Age double precision);
+
+COPY tree_init FROM 'C:\\path\\to\\FVS_TreeInit.csv' DELIMITER ',' CSV HEADER;
