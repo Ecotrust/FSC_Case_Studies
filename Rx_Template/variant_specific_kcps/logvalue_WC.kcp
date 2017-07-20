@@ -42,16 +42,16 @@ HrvRvn           606         4         6        DF    &
 HrvRvn           547         4         5        DF    &
    0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
 * SS #1 $385/MBF of harvested logs - 24" minTOP
-HrvRvn           385         4        24        SS    &
+HrvRvn           385         4        24        ES    &
    0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
 * SS #2 $385/MBF of harvested logs - 12" minTOP
-HrvRvn           385         4        12        SS    &
+HrvRvn           385         4        12        ES    &
    0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
 * SS #3 $360/MBF of harvested logs - 6" minTOP
-HrvRvn           360         4         6        SS    &
+HrvRvn           360         4         6        ES    &
    0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
 * SS #4/Chip-N-Saw $310/MBF of harvested logs - 5" minTOP
-HrvRvn           310         4         5        SS    &
+HrvRvn           310         4         5        ES    &
    0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
 * White wood #1 $550/MBF of harvested logs - 24" minTOP
 HrvRvn           550         4        24        GF    &
@@ -147,16 +147,16 @@ HrvRvn           645         4         6        DF    &
 HrvRvn           620         4         5        DF    &
    0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
 * SS #1 $515/MBF of harvested logs - 24" minTOP
-HrvRvn           515         4        24        SS    &
+HrvRvn           515         4        24        ES    &
    0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
 * SS #2 $500/MBF of harvested logs - 12" minTOP
-HrvRvn           500         4        12        SS    &
+HrvRvn           500         4        12        ES    &
    0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
 * SS #3 $485/MBF of harvested logs - 6" minTOP
-HrvRvn           485         4         6        SS    &
+HrvRvn           485         4         6        ES    &
    0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
 * SS #4/Chip-N-Saw $480/MBF of harvested logs - 5" minTOP
-HrvRvn           480         4         5        SS    &
+HrvRvn           480         4         5        ES    &
    0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
 * White wood #1 $525/MBF of harvested logs - 24" minTOP
 HrvRvn           525         4        24        GF    &

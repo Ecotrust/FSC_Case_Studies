@@ -1,30 +1,27 @@
 COMMENT
 Set Maximum Stand Density Index across all species.  PN variant.
-Where >100 GNN plots in the variant had single dominant species, 
+Where >100 GNN plots in the variant had single dominant species,
 95th percentile of observed SDI assumed to represent 85% of the
-theoretical maximum SDI, which is the maximum stocking level FVS 
+theoretical maximum SDI, which is the maximum stocking level FVS
 will allow a stand to reach (85% of SDIMAX).
 END
 
-* MAX OBSERVED SDI = 893
-SDIMAX          All      1051
-
 * Max SF observed SDI = 749 (239 plots)
 * Default FVS-PN range for SF = 845-1093
-SDIMAX           SF       881
+SDIMAX            SF       881
 
 * Max RA observed SDI = 454 (207 plots)
 * No clear FVS red alder plant association defaults
-SDIMAX           RA       531
+SDIMAX            RA       531
 
 * Max DF observed SDI = 833 (2,412 plots)
 * Default FVS-PN range for DF = 600-955
-* Although this seems high compared to FVS defaults, 
-* Woodall et al. (2005) "Determining max. SDI in mixed 
-* species for strategic-scale stocking assessments" 
+* Although this seems high compared to FVS defaults,
+* Woodall et al. (2005) "Determining max. SDI in mixed
+* species for strategic-scale stocking assessments"
 * show SDImax of 1,376 for stands >= 80% DF.
-SDIMAX           DF       980
+SDIMAX            DF       980
 
 * Max WH observed SDI = 893 (544 plots)
 * Default FVS-PN range for WH = 820-1,210
-SDIMAX           WH      1051
+SDIMAX            WH      1051

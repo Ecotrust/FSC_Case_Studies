@@ -1,0 +1,55 @@
+COMMENT
+Set Maximum Stand Density Index across all species.  WC variant.
+Where >100 GNN plots in the variant had single dominant species,
+95th percentile of observed SDI assumed to represent 85% of the
+theoretical maximum SDI, which is the maximum stocking level FVS
+will allow a stand to reach (85% of SDIMAX).
+END
+
+* Max SF observed SDI = 749 (331 plots)
+* Default FVS-WC range for SF = 626-1535
+SDIMAX            SF       881
+
+* Max GF observed SDI = 416 (298 plots)
+* Default FVS-WC range for GF = 730-860
+SDIMAX            GF       490
+
+* Max NF observed SDI = 541 (133 plots)
+* No clear FVS Noble fir plant association defaults
+SDIMAX            NF       637
+
+* Max RA observed SDI = 382 (105 plots)
+* No clear FVS Red alder plant association defaults
+SDIMAX            RA       450
+
+* Max Pacific madrone observed SDI = 526 (105 plots)
+* No clear FVS Pacific madrone plant association defaults
+SDIMAX            WA       619
+
+* Max LP observed SDI = 590 (135 plots)
+* No clear FVS Lodgepole pine plant association defaults
+SDIMAX            LP       695
+
+* Max PP observed SDI = 451 (232 plots)
+* No clear FVS Ponderosa pine plant association defaults
+SDIMAX            PP       531
+
+* Max DF observed SDI = 833 (2,959 plots)
+* Default FVS-WC range for DF = 600-955
+* Although this seems high compared to FVS defaults,
+* Woodall et al. (2005) "Determining max. SDI in mixed
+* species for strategic-scale stocking assessments"
+* show theoretical SDImax of 1,376 for stands >= 80% DF.
+SDIMAX            DF       980
+
+* Max WO observed SDI = 295 (136 plots)
+* No clear FVS White oak plant association defaults
+SDIMAX            WO       347
+
+* Max WH observed SDI = 893 (477 plots)
+* Default FVS-WC range for WH = 675-1,532
+SDIMAX            WH      1051
+
+* Max MH observed SDI = 806 (238 plots)
+* Default FVS-WC range for MH = 541-1,286
+SDIMAX            MH       948
