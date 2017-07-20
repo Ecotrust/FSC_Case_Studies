@@ -19,7 +19,8 @@ Eastside and Westside Log Scaling Handbook (Jan. 1, 2011 edition)
 END
 
 IF
-state EQ Washington
+state EQ 53
+* Washington's FIA state code is 53
 THEN
 * turn on ECON extension
 ECON
@@ -124,7 +125,8 @@ ENDIF
 * END of Washington Log Values
 
 IF
-state EQ Oregon
+state EQ 41
+* Oregon's FIA state code is 53
 THEN
 * turn on ECON extension
 ECON
