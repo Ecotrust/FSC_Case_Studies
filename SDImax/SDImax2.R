@@ -43,8 +43,8 @@ PN_stats<-subset(stats100, stats100$Variant=="PN")
 f <- function(x, output) {
   species <- x[2]
   SDI85 <- x[7]
-  print(paste("SDIMax           ", species, "       ", SDI85, "                           55.        75", sep=""))
-  cat(paste("SDIMax           ", species, "       ", SDI85, "                           55.        75", sep=""), 
+  print(paste("SDIMAX            ", species, "       ", SDI85, "                           55.        75", sep=""))
+  cat(paste("SDIMAX            ", species, "       ", SDI85, "                           55.        75", sep=""), 
       file= output, append = T, fill = T)
 }
 
