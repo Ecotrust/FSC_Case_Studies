@@ -38,7 +38,7 @@ IF                30
 AGE GE (RotaAge + Offset) AND CUT EQ 1
 THEN
 RESETAGE           0         0
-COMPUTE
+COMPUTE            0
 Offset = 0
 END
 ESTAB
