@@ -34,4 +34,4 @@ CREATE TABLE rotation_age
 (stand_id varchar(26), stand_cn varchar(26), fpa_npv int, fsc_npv int,
 fpa_msy int, fsc_msy int);
 
-COPY rotation_age FROM 'C:\\path\\to\\Rotation_Age.csv' DELIMITER ',' CSV HEADER;
+COPY rotation_age FROM 'C:\\path\\to\\RotoAge.csv' DELIMITER ',' CSV HEADER;
