@@ -1,27 +1,35 @@
 COMMENT
 Set Maximum Stand Density Index across all species.  PN variant.
-Where >100 GNN plots in the variant had single dominant species,
-95th percentile of observed SDI assumed to represent 85% of the
-theoretical maximum SDI, which is the maximum stocking level FVS
-will allow a stand to reach (85% of SDIMAX).
+Following methods described by:
+Vandendriesche, D., 2010. FVS out of the box—assembly required, in: Proceedings
+RMRS-P-61. Presented at the 2009 National Silviculture Workshop (June 15-18,
+2009), U.S. Department of Agriculture, Forest Service, Rocky Mountain Research
+Station, Fort Collins, CO, pp. 289–306.
+https://www.fs.fed.us/rm/pubs/rmrs_p061/rmrs_p061_289_306.pdf
+
+Where >100 FIA plots in the FVS variant had single dominant species, 85% of the
+98th percentile of observed SDI is used to represent an endemic maximum limit.
+Upper limit of density related mortality is set to 75% of SDIMAX.
 END
 
-* Max SF observed SDI = 749 (239 plots)
-* Default FVS-PN range for SF = 845-1093
-SDIMAX            SF       881
-
-* Max RA observed SDI = 454 (207 plots)
-* No clear FVS red alder plant association defaults
-SDIMAX            RA       531
-
-* Max DF observed SDI = 833 (2,412 plots)
-* Default FVS-PN range for DF = 600-955
-* Although this seems high compared to FVS defaults,
-* Woodall et al. (2005) "Determining max. SDI in mixed
-* species for strategic-scale stocking assessments"
-* show SDImax of 1,376 for stands >= 80% DF.
-SDIMAX            DF       980
-
-* Max WH observed SDI = 893 (544 plots)
-* Default FVS-PN range for WH = 820-1,210
-SDIMAX            WH      1051
+SDIMAX           AF       545                           55.        75
+SDIMAX           BM       485                           55.        75
+SDIMAX           CH       459                           55.        75
+SDIMAX           DF       536                           55.        75
+SDIMAX           DG       459                           55.        75
+SDIMAX           GC       583                           55.        75
+SDIMAX           GF       450                           55.        75
+SDIMAX           IC       579                           55.        75
+SDIMAX           LP       552                           55.        75
+SDIMAX           MH       564                           55.        75
+SDIMAX           NF       536                           55.        75
+SDIMAX           PP       555                           55.        75
+SDIMAX           RA       504                           55.        75
+SDIMAX           RC       558                           55.        75
+SDIMAX           RF       495                           55.        75
+SDIMAX           SF       606                           55.        75
+SDIMAX           SS       506                           55.        75
+SDIMAX           WA       495                           55.        75
+SDIMAX           WF       450                           55.        75
+SDIMAX           WH       565                           55.        75
+SDIMAX           WO       410                           55.        75

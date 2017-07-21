@@ -1,55 +1,41 @@
 COMMENT
 Set Maximum Stand Density Index across all species.  WC variant.
-Where >100 GNN plots in the variant had single dominant species,
-95th percentile of observed SDI assumed to represent 85% of the
-theoretical maximum SDI, which is the maximum stocking level FVS
-will allow a stand to reach (85% of SDIMAX).
+Following methods described by:
+Vandendriesche, D., 2010. FVS out of the box—assembly required, in: Proceedings
+RMRS-P-61. Presented at the 2009 National Silviculture Workshop (June 15-18,
+2009), U.S. Department of Agriculture, Forest Service, Rocky Mountain Research
+Station, Fort Collins, CO, pp. 289–306.
+https://www.fs.fed.us/rm/pubs/rmrs_p061/rmrs_p061_289_306.pdf
+
+Where >100 FIA plots in the FVS variant had single dominant species, 85% of the
+98th percentile of observed SDI is used to represent an endemic maximum limit.
+Upper limit of density related mortality is set to 75% of SDIMAX.
 END
 
-* Max SF observed SDI = 749 (331 plots)
-* Default FVS-WC range for SF = 626-1535
-SDIMAX            SF       881
-
-* Max GF observed SDI = 416 (298 plots)
-* Default FVS-WC range for GF = 730-860
-SDIMAX            GF       490
-
-* Max NF observed SDI = 541 (133 plots)
-* No clear FVS Noble fir plant association defaults
-SDIMAX            NF       637
-
-* Max RA observed SDI = 382 (105 plots)
-* No clear FVS Red alder plant association defaults
-SDIMAX            RA       450
-
-* Max Pacific madrone observed SDI = 526 (105 plots)
-* No clear FVS Pacific madrone plant association defaults
-SDIMAX            WA       619
-
-* Max LP observed SDI = 590 (135 plots)
-* No clear FVS Lodgepole pine plant association defaults
-SDIMAX            LP       695
-
-* Max PP observed SDI = 451 (232 plots)
-* No clear FVS Ponderosa pine plant association defaults
-SDIMAX            PP       531
-
-* Max DF observed SDI = 833 (2,959 plots)
-* Default FVS-WC range for DF = 600-955
-* Although this seems high compared to FVS defaults,
-* Woodall et al. (2005) "Determining max. SDI in mixed
-* species for strategic-scale stocking assessments"
-* show theoretical SDImax of 1,376 for stands >= 80% DF.
-SDIMAX            DF       980
-
-* Max WO observed SDI = 295 (136 plots)
-* No clear FVS White oak plant association defaults
-SDIMAX            WO       347
-
-* Max WH observed SDI = 893 (477 plots)
-* Default FVS-WC range for WH = 675-1,532
-SDIMAX            WH      1051
-
-* Max MH observed SDI = 806 (238 plots)
-* Default FVS-WC range for MH = 541-1,286
-SDIMAX            MH       948
+SDIMAX            AF       564                           55.        75
+SDIMAX            BM       486                           55.        75
+SDIMAX            CH       494                           55.        75
+SDIMAX            CW       582                           55.        75
+SDIMAX            DF       547                           55.        75
+SDIMAX            DG       459                           55.        75
+SDIMAX            ES       570                           55.        75
+SDIMAX            GC       515                           55.        75
+SDIMAX            GF       497                           55.        75
+SDIMAX            IC       574                           55.        75
+SDIMAX            LP       555                           55.        75
+SDIMAX            MH       549                           55.        75
+SDIMAX            NF       613                           55.        75
+SDIMAX            PP       499                           55.        75
+SDIMAX            PY       578                           55.        75
+SDIMAX            RA       545                           55.        75
+SDIMAX            RC       567                           55.        75
+SDIMAX            RF       497                           55.        75
+SDIMAX            SF       589                           55.        75
+SDIMAX            SP       456                           55.        75
+SDIMAX            SS       505                           55.        75
+SDIMAX            WA       518                           55.        75
+SDIMAX            WF       493                           55.        75
+SDIMAX            WH       564                           55.        75
+SDIMAX            WO       462                           55.        75
+SDIMAX            WP       493                           55.        75
+SDIMAX            YC       595                           55.        75
