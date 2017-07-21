@@ -13,6 +13,10 @@ PCTSPEC          0.0         2         3
 * Pre-commercial thinning costs $200 per acre
 PCTFXCST         200
 
+* Harvesting costs $125 per MBF for ground-based
+* Could use $225 per MBF for cable yarding
+HRVVRCST         125         2
+
 * Hauling costs $100 per MBF
 HRVVRCST         100         2
 
@@ -25,22 +29,4 @@ HRVVRCST          15         2
 * Site preparation and tree planting $400 per acre
 PLANTCST         400         6
 END
-
-* Harvesting costs $125 per MBF for ground-based
-IF
-SLOPE LE 40
-THEN
-ECON
-HRVVRCST         125         2
-END
-ENDIF
-
-* Harvesting costs $225 per MBF for cable yarding
-IF
-SLOPE GT 40
-THEN
-ECON
-HRVVRCST         225         2
-END
-ENDIF
 * END of ECON extension keywords
