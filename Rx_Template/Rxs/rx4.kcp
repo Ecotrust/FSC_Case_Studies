@@ -34,7 +34,7 @@ IF                 0
 SPMCDBH(2,All,0,12,999) LE 0.9*BBA AND Age GE (RotaAge + Offset)
 THEN
 COMPUTE            0
-_TBA = 0.1*BBA - (SPMCDBH(2,All,0,12,999) - 3.1415)
+_TBA = 0.1*BBA + (SPMCDBH(2,All,0,12,999) - 3.1415)
 END
 ThinATA            0     Parms(4, 1.0, 12.0, 999.0, 0, 999)
 ThinABA            0     Parms(_TBA, 1.0, 0.0, 12.0, 0, 999)
