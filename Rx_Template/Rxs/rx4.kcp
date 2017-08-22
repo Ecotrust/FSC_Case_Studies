@@ -85,9 +85,9 @@ ENDIF
 ** exceeds 55% of SDImax, indicating imminent density-driven mortality.
 ********************************************************************************
 IF                 0
-(RotaAge - AGE) GE 20 AND BSDI GE (BSDIMAX*0.55)
+(RotaAge - AGE) GE 20 AND BSDI GE (BSDIMAX*0.55) AND AGE GE 30
 THEN
-THINSDI            0      Parms(BSDIMAX*0.35, 1., All, 0., 999., 0.)
+THINSDI            0      Parms(BSDIMAX*0.35, 1., All, 0., 999., 1)
 COMPUTE            0
 CUT_TYPE = 2
 END
