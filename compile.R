@@ -1,5 +1,6 @@
 # install.packages("RPostgreSQL")
 require("RPostgreSQL")
+library(plyr)
 require(dplyr)
 
 # create a connection
@@ -27,6 +28,8 @@ rx5 <- dbReadTable(con, "rx5")
 rx5i <- dbReadTable(con, "rx5i")
 rx5o <- dbReadTable(con, "rx5o")
 rip_buff<-dbReadTable(con, "rip_percent")
+parcel<-dbReadTable(con, "parcel")
+
 
 #for each rx specific table:
 #multiply the per acre values, with the number of acres treated by that package
@@ -43,7 +46,7 @@ rx5i[, c(9:16)]<- rx5i[, c(9:16)] * rx5i$inner
 rx5o[, c(9:16)]<- rx5o[, c(9:16)] * rx5o$outer
 
 #specify the variables that we want to carry forward
-myvars <- c("standid", "parcel", "total", "year", "bdft", "rbdft", "total_stand_carbon", "aboveground_total_live",
+myvars <- c("parcel", "year", "bdft", "rbdft", "total_stand_carbon", "aboveground_total_live",
             "total_removed_carbon", "carbon_released_from_fire", "merch_carbon_stored", "products")
 
 #subset the rx specific tables (expanded by acres)
@@ -51,25 +54,25 @@ myvars <- c("standid", "parcel", "total", "year", "bdft", "rbdft", "total_stand_
 #filter out stands less than 1 acre in size
 #filter out stands with no trees
 rx1bau_sub <- rx1bau[myvars]
-rx1bau_sub <- subset(rx1bau_sub, bdft>0 & total>1)
+#rx1bau_sub <- subset(rx1bau_sub, total>1)
 rx1fsc_sub <- rx1fsc[myvars]
-rx1fsc_sub <- subset(rx1bau_sub, bdft>0 & total>1)
+#rx1fsc_sub <- subset(rx1bau_sub, total>1)
 rx2_sub <- rx2[myvars]
-rx2_sub <- subset(rx2_sub, bdft>0 & total>1)
+#rx2_sub <- subset(rx2_sub, total>1)
 rx3_sub <- rx3[myvars]
-rx3_sub <- subset(rx3_sub, bdft>0 & total>1)
+#rx3_sub <- subset(rx3_sub, total>1)
 rx4_sub <- rx4[myvars]
-rx4_sub <- subset(rx4_sub, bdft>0 & total>1)
+#rx4_sub <- subset(rx4_sub, total>1)
 rx5_sub <- rx5[myvars]
-rx5_sub <- subset(rx5_sub, bdft>0 & total>1)
+#rx5_sub <- subset(rx5_sub, total>1)
 rx2i_sub <- rx2i[myvars]
-rx2i_sub <- subset(rx2i_sub, bdft>0 & total>1)
+#rx2i_sub <- subset(rx2i_sub, total>1)
 rx2o_sub <- rx2o[myvars]
-rx2o_sub <- subset(rx2o_sub, bdft>0 & total>1)
+#rx2o_sub <- subset(rx2o_sub, total>1)
 rx5i_sub <- rx5i[myvars]
-rx5i_sub <- subset(rx5i_sub, bdft>0 & total>1)
+#rx5i_sub <- subset(rx5i_sub, total>1)
 rx5o_sub <- rx5o[myvars]
-rx5o_sub <- subset(rx5o_sub, bdft>0 & total>1)
+#rx5o_sub <- subset(rx5o_sub, total>1)
 
 
 ##################  RX2  BAU - short #####################################################################################
@@ -81,12 +84,13 @@ rx5o_sub <- subset(rx5o_sub, bdft>0 & total>1)
 #rx2outer (for acres in the outer buffer)
 rx2all<-rbind(rx1bau_sub, rx2_sub, rx2i_sub, rx2o_sub)
 
+rx2all_m<-merge(rx2all, parcel[, c("parcel","total")], by="parcel")
 #sum all the values
 #grouping by standid, year, and total. 
 #this will give us a total expanded sum for each stand 
 #at each time point
-BAU<- rx2all %>%
-  group_by(parcel, standid, year, total) %>%
+BAU<- rx2all_m %>%
+  group_by(parcel, year, total) %>%
   summarise_each(funs(sum))
 
 #divide the expanded values by the total number of acres to the 
@@ -105,12 +109,13 @@ BAU_p<-BAU %>%
 #rx3 (for non-riparian acres),
 rx3all<-rbind(rx1fsc_sub, rx3_sub)
 
+rx3all_m<-merge(rx3all, parcel[, c("parcel","total")], by="parcel")
 #sum all the values
 #grouping by standid, year, and total. 
 #this will give us a total expanded sum for each stand 
 #at each time point
-FSC<- rx3all %>%
-  group_by(parcel, standid, year, total) %>%
+FSC<- rx3all_m %>%
+  group_by(parcel,year,total) %>%
   summarise_each(funs(sum))
 
 #divide the expanded values by the total number of acres to the 
@@ -130,12 +135,13 @@ FSC_p<-FSC %>%
 #rx4 (for non-riparian acres),
 rx4all<-rbind(rx1fsc_sub, rx4_sub)
 
+rx4all_m<-merge(rx4all, parcel[, c("parcel","total")], by="parcel")
 #sum all the values
 #grouping by standid, year, and total. 
 #this will give us a total expanded sum for each stand 
 #at each time point
-FSC_long<- rx4all %>%
-  group_by(parcel, standid, year, total) %>%
+FSC_long<- rx4all_m %>%
+  group_by(parcel, year, total) %>%
   summarise_each(funs(sum))
 
 #divide the expanded values by the total number of acres to the 
@@ -156,12 +162,13 @@ FSC_long_p<-FSC_long %>%
 #rx5outer (for acres in the outer buffer)
 rx5all<-rbind(rx1bau_sub, rx5_sub, rx5i_sub, rx5o_sub)
 
+rx5all_m<-merge(rx5all, parcel[, c("parcel","total")], by="parcel")
 #sum all the values
 #grouping by standid, year, and total. 
 #this will give us a total expanded sum for each stand 
 #at each time point
-BAU_long<- rx5all %>%
-  group_by(parcel, standid, year, total) %>%
+BAU_long<- rx5all_m %>%
+  group_by(parcel,year, total) %>%
   summarise_each(funs(sum))
 
 #divide the expanded values by the total number of acres to the 
