@@ -23,6 +23,7 @@ END
 IF                30
 AGE GE RotaAge + Offset
 THEN
+MINHARV            1         0         0         0         0
 THINATA            0       12.       1.0       12.      999.        0.      999.
 THINDBH            0        0.       12.        1.        0.        0.        0.
 FMIN
@@ -56,6 +57,7 @@ ENDIF
 IF                30
 AGE GE 15 AND AGE LE 20
 THEN
+MINHARV            1         0         0         0         0
 THINBTA            0      250.        1.        0.      999.        0.      999.
 COMPUTE            0
 CUT_TYPE = 1
@@ -70,7 +72,8 @@ ENDIF
 IF                 0
 (RotaAge + Offset - AGE) GE 20 AND BSDI GE (BSDIMAX*0.55) AND AGE GE 30
 THEN
-THINSDI            0      Parms(BSDIMAX*0.35, 1., All, 0., 999., 1)
+MINHARV            1         0      5000         0         0
+THINSDI            0      Parms(BSDIMAX*0.55, 1., All, 0., 999., 1)
 COMPUTE            0
 CUT_TYPE = 2
 END
