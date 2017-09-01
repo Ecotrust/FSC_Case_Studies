@@ -5,17 +5,41 @@ MGMTID
 Rx2I
 
 ********************************************************************************
-** Read in rotation age from database. Becomes Event Monitor variable "RotaAge".
+** Determine Rotation Age as a linear function based on site index.
+** Read in variant from database. Event Monitor variable "variant".
 ********************************************************************************
 DATABASE
-SQLIN              0
-SELECT fpa_npv AS RotaAge
-FROM
-rotation_age
-WHERE
-stand_id = '%StandID%'
+SQLIN              1
+SELECT
+CASE variant
+WHEN 'PN' THEN 2
+WHEN 'WC' THEN 3
+END
+AS variant
+FROM stand_init
+WHERE stand_id = '%StandID%'
 ENDSQL
 END
+
+IF               999
+variant EQ 3
+THEN
+** For WC variants (with base age for SI of 100), rotation ages range linearly.
+** 55yrs @ SI100=70 (low-site) decreasing to 40yrs @ SI100=210 (high-site).
+COMPUTE            1
+RotaAge = LININT(SITE, 70, 210, 55, 40) + Offset
+END
+ENDIF
+
+IF               999
+variant EQ 2
+THEN
+** For PN variants (with base age for SI of 50), rotation ages range linearly.
+** 50yrs @ SI50=50 (low-site) decreasing to 35yrs @ SI50=160 (high-site).
+COMPUTE            1
+RotaAge = LININT(SITE, 50, 160, 50, 35)
+END
+ENDIF
 
 ********************************************************************************
 ** Regeneration harvest, retaining 20 smallest TPA >=12" DBH. Salvage snags.
@@ -53,8 +77,8 @@ ENDIF
 ********************************************************************************
 ** Pre-commercial thin to 250 TPA at age 15-20.
 ********************************************************************************
-IF                30
-AGE GE 15 AND AGE LE 20
+IF
+AGE GE 15 AND AGE LT 20
 THEN
 THINBTA            0      250.        1.        0.      999.        0.      999.
 COMPUTE            0
