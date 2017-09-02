@@ -5,8 +5,7 @@
 # into a separate script for execution.
 #
 # The (likely to be non-exhaustive) list of updates includes:
-# - adding foreign keys for caseid and standid referring to the fvs_cases table
-# from all other tables that contain these values;
+# - adding foreign keys for caseid referring to the fvs_cases table;
 # - adding primary keys for (caseid, year) to some tables (e.g., not
 # to tables like fvs_econharvestvalue or fvs_treelist where multiple rows
 # are output for each year and caseid);
@@ -27,7 +26,7 @@
 fvs_atrtlist = '''
 CREATE TABLE atrtlist (
 caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null REFERENCES cases (standid),
+standid varchar(26) not null ,
 year int not null,
 prdlen int,
 treeid varchar(8),
@@ -58,13 +57,13 @@ actpt int,
 ht2tdcf real,
 ht2tdbf real,
 treeage real
-)
+);
 
 CREATE VIEW fvs_atrtlist AS
-SELECT * FROM atrtlist LIMIT 0
+SELECT * FROM atrtlist LIMIT 0;
 
 CREATE RULE redirect_atrtlist AS
-ON INSERT INTO fvs_atrtlist
+ON INSERT TO fvs_atrtlist
 DO INSTEAD INSERT INTO atrtlist VALUES (NEW.*);
 '''
 
@@ -72,7 +71,7 @@ DO INSTEAD INSERT INTO atrtlist VALUES (NEW.*);
 fvs_bm_bkp = '''
 CREATE TABLE bm_bkp (
 caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null REFERENCES cases (standid),
+standid varchar(26) not null ,
 year int not null,
 oldbkp real,
 newbkp real,
@@ -98,13 +97,13 @@ dvrv9 real,
 tpafast real,
 bafast real,
 volfast real
-)
+);
 
 CREATE VIEW fvs_bm_bkp AS
-SELECT * FROM bm_bkp LIMIT 0
+SELECT * FROM bm_bkp LIMIT 0;
 
 CREATE RULE redirect_bm_bkp AS
-ON INSERT INTO fvs_bm_bkp
+ON INSERT TO fvs_bm_bkp
 DO INSTEAD INSERT INTO bm_bkp VALUES (NEW.*);
 '''
 
@@ -112,7 +111,7 @@ DO INSTEAD INSERT INTO bm_bkp VALUES (NEW.*);
 fvs_bm_main = '''
 CREATE TABLE bm_main (
 caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null REFERENCES cases (standid),
+standid varchar(26) not null ,
 year int not null,
 predispbkp real,
 postdispbkp real,
@@ -134,13 +133,13 @@ tpa_sanremvlv real,
 tpa_sanremlvdd real,
 volremsan real,
 volremsalv real
-)
+);
 
 CREATE VIEW fvs_bm_main AS
-SELECT * FROM bm_main LIMIT 0
+SELECT * FROM bm_main LIMIT 0;
 
 CREATE RULE redirect_bm_main AS
-ON INSERT INTO fvs_bm_main
+ON INSERT TO fvs_bm_main
 DO INSTEAD INSERT INTO bm_main VALUES (NEW.*);
 '''
 
@@ -200,13 +199,13 @@ san7 real,
 san8 real,
 san9 real,
 san10 real
-)
+);
 
 CREATE VIEW fvs_bm_tree AS
-SELECT * FROM bm_tree LIMIT 0
+SELECT * FROM bm_tree LIMIT 0;
 
 CREATE RULE redirect_bm_tree AS
-ON INSERT INTO fvs_bm_tree
+ON INSERT TO fvs_bm_tree
 DO INSTEAD INSERT INTO bm_tree VALUES (NEW.*);
 '''
 
@@ -214,7 +213,7 @@ DO INSTEAD INSERT INTO bm_tree VALUES (NEW.*);
 fvs_bm_vol = '''
 CREATE TABLE bm_vol (
 caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null REFERENCES cases (standid),
+standid varchar(26) not null ,
 year int not null,
 tv_sc1 real,
 tv_sc2 real,
@@ -246,36 +245,38 @@ vk_sc7 real,
 vk_sc8 real,
 vk_sc9 real,
 vk_10 real
-)
+);
 
 CREATE VIEW fvs_bm_vol AS
-SELECT * FROM bm_vol LIMIT 0
+SELECT * FROM bm_vol LIMIT 0;
 
 CREATE RULE redirect_bm_vol AS
-ON INSERT INTO fvs_bm_vol
+ON INSERT TO fvs_bm_vol
 DO INSTEAD INSERT INTO bm_vol VALUES (NEW.*);
 '''
 
 # from fvs\code\dbs\src\dbscase.f
 fvs_cases = '''
 CREATE TABLE cases (
-caseid varchar(36) not null PRIMARY KEY,
+caseid varchar(36) NOT NULL,
 stand_cn varchar(40),
-standid varchar(26) not null,
+standid varchar(26),
 mgmtid varchar(4),
 runtitle varchar(72),
-keywordfile text not null,
+keywordfile varchar(50),
 samplingwt real,
-variant varchar(2) not null,
-groups text,
-rundatetime varchar(19) not null
-)
+variant varchar(2),
+version varchar(10),
+rv varchar(8),
+groups varchar(250),
+rundatetime varchar(19)
+);
 
 CREATE VIEW fvs_cases AS
-SELECT * FROM cases LIMIT 0
+SELECT * FROM cases LIMIT 0;
 
 CREATE RULE redirect_cases AS
-ON INSERT INTO fvs_cases
+ON INSERT TO fvs_cases
 DO INSTEAD INSERT INTO cases VALUES (NEW.*);
 '''
 
@@ -283,7 +284,7 @@ DO INSTEAD INSERT INTO cases VALUES (NEW.*);
 fvs_climate = '''
 CREATE TABLE climate (
 caseid int not null REFERENCES cases,
-standid varchar(26) not null REFERENCES cases (standid),
+standid varchar(26) not null ,
 year int not null,
 species varchar(3),
 viability real,
@@ -295,38 +296,21 @@ growthmult real,
 sitemult real,
 mxdenmult real,
 autoestbtpa real
-)
+);
 
 CREATE VIEW fvs_climate AS
-SELECT * FROM climate LIMIT 0
+SELECT * FROM climate LIMIT 0;
 
 CREATE RULE redirect_climate AS
-ON INSERT INTO fvs_climate
+ON INSERT TO fvs_climate
 DO INSTEAD INSERT INTO climate VALUES (NEW.*);
-'''
-
-# from fvs\code\dbs\src\dbscmpu.f
-fvs_compute = '''
-CREATE TABLE compute (
-caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null REFERENCES cases (standid),
-year int not null,
-PRIMARY KEY (caseid, year)
-)
-
-CREATE VIEW fvs_compute AS
-SELECT * FROM compute LIMIT 0
-
-CREATE RULE redirect_compute AS
-ON INSERT INTO fvs_compute
-DO INSTEAD INSERT INTO compute VALUES (NEW.*);
 '''
 
 # from fvs\code\dbs\src\dbscuts.f
 fvs_cutlist = '''
 CREATE TABLE cutlist (
 caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null REFERENCES cases (standid),
+standid varchar(26) not null ,
 year int not null,
 prdlen int,
 treeid varchar(8),
@@ -357,51 +341,50 @@ actpt int,
 ht2tdcf real,
 ht2tdbf real,
 treeage real
-)
+);
 
 CREATE VIEW fvs_cutlist AS
-SELECT * FROM cutlist LIMIT 0
+SELECT * FROM cutlist LIMIT 0;
 
 CREATE RULE redirect_cutlist AS
-ON INSERT INTO fvs_cutlist
+ON INSERT TO fvs_cutlist
 DO INSTEAD INSERT INTO cutlist VALUES (NEW.*);
 '''
 
 # from fvs\code\dbs\src\dbseconhrv.f
 fvs_econharvestvalue = '''
 CREATE TABLE econharvestvalue (
-caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null REFERENCES cases (standid),
-year int not null,
-species varchar(8) not null,
+caseid varchar(36) NOT NULL,
+year integer NOT NULL,
+species varchar(8) NOT NULL,
 min_dib real,
 max_dib real,
 min_dbh real,
 max_dbh real,
-tpa_removed int,
-tpa_value int,
-tons_per_acre int,
-ft3_removed int,
-ft3_value int,
-board_ft_removed int,
-board_ft_value int,
-total_value int,
-)
+tpa_removed integer,
+tpa_value integer,
+tons_per_acre integer,
+ft3_removed integer,
+ft3_value integer,
+board_ft_removed integer,
+board_ft_value integer,
+total_value integer
+);
 
 CREATE VIEW fvs_econharvestvalue AS
-SELECT * FROM econharvestvalue LIMIT 0
+SELECT * FROM econharvestvalue LIMIT 0;
 
 CREATE RULE redirect_econharvestvalue AS
-ON INSERT INTO fvs_econharvestvalue
+ON INSERT TO fvs_econharvestvalue
 DO INSTEAD INSERT INTO econharvestvalue VALUES (NEW.*);
 '''
 # from fvs\code\dbs\src\dbsecsum.f
 fvs_econsummary = '''
 CREATE TABLE econsummary (
-caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null REFERENCES cases (standid),
-year int not null,
-period int,
+caseid varchar(36) NOT NULL,
+standid varchar(26),
+year integer NOT NULL,
+period integer,
 pretend_harvest varchar(3),
 undiscounted_cost real,
 undiscounted_revenue real,
@@ -414,18 +397,17 @@ rrr real,
 sev real,
 value_of_forest real,
 value_of_trees real,
-mrch_cubic_volume int,
-mrch_boardfoot_volume int,
+mrch_cubic_volume integer,
+mrch_boardfoot_volume integer,
 discount_rate real,
-given_sev real,
-PRIMARY KEY (caseid, year)
-)
+given_sev real
+);
 
 CREATE VIEW fvs_econsummary AS
-SELECT * FROM econsummary LIMIT 0
+SELECT * FROM econsummary LIMIT 0;
 
 CREATE RULE redirect_econsummary AS
-ON INSERT INTO fvs_econsummary
+ON INSERT TO fvs_econsummary
 DO INSTEAD INSERT INTO econsummary VALUES (NEW.*);
 '''
 
@@ -433,7 +415,7 @@ DO INSTEAD INSERT INTO econsummary VALUES (NEW.*);
 fvs_burnreport = '''
 CREATE TABLE burnreport (
 caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null REFERENCES cases (standid),
+standid varchar(26) not null ,
 year int not null,
 one_hr_moisture real,
 ten_hr_moisture real,
@@ -455,41 +437,41 @@ fuelmodl3 real,
 weight3 real,
 fuelmodl4 real,
 weight4 real
-)
+);
 
 CREATE VIEW fvs_burnreport AS
-SELECT * FROM burnreport LIMIT 0
+SELECT * FROM burnreport LIMIT 0;
 
 CREATE RULE redirect_burnreport AS
-ON INSERT INTO fvs_burnreport
+ON INSERT TO fvs_burnreport
 DO INSTEAD INSERT INTO burnreport VALUES (NEW.*);
 '''
 # from fvs\code\dbs\src\dbsfmcanpr.f
 fvs_canprofile = '''
 CREATE TABLE canprofile (
 caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null REFERENCES cases (standid),
+standid varchar(26) not null ,
 year int not null,
 height_m real,
 canopy_fuel_kg_m3 real,
 height_ft real,
 canopy_fuel_lbs_acre_ft real
-)
+);
 
 CREATE VIEW fvs_canprofile AS
-SELECT * FROM canprofile LIMIT 0
+SELECT * FROM canprofile LIMIT 0;
 
 CREATE RULE redirect_canprofile AS
-ON INSERT INTO fvs_canprofile
+ON INSERT TO fvs_canprofile
 DO INSTEAD INSERT INTO canprofile VALUES (NEW.*);
 '''
 
 # from fvs\code\dbs\src\dbsfmcrpt.f
 fvs_carbon = '''
 CREATE TABLE carbon (
-caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null REFERENCES cases (standid),
-year int not null,
+caseid varchar(36) NOT NULL,
+standid varchar(26) NOT NULL,
+year integer,
 aboveground_total_live real,
 aboveground_merch_live real,
 belowground_live real,
@@ -500,22 +482,21 @@ forest_floor real,
 forest_shrub_herb real,
 total_stand_carbon real,
 total_removed_carbon real,
-carbon_released_from_fire real,
-PRIMARY KEY (caseid, year)
-)
+carbon_released_from_fire real
+);
 
 CREATE VIEW fvs_carbon AS
-SELECT * FROM carbon LIMIT 0
+SELECT * FROM carbon LIMIT 0;
 
 CREATE RULE redirect_carbon AS
-ON INSERT INTO fvs_carbon
+ON INSERT TO fvs_carbon
 DO INSTEAD INSERT INTO carbon VALUES (NEW.*);
 '''
 # from fvs\code\dbs\src\dbsfmdsnag.f
 fvs_snagdet = '''
 CREATE TABLE snagdet (
 caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null REFERENCES cases (standid),
+standid varchar(26) not null ,
 year int not null,
 species varchar(3),
 dbh_class int,
@@ -529,13 +510,13 @@ year_died int,
 density_hard real,
 density_soft real,
 density_total real
-)
+);
 
 CREATE VIEW fvs_snagdet AS
-SELECT * FROM snagdet LIMIT 0
+SELECT * FROM snagdet LIMIT 0;
 
 CREATE RULE redirect_snagdet AS
-ON INSERT INTO fvs_snagdet
+ON INSERT TO fvs_snagdet
 DO INSTEAD INSERT INTO snagdet VALUES (NEW.*);
 '''
 
@@ -543,7 +524,7 @@ DO INSTEAD INSERT INTO snagdet VALUES (NEW.*);
 fvs_down_wood_cov = '''
 CREATE TABLE down_wood_cov (
 caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null REFERENCES cases (standid),
+standid varchar(26) not null ,
 year int not null,
 dwd_cover_3to6_hard real,
 dwd_cover_6to12_hard real,
@@ -559,13 +540,13 @@ dwd_cover_20to35_soft real,
 dwd_cover_35to50_soft real,
 dwd_cover_ge_50_soft real,
 dwd_cover_total_soft real
-)
+);
 
 CREATE VIEW fvs_down_wood_cov AS
-SELECT * FROM down_wood_cov LIMIT 0
+SELECT * FROM down_wood_cov LIMIT 0;
 
 CREATE RULE redirect_down_wood_cov AS
-ON INSERT INTO fvs_down_wood_cov
+ON INSERT TO fvs_down_wood_cov
 DO INSTEAD INSERT INTO down_wood_cov VALUES (NEW.*);
 '''
 
@@ -573,7 +554,7 @@ DO INSTEAD INSERT INTO down_wood_cov VALUES (NEW.*);
 fvs_down_wood_vol = '''
 CREATE TABLE down_wood_vol (
 caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null REFERENCES cases (standid),
+standid varchar(26) not null ,
 year int not null,
 dwd_volume_0to3_hard real,
 dwd_volume_3to6_hard real,
@@ -591,13 +572,13 @@ dwd_volume_20to35_soft real,
 dwd_volume_35to50_soft real,
 dwd_volume_ge_50_soft real,
 dwd_volume_total_soft real
-)
+);
 
 CREATE VIEW fvs_down_wood_vol AS
-SELECT * FROM down_wood_vol LIMIT 0
+SELECT * FROM down_wood_vol LIMIT 0;
 
 CREATE RULE redirect_down_wood_vol AS
-ON INSERT INTO fvs_down_wood_vol
+ON INSERT TO fvs_down_wood_vol
 DO INSTEAD INSERT INTO down_wood_vol VALUES (NEW.*);
 '''
 
@@ -605,7 +586,7 @@ DO INSTEAD INSERT INTO down_wood_vol VALUES (NEW.*);
 fvs_consumption = '''
 CREATE TABLE consumption (
 caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null REFERENCES cases (standid),
+standid varchar(26) not null ,
 year int not null,
 min_soil_exp real,
 litter_consumption real,
@@ -623,36 +604,35 @@ percent_consumption_ge3 real,
 percent_trees_crowning real,
 smoke_production_25 real,
 smoke_production_10 real
-)
+);
 
 CREATE VIEW fvs_consumption AS
-SELECT * FROM consumption LIMIT 0
+SELECT * FROM consumption LIMIT 0;
 
 CREATE RULE redirect_consumption AS
-ON INSERT INTO fvs_consumption
+ON INSERT TO fvs_consumption
 DO INSTEAD INSERT INTO consumption VALUES (NEW.*);
 '''
 
 # from fvs\code\dbs\src\dbsfmhrpt.f
 fvs_hrv_carbon = '''
 CREATE TABLE hrv_carbon (
-caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null REFERENCES cases (standid),
-year int not null,
+caseid varchar(36) NOT NULL,
+standid varchar(26) NOT NULL,
+year integer,
 products real,
 landfill real,
 energy real,
 emissions real,
 merch_carbon_stored real,
-merch_carbon_removed real,
-PRIMARY KEY (caseid, year)
-)
+merch_carbon_removed real
+);
 
 CREATE VIEW fvs_hrv_carbon AS
-SELECT * FROM hrv_carbon LIMIT 0
+SELECT * FROM hrv_carbon LIMIT 0;
 
 CREATE RULE redirect_hrv_carbon AS
-ON INSERT INTO fvs_hrv_carbon
+ON INSERT TO fvs_hrv_carbon
 DO INSTEAD INSERT INTO hrv_carbon VALUES (NEW.*);
 '''
 
@@ -660,7 +640,7 @@ DO INSTEAD INSERT INTO hrv_carbon VALUES (NEW.*);
 fvs_mortality = '''
 CREATE TABLE mortality (
 caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null REFERENCES cases (standid),
+standid varchar(26) not null ,
 year int not null,
 species varchar(3),
 killed_class1 real,
@@ -679,13 +659,13 @@ killed_class7 real,
 total_class7 real,
 bakill real,
 volkill real
-)
+);
 
 CREATE VIEW fvs_mortality AS
-SELECT * FROM mortality LIMIT 0
+SELECT * FROM mortality LIMIT 0;
 
 CREATE RULE redirect_mortality AS
-ON INSERT INTO fvs_mortality
+ON INSERT TO fvs_mortality
 DO INSTEAD INSERT INTO mortality VALUES (NEW.*);
 '''
 
@@ -693,7 +673,7 @@ DO INSTEAD INSERT INTO mortality VALUES (NEW.*);
 fvs_potfire = '''
 CREATE TABLE potfire (
 caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) REFERENCES cases (standid),
+standid varchar(26) ,
 year int not null,
 surf_flame_sev real,
 surf_flame_mod real,
@@ -721,13 +701,13 @@ fuel_wt1 real,
 fuel_wt2 real,
 fuel_wt3 real,
 fuel_wt4 real
-)
+);
 
 CREATE VIEW fvs_potfire AS
-SELECT * FROM potfire LIMIT 0
+SELECT * FROM potfire LIMIT 0;
 
 CREATE RULE redirect_potfire AS
-ON INSERT INTO fvs_potfire
+ON INSERT TO fvs_potfire
 DO INSTEAD INSERT INTO potfire VALUES (NEW.*);
 '''
 
@@ -735,7 +715,7 @@ DO INSTEAD INSERT INTO potfire VALUES (NEW.*);
 fvs_snagsum = '''
 CREATE TABLE snagsum (
 caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null REFERENCES cases (standid),
+standid varchar(26) not null ,
 year int not null,
 hard_snags_class1 real,
 hard_snags_class2 real,
@@ -752,13 +732,13 @@ soft_snags_class5 real,
 soft_snags_class6 real,
 soft_snags_total real,
 hard_soft_snags_total real
-)
+);
 
 CREATE VIEW fvs_snagsum AS
-SELECT * FROM snagsum LIMIT 0
+SELECT * FROM snagsum LIMIT 0;
 
 CREATE RULE redirect_snagsum AS
-ON INSERT INTO fvs_snagsum
+ON INSERT TO fvs_snagsum
 DO INSTEAD INSERT INTO snagsum VALUES (NEW.*);
 '''
 
@@ -766,7 +746,7 @@ DO INSTEAD INSERT INTO snagsum VALUES (NEW.*);
 fvs_fuels = '''
 CREATE TABLE fuels (
 caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null REFERENCES cases (standid),
+standid varchar(26) not null ,
 year int not null,
 surface_litter real,
 surface_duff real,
@@ -787,13 +767,13 @@ standing_total real,
 total_biomass int,
 total_consumed int,
 biomass_removed int
-)
+);
 
 CREATE VIEW fvs_fuels AS
-SELECT * FROM fuels LIMIT 0
+SELECT * FROM fuels LIMIT 0;
 
 CREATE RULE redirect_fuels AS
-ON INSERT INTO fvs_fuels
+ON INSERT TO fvs_fuels
 DO INSTEAD INSERT INTO fuels VALUES (NEW.*);
 '''
 
@@ -801,7 +781,7 @@ DO INSTEAD INSERT INTO fuels VALUES (NEW.*);
 fvs_dm_spp_sum = '''
 CREATE TABLE dm_spp_sum (
 caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null REFERENCES cases (standid),
+standid varchar(26) not null ,
 year int not null,
 spp varchar(2),
 mean_dmr real,
@@ -811,20 +791,20 @@ mort_tpa int,
 inf_tpa_pct int,
 mort_tpa_pct int,
 stnd_tpa_pct int
-)
+);
 
 CREATE VIEW fvs_dm_spp_sum AS
-SELECT * FROM dm_spp_sum LIMIT 0
+SELECT * FROM dm_spp_sum LIMIT 0;
 
 CREATE RULE redirect_dm_spp_sum AS
-ON INSERT INTO fvs_dm_spp_sum
+ON INSERT TO fvs_dm_spp_sum
 DO INSTEAD INSERT INTO dm_spp_sum VALUES (NEW.*);
 '''
 
 fvs_dm_stnd_sum = '''
 CREATE TABLE dm_stnd_sum (
 caseid varchar(26) not null REFERENCES cases,
-standid varchar(26) not null REFERENCES cases (standid),
+standid varchar(26) not null ,
 year int not null,
 age int,
 stnd_tpa int,
@@ -842,13 +822,13 @@ mort_tpa_pct int,
 mort_vol_pct int,
 mean_dmr real,
 mean_dmi real
-)
+);
 
 CREATE VIEW fvs_dm_stnd_sum AS
-SELECT * FROM dm_stnd_sum LIMIT 0
+SELECT * FROM dm_stnd_sum LIMIT 0;
 
 CREATE RULE redirect_dm_stnd_sum AS
-ON INSERT INTO fvs_dm_stnd_sum
+ON INSERT TO fvs_dm_stnd_sum
 DO INSTEAD INSERT INTO dm_stnd_sum VALUES (NEW.*);
 '''
 
@@ -856,7 +836,7 @@ DO INSTEAD INSERT INTO dm_stnd_sum VALUES (NEW.*);
 fvs_rd_sum = '''
 CREATE TABLE rd_sum (
 caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null REFERENCES cases (standid),
+standid varchar(26) not null ,
 year int not null,
 age int,
 rd_type varchar(1),
@@ -875,20 +855,20 @@ live_ba real,
 new_inf_prp_ins real,
 new_inf_prp_exp real,
 new_inf_prp_tot real
-)
+);
 
 CREATE VIEW fvs_rd_sum AS
-SELECT * FROM rd_sum LIMIT 0
+SELECT * FROM rd_sum LIMIT 0;
 
 CREATE RULE redirect_rd_sum AS
-ON INSERT INTO fvs_rd_sum
+ON INSERT TO fvs_rd_sum
 DO INSTEAD INSERT INTO rd_sum VALUES (NEW.*);
 '''
 
 fvs_rd_det = '''
 CREATE TABLE rd_det (
 caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null REFERENCES cases (standid),
+standid varchar(26) not null ,
 year int not null,
 rd_type varchar(1) not null,
 rd_area real,
@@ -909,20 +889,20 @@ live_100pctile_dbh real,
 uninf_tpa_total real,
 inf_tpa_total real,
 pct_roots_inf real
-)
+);
 
 CREATE VIEW fvs_rd_det AS
-SELECT * FROM rd_det LIMIT 0
+SELECT * FROM rd_det LIMIT 0;
 
 CREATE RULE redirect_rd_det AS
-ON INSERT INTO fvs_rd_det
+ON INSERT TO fvs_rd_det
 DO INSTEAD INSERT INTO rd_det VALUES (NEW.*);
 '''
 
 fvs_rd_beetle = '''
 CREATE TABLE rd_beetle (
 caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null REFERENCES cases (standid),
+standid varchar(26) not null ,
 year int not null,
 species varchar(2) not null,
 in_inf_0_5_dbh real,
@@ -953,13 +933,13 @@ outside_30_dbh real,
 outside_mort real,
 outside_live_before real,
 stand_mort_total real
-)
+);
 
 CREATE VIEW fvs_rd_beetle AS
-SELECT * FROM rd_beetle LIMIT 0
+SELECT * FROM rd_beetle LIMIT 0;
 
 CREATE RULE redirect_rd_beetle AS
-ON INSERT INTO fvs_rd_beetle
+ON INSERT TO fvs_rd_beetle
 DO INSTEAD INSERT INTO rd_beetle VALUES (NEW.*);
 '''
 
@@ -967,7 +947,7 @@ DO INSTEAD INSERT INTO rd_beetle VALUES (NEW.*);
 fvs_strclass = '''
 CREATE TABLE strclass (
 caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null REFERENCES cases (standid),
+standid varchar(26) not null ,
 year int not null,
 removal_code real,
 stratum_1_dbh real,
@@ -1001,23 +981,23 @@ number_of_strata real,
 total_cover real,
 structure_class varchar(4)
 PRIMARY KEY (caseid, year)
-)
+);
 
 CREATE VIEW fvs_strclass AS
-SELECT * FROM strclass LIMIT 0
+SELECT * FROM strclass LIMIT 0;
 
 CREATE RULE redirect_strclass AS
-ON INSERT INTO fvs_strclass
+ON INSERT TO fvs_strclass
 DO INSTEAD INSERT INTO strclass VALUES (NEW.*);
 '''
 
 # from fvs\code\dbs\src\dbssumry.f
 fvs_summary = '''
 CREATE TABLE summary (
-caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null REFERENCES cases (standid),
-year int not null,
-age int,
+caseid varchar(36),
+standid varchar(26),
+year integer,
+age integer,
 tpa real,
 ba real,
 sdi real,
@@ -1036,21 +1016,20 @@ atsdi real,
 atccf real,
 attopht real,
 atqmd real,
-prdlen int,
+prdlen integer,
 acc real,
 mort real,
 mai real,
-fortyp int,
-sizecls int,
-stkcls int,
-PRIMARY KEY (caseid, year)
-)
+fortyp integer,
+sizecls integer,
+stkcls integer
+);
 
 CREATE VIEW fvs_summary AS
-SELECT * FROM summary LIMIT 0
+SELECT * FROM summary LIMIT 0;
 
 CREATE RULE redirect_summary AS
-ON INSERT INTO fvs_summary
+ON INSERT TO fvs_summary
 DO INSTEAD INSERT INTO summary VALUES (NEW.*);
 '''
 
@@ -1058,7 +1037,7 @@ DO INSTEAD INSERT INTO summary VALUES (NEW.*);
 fvs_treelist = '''
 CREATE TABLE treelist (
 caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null REFERENCES cases (standid),
+standid varchar(26) not null ,
 year int not null,
 prdlen int,
 treeid varchar(8),
@@ -1089,12 +1068,12 @@ actpt int,
 ht2tdcf real,
 ht2tdbf real,
 treeage real
-)
+);
 
 CREATE VIEW fvs_treelist AS
-SELECT * FROM treelist LIMIT 0
+SELECT * FROM treelist LIMIT 0;
 
 CREATE RULE redirect_treelist AS
-ON INSERT INTO fvs_treelist
+ON INSERT TO fvs_treelist
 DO INSTEAD INSERT INTO treelist VALUES (NEW.*);
 '''
