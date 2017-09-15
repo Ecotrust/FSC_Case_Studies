@@ -1,20 +1,22 @@
 # SQL Statements for Creating FVS Output Database Tables
 # =============================================================================
-# The queries have been amended from default FVS code for PostgreSQL databases.
-# The named strings for each CREATE TABLE query are intended to be pulled
-# into a separate script for execution.
+# The queries have been slightly amended from default FVS code for PostgreSQL
+# databases. The changes were limited to changing char variables to varchar and
+# removing null declarations, as PostgreSQL allows null values for columns by
+# default.
 #
-# The (likely to be non-exhaustive) list of updates includes:
-# - adding foreign keys for caseid referring to the fvs_cases table;
-# - adding primary keys for (caseid, year) to some tables (e.g., not
-# to tables like fvs_econharvestvalue or fvs_treelist where multiple rows
-# are output for each year and caseid);
-# - requiring year to be not null in all tables;
-# - changing of keywordfile in fvs_cases to text to hold full path to keyfile
-# - converting all table and column names to lowercase;
-# - changing char variables to varchar variables to save storage space;
-# - dropping null attributes for columns (PostgreSQL default allows null
-# values in columns);
+# The queries below also include the creation of views and database rules to
+# redirect FVS outputs from views to underlying data tables. This was designed
+# as a workaround to a slowdown during long batch runs apparently related to
+# FVS source code using a SELECT * FROM ... statement to confirm whether the
+# target database table exists every time before it writes to the database.
+# These will, for example, allow FVS to see 'fvs_summary' and attempt to write
+# to it. The database will redirect FVS INSERT queries from the 'fvs_summary'
+# view to the underlying 'summary' database table. Your FVS output data will
+# thus live in database tables without the 'fvs_' prefix.
+#
+# The named strings for each CREATE TABLE query can also be
+# pulled into a separate script for execution.
 #
 # The FVS_DM_Sz_Sum table is incompatible with PostgreSQL conventions (column
 # names beginning with numbers) and is not included here.
@@ -25,9 +27,9 @@
 # from fvs\code\dbs\src\dbsatrtls.f
 fvs_atrtlist = '''
 CREATE TABLE atrtlist (
-caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null ,
-year int not null,
+caseid varchar(36) not null,
+standid varchar(26) not null,
+year int,
 prdlen int,
 treeid varchar(8),
 treeindex int,
@@ -70,9 +72,9 @@ DO INSTEAD INSERT INTO atrtlist VALUES (NEW.*);
 # from fvs\code\dbs\src\dbsbmbkp.f
 fvs_bm_bkp = '''
 CREATE TABLE bm_bkp (
-caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null ,
-year int not null,
+caseid varchar(36) not null,
+standid varchar(26) not null,
+year int,
 oldbkp real,
 newbkp real,
 selfbkp real,
@@ -110,9 +112,9 @@ DO INSTEAD INSERT INTO bm_bkp VALUES (NEW.*);
 # from fvs\code\dbs\src\dbsbmmain.f
 fvs_bm_main = '''
 CREATE TABLE bm_main (
-caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null ,
-year int not null,
+caseid varchar(36) not null,
+standid varchar(26) not null,
+year int,
 predispbkp real,
 postdispbkp real,
 standrv real,
@@ -148,7 +150,7 @@ fvs_bm_tree = '''
 CREATE TABLE bm_tree (
 caseid varchar(36) not null,
 standid varchar(26) not null,
-year int not null,
+year int,
 tpa_sc1 real,
 tpa_sc2 real,
 tpa_sc3 real,
@@ -212,9 +214,9 @@ DO INSTEAD INSERT INTO bm_tree VALUES (NEW.*);
 # from fvs\code\dbs\src\dbsbmvol.f
 fvs_bm_vol = '''
 CREATE TABLE bm_vol (
-caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null ,
-year int not null,
+caseid varchar(36) not null,
+standid varchar(26) not null,
+year int,
 tv_sc1 real,
 tv_sc2 real,
 tv_sc3 real,
@@ -258,7 +260,7 @@ DO INSTEAD INSERT INTO bm_vol VALUES (NEW.*);
 # from fvs\code\dbs\src\dbscase.f
 fvs_cases = '''
 CREATE TABLE cases (
-caseid varchar(36) NOT NULL,
+caseid varchar(36) not null,
 stand_cn varchar(40),
 standid varchar(26),
 mgmtid varchar(4),
@@ -283,9 +285,9 @@ DO INSTEAD INSERT INTO cases VALUES (NEW.*);
 # from fvs\code\dbs\src\dbsclsum.f
 fvs_climate = '''
 CREATE TABLE climate (
-caseid int not null REFERENCES cases,
-standid varchar(26) not null ,
-year int not null,
+caseid varchar(36) not null,
+standid varchar(26) not null,
+year int,
 species varchar(3),
 viability real,
 ba real,
@@ -309,9 +311,9 @@ DO INSTEAD INSERT INTO climate VALUES (NEW.*);
 # from fvs\code\dbs\src\dbscuts.f
 fvs_cutlist = '''
 CREATE TABLE cutlist (
-caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null ,
-year int not null,
+caseid varchar(36) not null,
+standid varchar(26) not null,
+year int,
 prdlen int,
 treeid varchar(8),
 treeindex int,
@@ -354,21 +356,21 @@ DO INSTEAD INSERT INTO cutlist VALUES (NEW.*);
 # from fvs\code\dbs\src\dbseconhrv.f
 fvs_econharvestvalue = '''
 CREATE TABLE econharvestvalue (
-caseid varchar(36) NOT NULL,
-year integer NOT NULL,
-species varchar(8) NOT NULL,
+caseid varchar(36) not null,
+year int,
+species varchar(8),
 min_dib real,
 max_dib real,
 min_dbh real,
 max_dbh real,
-tpa_removed integer,
-tpa_value integer,
-tons_per_acre integer,
-ft3_removed integer,
-ft3_value integer,
-board_ft_removed integer,
-board_ft_value integer,
-total_value integer
+tpa_removed int,
+tpa_value int,
+tons_per_acre int,
+ft3_removed int,
+ft3_value int,
+board_ft_removed int,
+board_ft_value int,
+total_value int
 );
 
 CREATE VIEW fvs_econharvestvalue AS
@@ -381,10 +383,10 @@ DO INSTEAD INSERT INTO econharvestvalue VALUES (NEW.*);
 # from fvs\code\dbs\src\dbsecsum.f
 fvs_econsummary = '''
 CREATE TABLE econsummary (
-caseid varchar(36) NOT NULL,
-standid varchar(26),
-year integer NOT NULL,
-period integer,
+caseid varchar(36) not null,
+standid varchar(26) not null,
+year int,
+period int,
 pretend_harvest varchar(3),
 undiscounted_cost real,
 undiscounted_revenue real,
@@ -397,8 +399,8 @@ rrr real,
 sev real,
 value_of_forest real,
 value_of_trees real,
-mrch_cubic_volume integer,
-mrch_boardfoot_volume integer,
+mrch_cubic_volume int,
+mrch_boardfoot_volume int,
 discount_rate real,
 given_sev real
 );
@@ -414,9 +416,9 @@ DO INSTEAD INSERT INTO econsummary VALUES (NEW.*);
 # from fvs\code\dbs\src\dbsfmburn.f
 fvs_burnreport = '''
 CREATE TABLE burnreport (
-caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null ,
-year int not null,
+caseid varchar(36) not null,
+standid varchar(26) not null,
+year int,
 one_hr_moisture real,
 ten_hr_moisture real,
 hundred_hr_moisture real,
@@ -449,9 +451,9 @@ DO INSTEAD INSERT INTO burnreport VALUES (NEW.*);
 # from fvs\code\dbs\src\dbsfmcanpr.f
 fvs_canprofile = '''
 CREATE TABLE canprofile (
-caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null ,
-year int not null,
+caseid varchar(36) not null,
+standid varchar(26) not null,
+year int,
 height_m real,
 canopy_fuel_kg_m3 real,
 height_ft real,
@@ -469,9 +471,9 @@ DO INSTEAD INSERT INTO canprofile VALUES (NEW.*);
 # from fvs\code\dbs\src\dbsfmcrpt.f
 fvs_carbon = '''
 CREATE TABLE carbon (
-caseid varchar(36) NOT NULL,
-standid varchar(26) NOT NULL,
-year integer,
+caseid varchar(36) not null,
+standid varchar(26) not null,
+year int,
 aboveground_total_live real,
 aboveground_merch_live real,
 belowground_live real,
@@ -495,9 +497,9 @@ DO INSTEAD INSERT INTO carbon VALUES (NEW.*);
 # from fvs\code\dbs\src\dbsfmdsnag.f
 fvs_snagdet = '''
 CREATE TABLE snagdet (
-caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null ,
-year int not null,
+caseid varchar(36) not null,
+standid varchar(26) not null,
+year int,
 species varchar(3),
 dbh_class int,
 death_dbh real,
@@ -523,9 +525,9 @@ DO INSTEAD INSERT INTO snagdet VALUES (NEW.*);
 # from fvs\code\dbs\src\dbsfmdwcov.f
 fvs_down_wood_cov = '''
 CREATE TABLE down_wood_cov (
-caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null ,
-year int not null,
+caseid varchar(36) not null,
+standid varchar(26) not null,
+year int,
 dwd_cover_3to6_hard real,
 dwd_cover_6to12_hard real,
 dwd_cover_12to20_hard real,
@@ -553,9 +555,9 @@ DO INSTEAD INSERT INTO down_wood_cov VALUES (NEW.*);
 # from fvs\code\dbs\src\dbsfmdwvol.f
 fvs_down_wood_vol = '''
 CREATE TABLE down_wood_vol (
-caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null ,
-year int not null,
+caseid varchar(36) not null,
+standid varchar(26) not null,
+year int,
 dwd_volume_0to3_hard real,
 dwd_volume_3to6_hard real,
 dwd_volume_6to12_hard real,
@@ -585,9 +587,9 @@ DO INSTEAD INSERT INTO down_wood_vol VALUES (NEW.*);
 # from fvs\code\dbs\src\dbsfmfuel.f
 fvs_consumption = '''
 CREATE TABLE consumption (
-caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null ,
-year int not null,
+caseid varchar(36) not null,
+standid varchar(26) not null,
+year int,
 min_soil_exp real,
 litter_consumption real,
 duff_consumption real,
@@ -617,9 +619,9 @@ DO INSTEAD INSERT INTO consumption VALUES (NEW.*);
 # from fvs\code\dbs\src\dbsfmhrpt.f
 fvs_hrv_carbon = '''
 CREATE TABLE hrv_carbon (
-caseid varchar(36) NOT NULL,
-standid varchar(26) NOT NULL,
-year integer,
+caseid varchar(36) not null,
+standid varchar(26) not null,
+year int,
 products real,
 landfill real,
 energy real,
@@ -639,9 +641,9 @@ DO INSTEAD INSERT INTO hrv_carbon VALUES (NEW.*);
 # from fvs\code\dbs\src\dbsfmmort.f
 fvs_mortality = '''
 CREATE TABLE mortality (
-caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null ,
-year int not null,
+caseid varchar(36) not null,
+standid varchar(26) not null,
+year int,
 species varchar(3),
 killed_class1 real,
 total_class1 real,
@@ -672,9 +674,9 @@ DO INSTEAD INSERT INTO mortality VALUES (NEW.*);
 # from fvs\code\dbs\src\dbsfmpf.f
 fvs_potfire = '''
 CREATE TABLE potfire (
-caseid varchar(36) not null REFERENCES cases,
+caseid varchar(36) not null,
 standid varchar(26) ,
-year int not null,
+year int,
 surf_flame_sev real,
 surf_flame_mod real,
 tot_flame_sev real,
@@ -714,9 +716,9 @@ DO INSTEAD INSERT INTO potfire VALUES (NEW.*);
 # from fvs\code\dbs\src\dbsfmssnag.f
 fvs_snagsum = '''
 CREATE TABLE snagsum (
-caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null ,
-year int not null,
+caseid varchar(36) not null,
+standid varchar(26) not null,
+year int,
 hard_snags_class1 real,
 hard_snags_class2 real,
 hard_snags_class3 real,
@@ -745,9 +747,9 @@ DO INSTEAD INSERT INTO snagsum VALUES (NEW.*);
 # from fvs\code\dbs\src\dbsfuels.f
 fvs_fuels = '''
 CREATE TABLE fuels (
-caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null ,
-year int not null,
+caseid varchar(36) not null,
+standid varchar(26) not null,
+year int,
 surface_litter real,
 surface_duff real,
 surface_lt3 real,
@@ -780,9 +782,9 @@ DO INSTEAD INSERT INTO fuels VALUES (NEW.*);
 # from fvs\code\dbs\src\dbsmis.f
 fvs_dm_spp_sum = '''
 CREATE TABLE dm_spp_sum (
-caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null ,
-year int not null,
+caseid varchar(36) not null,
+standid varchar(26) not null,
+year int,
 spp varchar(2),
 mean_dmr real,
 mean_dmi real,
@@ -803,9 +805,9 @@ DO INSTEAD INSERT INTO dm_spp_sum VALUES (NEW.*);
 
 fvs_dm_stnd_sum = '''
 CREATE TABLE dm_stnd_sum (
-caseid varchar(26) not null REFERENCES cases,
-standid varchar(26) not null ,
-year int not null,
+caseid varchar(26) not null,
+standid varchar(26) not null,
+year int,
 age int,
 stnd_tpa int,
 stnd_ba int,
@@ -835,9 +837,9 @@ DO INSTEAD INSERT INTO dm_stnd_sum VALUES (NEW.*);
 # from fvs\code\dbs\src\dbsrd.f
 fvs_rd_sum = '''
 CREATE TABLE rd_sum (
-caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null ,
-year int not null,
+caseid varchar(36) not null,
+standid varchar(26) not null,
+year int,
 age int,
 rd_type varchar(1),
 num_centers int,
@@ -867,9 +869,9 @@ DO INSTEAD INSERT INTO rd_sum VALUES (NEW.*);
 
 fvs_rd_det = '''
 CREATE TABLE rd_det (
-caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null ,
-year int not null,
+caseid varchar(36) not null,
+standid varchar(26) not null,
+year int,
 rd_type varchar(1) not null,
 rd_area real,
 species varchar(2) not null,
@@ -901,9 +903,9 @@ DO INSTEAD INSERT INTO rd_det VALUES (NEW.*);
 
 fvs_rd_beetle = '''
 CREATE TABLE rd_beetle (
-caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null ,
-year int not null,
+caseid varchar(36) not null,
+standid varchar(26) not null,
+year int,
 species varchar(2) not null,
 in_inf_0_5_dbh real,
 in_inf_5_10_dbh real,
@@ -946,9 +948,9 @@ DO INSTEAD INSERT INTO rd_beetle VALUES (NEW.*);
 # from fvs\code\dbs\src\dbsstrclass.f
 fvs_strclass = '''
 CREATE TABLE strclass (
-caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null ,
-year int not null,
+caseid varchar(36) not null,
+standid varchar(26) not null,
+year int,
 removal_code real,
 stratum_1_dbh real,
 stratum_1_nom_ht real,
@@ -996,8 +998,8 @@ fvs_summary = '''
 CREATE TABLE summary (
 caseid varchar(36),
 standid varchar(26),
-year integer,
-age integer,
+year int,
+age int,
 tpa real,
 ba real,
 sdi real,
@@ -1016,13 +1018,13 @@ atsdi real,
 atccf real,
 attopht real,
 atqmd real,
-prdlen integer,
+prdlen int,
 acc real,
 mort real,
 mai real,
-fortyp integer,
-sizecls integer,
-stkcls integer
+fortyp int,
+sizecls int,
+stkcls int
 );
 
 CREATE VIEW fvs_summary AS
@@ -1036,9 +1038,9 @@ DO INSTEAD INSERT INTO summary VALUES (NEW.*);
 # from fvs\code\dbs\src\dbstrls.f
 fvs_treelist = '''
 CREATE TABLE treelist (
-caseid varchar(36) not null REFERENCES cases,
-standid varchar(26) not null ,
-year int not null,
+caseid varchar(36) not null,
+standid varchar(26) not null,
+year int,
 prdlen int,
 treeid varchar(8),
 treeindex int,
