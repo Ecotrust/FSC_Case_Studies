@@ -14,7 +14,6 @@ PCTSPEC          0.0         2         3
 PCTFXCST         200
 
 * Harvesting costs $125 per MBF for ground-based
-* Could use $225 per MBF for cable yarding
 HRVVRCST         125         2
 
 * Hauling costs $100 per MBF
