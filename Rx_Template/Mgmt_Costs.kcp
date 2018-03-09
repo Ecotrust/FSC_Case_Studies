@@ -10,8 +10,8 @@ ECON
 * harvest entry set for >= 3 MBF per acre
 PCTSPEC          0.0         2         3
 
-* Pre-commercial thinning costs $200 per acre
-PCTFXCST         200
+* Pre-commercial thinning costs $150 per acre
+PCTFXCST         150
 
 * Harvesting costs $125 per MBF for ground-based
 HRVVRCST         125         2
@@ -25,7 +25,7 @@ HRVVRCST           5         2
 * Road maintenance $15 per MBF
 HRVVRCST          15         2
 
-* Site preparation and tree planting $400 per acre
-PLANTCST         400         6
+* Site preparation and tree planting $0.55 per seedling
+PLANTCST         550         7
 END
 * END of ECON extension keywords
