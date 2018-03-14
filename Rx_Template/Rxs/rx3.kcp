@@ -5,98 +5,111 @@ MGMTID
 Rx3
 
 ********************************************************************************
-** Determine Rotation Age as a linear function based on site index.
-** Read in variant from database. Event Monitor variable "variant".
+** Calculate financially optimal rotation age (y) using an exponential function:
+** y = A*(B**x) + C
+** where x = Douglas-fir 50-year site index
+** A = 207.55286, B = 0.96285, C = 35.34661
 ********************************************************************************
-DATABASE
-SQLIN              1
-SELECT
-CASE variant
-WHEN 'PN' THEN 2
-WHEN 'WC' THEN 3
-END
-AS variant
-FROM stand_init
-WHERE stand_id = '%StandID%'
-ENDSQL
-END
-
-IF               999
-variant EQ 3
-THEN
-** For WC variants (with base age for SI of 100), rotation ages range linearly.
-** 55yrs @ SI100=70 (low-site) decreasing to 40yrs @ SI100=210 (high-site).
 COMPUTE            1
-RotaAge = LININT(SITE, 70, 210, 55, 40) + Offset
+RotaAge = INT(207.55286*(0.96285**SITE) + 35.34661)
 END
-ENDIF
-
-IF               999
-variant EQ 2
-THEN
-** For PN variants (with base age for SI of 50), rotation ages range linearly.
-** 50yrs @ SI50=50 (low-site) decreasing to 35yrs @ SI50=160 (high-site).
-COMPUTE            1
-RotaAge = LININT(SITE, 50, 160, 50, 35)
-END
-ENDIF
 
 ********************************************************************************
-** Regeneration harvest retaining 30% of basal area in smallest trees.
+** Regeneration harvest retaining 30% of basal area in smallest trees, retaining
+** at least 4 TPA with DBH >= 12".
 ********************************************************************************
-COMPUTE            0
-lba = SPMCDBH(2,All,0,12,999)
-lessba = .7*BBA
-tba = .3*BBA
-END
-
-IF                 0
-lba GT lessba AND Age GE RotaAge
+IF                 30
+Age GE (RotaAge + _offset)
 THEN
-ThinABA            0     Parms(tba, 1.0, 0.0, 999.0, 0, 999)
-COMPUTE            0
-CUT_TYPE = 3
+COMPUTE
+* basal area in trees 0-12" DBH
+_smallBA = SPMCDBH(2,All,0,12,999)
+* post-harvest BA target is 30% of pre-harvest BA
+_targBA = .3*BBA
+* calculate basal area in four smallest trees >= 12" DBH that must be retained
+* during regeneration harvest
+_largeBA = ((13**2)*0.005454) * MIN(SPMCDBH(1,All,12,14), 4) + &
+(.005454*15**2)*MIN(MIN(MAX(4-SPMCDBH(1,All,12,14),0),SPMCDBH(1,All,14,16)),4)+&
+(.005454*17**2)*MIN(MIN(MAX(4-SPMCDBH(1,All,12,16),0),SPMCDBH(1,All,16,18)),4)+&
+(.005454*19**2)*MIN(MIN(MAX(4-SPMCDBH(1,All,12,18),0),SPMCDBH(1,All,18,20)),4)+&
+(.005454*21**2)*MIN(MIN(MAX(4-SPMCDBH(1,All,12,20),0),SPMCDBH(1,All,20,22)),4)+&
+(.005454*23**2)*MIN(MIN(MAX(4-SPMCDBH(1,All,12,22),0),SPMCDBH(1,All,22,24)),4)+&
+(.005454*25**2)*MIN(MIN(MAX(4-SPMCDBH(1,All,12,24),0),SPMCDBH(1,All,24,26)),4)+&
+(.005454*27**2)*MIN(MIN(MAX(4-SPMCDBH(1,All,12,26),0),SPMCDBH(1,All,26,28)),4)+&
+(.005454*29**2)*MIN(MIN(MAX(4-SPMCDBH(1,All,12,28),0),SPMCDBH(1,All,28,30)),4)+&
+(.005454*31**2)*MIN(MIN(MAX(4-SPMCDBH(1,All,12,30),0),SPMCDBH(1,All,30,32)),4)+&
+(.005454*33**2)*MIN(MIN(MAX(4-SPMCDBH(1,All,12,32),0),SPMCDBH(1,All,32,34)),4)+&
+(.005454*35**2)*MIN(MIN(MAX(4-SPMCDBH(1,All,12,34),0),SPMCDBH(1,All,34,36)),4)+&
+(.005454*37**2)*MIN(MIN(MAX(4-SPMCDBH(1,All,12,36),0),SPMCDBH(1,All,36,38)),4)+&
+(.005454*39**2)*MIN(MIN(MAX(4-SPMCDBH(1,All,12,38),0),SPMCDBH(1,All,38,40)),4)
 END
-* 0 = No cut, 1 = PCT, 2 = CT, 3 = Regeneration
 ENDIF
 
-IF                 0
-lba LE lessba AND Age GE RotaAge
+* If the retention target could be met harvesting from above and retaining fewer
+* than 4 TPA >=12" DBH, make sure we retain at least 4 TPA >=12" DBH.
+IF                 30
+Age GE (RotaAge + _offset) AND _targBA LT (_smallBA + _largeBA) AND CUT EQ 0
 THEN
-COMPUTE            0
-tba2 = tba + (lba - 3.1415)
-END
 ThinATA            0     Parms(4, 1.0, 12.0, 999.0, 0, 999)
-ThinABA            0     Parms(tba2, 1.0, 0.0, 12.0, 0, 999)
+ThinABA            0     Parms(_targBA-_largeBA, 1.0, 0.0, 12.0, 0, 999)
 COMPUTE            0
 CUT_TYPE = 3
 END
 * 0 = No cut, 1 = PCT, 2 = CT, 3 = Regeneration
 ENDIF
+
+* If retention target is higher than the BA in small trees plus the 4 smallest
+* TPA >=12" DBH, we can thin down to the target and be assured that enough
+* >=12" DBH trees are retained for FPA compliance.
+IF                 30
+Age GE (RotaAge + _offset) AND _targBA GE (_smallBA + _largeBA) AND CUT EQ 0
+THEN
+ThinABA            0     Parms(_targBA, 1.0, 0.0, 999.0, 0, 999)
+COMPUTE            0
+CUT_TYPE = 3
+END
+* 0 = No cut, 1 = PCT, 2 = CT, 3 = Regeneration
+ENDIF
+
 
 ********************************************************************************
 ** Reset stand age. Reset offset for future rotations.
-** Re-plant to 450 TPA with 100% Douglas-fir.
+** Re-plant 450 Douglas-fir trees per acre for Sites I and II.
+** Re-plant 300 Douglas-fir trees per acre for Sites III, IV, or V.
 ********************************************************************************
 IF                30
-AGE GE RotaAge AND CUT EQ 1
+AGE GE (RotaAge + _offset) AND CUT EQ 1 AND SITE GE 115
 THEN
 RESETAGE           0         0
 COMPUTE            0
-Offset = 0
+_offset = 0
 END
 ESTAB
 PLANT              1    Parms(DF, 450., 100.)
 END
 ENDIF
 
-********************************************************************************
-** Pre-commercial thin to 250 TPA at age 15-20.
-********************************************************************************
-IF
-AGE GE 15 AND AGE LT 20
+IF                30
+AGE GE (RotaAge + _offset) AND CUT EQ 1 AND SITE LT 115
 THEN
-THINBTA            0      250.        1.        0.      999.        0.      999.
+RESETAGE           0         0
+COMPUTE            0
+_offset = 0
+END
+ESTAB
+PLANT              1    Parms(DF, 300., 100.)
+END
+ENDIF
+
+********************************************************************************
+** Pre-commercial thin to 225 TPA at age 10-20 for stands Site Class I or II.
+** Site Class III, IV, and V do not receive PCT.
+********************************************************************************
+IF                30
+AGE GT 10 AND AGE LT 20 AND SITE GE 115
+THEN
+MINHARV            1         0         0         0         0
+THINBTA            0      225.        1.        0.      999.        0.      999.
 COMPUTE            0
 CUT_TYPE = 1
 END

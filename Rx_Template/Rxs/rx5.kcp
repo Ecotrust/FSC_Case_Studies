@@ -5,47 +5,22 @@ MGMTID
 Rx5
 
 ********************************************************************************
-** Determine Rotation Age as a linear function based on site index.
-** Read in variant from database. Event Monitor variable "variant".
+** Determine biologically optimal rotation age using a generalized logistic
+** function (a Richard's Curve): y = A + (K-A)/((1+Q*exp(-B*(x-M)))**(1/v))
+** where x = Douglas-fir 50-year site index
+** A = 188.88315, K = 108.08518, B = 0.06790, v = 0.00013869, Q = 0.00015365,
+** and M = 95.72654.
 ********************************************************************************
-DATABASE
-SQLIN              1
-SELECT
-CASE variant
-WHEN 'PN' THEN 2
-WHEN 'WC' THEN 3
-END
-AS variant
-FROM stand_init
-WHERE stand_id = '%StandID%'
-ENDSQL
-END
-
-IF               999
-variant EQ 3
-THEN
-** For WC variants (with base age for SI of 100), rotation ages range linearly.
-** 115yrs @ SI100=70 (low-site) decreasing to 80yrs @ SI100=210 (high-site).
 COMPUTE            1
-RotaAge = LININT(SITE, 70, 210, 115, 80) + Offset
+RotaAge = INT(188.88315 + (108.08518-188.88315)/ &
+((1+0.00015365*EXP(-0.06790*(SITE-95.72654)))**(1/0.00013869)))
 END
-ENDIF
-
-IF               999
-variant EQ 2
-THEN
-** For PN variants (with base age for SI of 50), rotation ages range linearly.
-** 80yrs @ SI50=50 (low-site) decreasing to 70yrs @ SI50=160 (high-site).
-COMPUTE            1
-RotaAge = LININT(SITE, 50, 160, 80, 70)
-END
-ENDIF
 
 ********************************************************************************
 ** Regeneration harvest, retaining 4 smallest TPA >=12" DBH. Salvage snags.
 ********************************************************************************
 IF                30
-Age GE RotaAge + Offset
+Age GE RotaAge + _offset
 THEN
 MINHARV            0         0         0         0         0
 THINATA            0        4.       1.0       12.      999.        0.      999.
@@ -61,28 +36,42 @@ ENDIF
 
 ********************************************************************************
 ** Reset stand age. Reset offset for future rotations.
-** Re-plant to 450 TPA with 100% Douglas-fir.
+** Re-plant 450 Douglas-fir trees per acre for Sites I and II.
+** Re-plant 300 Douglas-fir trees per acre for Sites III, IV, or V.
 ********************************************************************************
 IF                30
-AGE GE (RotaAge + Offset) AND CUT EQ 1
+AGE GE (RotaAge + _offset) AND CUT EQ 1 AND SITE GE 115
 THEN
 RESETAGE           0         0
 COMPUTE            0
-Offset = 0
+_offset = 0
 END
 ESTAB
 PLANT              1    Parms(DF, 450., 100.)
 END
 ENDIF
 
-********************************************************************************
-** Pre-commercial thin to 250 TPA at age 15-20.
-********************************************************************************
-IF
-AGE GE 15 AND AGE LT 20
+IF                30
+AGE GE (RotaAge + _offset) AND CUT EQ 1 AND SITE LT 115
 THEN
-MINHARV            0         0         0         0         0
-THINBTA            0      250.        1.        0.      999.        0.      999.
+RESETAGE           0         0
+COMPUTE            0
+_offset = 0
+END
+ESTAB
+PLANT              1    Parms(DF, 300., 100.)
+END
+ENDIF
+
+********************************************************************************
+** Pre-commercial thin to 225 TPA at age 10-20 for stands Site Class I or II.
+** Site Class III, IV, and V do not receive PCT.
+********************************************************************************
+IF                30
+AGE GT 10 AND AGE LT 20 AND SITE GE 115
+THEN
+MINHARV            1         0         0         0         0
+THINBTA            0      225.        1.        0.      999.        0.      999.
 COMPUTE            0
 CUT_TYPE = 1
 END
@@ -92,9 +81,10 @@ ENDIF
 ********************************************************************************
 ** Commercial thin at least 20 years before final harvest if SDI reaches or
 ** exceeds 55% of SDImax, indicating imminent density-driven mortality.
+** Only allow harvest if it will generate at least 5 MBF/ac.
 ********************************************************************************
 IF                 0
-(RotaAge + Offset - AGE) GE 20 AND BSDI GE (BSDIMAX*0.55) AND AGE GE 30
+(RotaAge + _offset - AGE) GE 20 AND BSDI GE (BSDIMAX*0.55) AND AGE GE 30
 THEN
 MINHARV            0         0      5000         0         0
 THINSDI            0      Parms(BSDIMAX*0.55, 1., All, 0., 999., 1)
