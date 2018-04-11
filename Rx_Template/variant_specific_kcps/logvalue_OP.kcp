@@ -3,8 +3,8 @@ Set merchantability limits for cubic and boardfoot volume calculations
 END
 * Cubic volume merchantability: 5" minDBH to 2" minTOP
 Volume             0       All       5.0       2.0        1.        0.         6
-* Boardfoot volume merchantability: 5" minDBH to 5" minTOP
-BFVolume           0       All       5.0       5.0        1.        0.         6
+* Boardfoot volume merchantability: 9" minDBH to 5" minTOP
+BFVolume           0       All       9.0       5.0        1.        0.         6
 
 
 COMMENT
