@@ -1,11 +1,18 @@
 COMMENT
 Set merchantability limits for cubic and boardfoot volume calculations
 END
+
+SPGROUP     CNFR
+SF WF GF AF RF SS NF YC IC ES LP JP SP WP PP DF RW RC WH MH WJ LL WB KP PY
+SPGROUP    HDWD
+BM RA MA TO GC AS CW WO DG HT CH WI
+
 * Cubic volume merchantability: 5" minDBH to 2" minTOP
 Volume             0       All       5.0       2.0        1.        0.         6
-* Boardfoot volume merchantability: 9" minDBH to 5" minTOP
-BFVolume           0       All       9.0       5.0        1.        0.         6
-
+* Boardfoot volume merchantability: 9" minDBH for softwoods, 11" for hardwoods
+* up to 5" minimum diameter at small-end of logs
+BFVolume           0      CNFR       9.0       5.0        1.        0.         6
+BFVolume           0      HDWD      11.0       5.0        1.        0.         6
 
 COMMENT
 Harvest Revenue (HrvRvn) Keywords (ECON Extension) for several log sorts.
