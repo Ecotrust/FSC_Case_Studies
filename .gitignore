@@ -2,3 +2,4 @@ keyfiles_to_run/*
 .ipynb_checkpoints/*
 Novelli_FVS.accdb
 scratch/*
+*checkpoint.ipynb
