@@ -5,15 +5,10 @@ MGMTID
 Rx5
 
 ********************************************************************************
-** Determine biologically optimal rotation age using a generalized logistic
-** function (a Richard's Curve): y = A + (K-A)/((1+Q*exp(-B*(x-M)))**(1/v))
-** where x = Douglas-fir 50-year site index
-** A = 188.88315, K = 108.08518, B = 0.06790, v = 0.00013869, Q = 0.00015365,
-** and M = 95.72654.
+** Calculate biologically optimal rotation age using linear interpolation.
 ********************************************************************************
 COMPUTE            1
-RotaAge = INT(188.88315 + (108.08518-188.88315)/ &
-((1+0.00015365*EXP(-0.06790*(SITE-95.72654)))**(1/0.00013869)))
+RotaAge = INT(LININT(SITE,90,120,110,120))
 END
 
 ********************************************************************************
@@ -36,46 +31,18 @@ ENDIF
 
 ********************************************************************************
 ** Reset stand age. Reset offset for future rotations.
-** Re-plant 450 Douglas-fir trees per acre for Sites I and II.
-** Re-plant 300 Douglas-fir trees per acre for Sites III, IV, or V.
+** Plant 435 Douglas-fir trees per acre. 85% survival.
 ********************************************************************************
 IF                30
-AGE GE (RotaAge + _offset) AND CUT EQ 1 AND SITE GE 115
+AGE GE (RotaAge + _offset) AND CUT EQ 1
 THEN
 RESETAGE           0         0
 COMPUTE            0
 _offset = 0
 END
 ESTAB
-PLANT              1    Parms(DF, 450., 100.)
+PLANT              1    Parms(DF, 435., 85.)
 END
-ENDIF
-
-IF                30
-AGE GE (RotaAge + _offset) AND CUT EQ 1 AND SITE LT 115
-THEN
-RESETAGE           0         0
-COMPUTE            0
-_offset = 0
-END
-ESTAB
-PLANT              1    Parms(DF, 300., 100.)
-END
-ENDIF
-
-********************************************************************************
-** Pre-commercial thin to 225 TPA at age 10-20 for stands Site Class I or II.
-** Site Class III, IV, and V do not receive PCT.
-********************************************************************************
-IF                30
-AGE GT 10 AND AGE LT 20 AND SITE GE 115
-THEN
-MINHARV            1         0         0         0         0
-THINBTA            0      225.        1.        0.      999.        0.      999.
-COMPUTE            0
-CUT_TYPE = 1
-END
-* 0 = No cut, 1 = PCT, 2 = CT, 3 = Regeneration
 ENDIF
 
 ********************************************************************************
@@ -87,7 +54,7 @@ IF                 0
 (RotaAge + _offset - AGE) GE 20 AND BSDI GE (BSDIMAX*0.55) AND AGE GE 30
 THEN
 MINHARV            0         0      5000         0         0
-THINSDI            0      Parms(BSDIMAX*0.55, 1., All, 0., 999., 1)
+THINSDI            0      Parms(BSDIMAX*0.50, 1., All, 0., 999., 1)
 COMPUTE            0
 CUT_TYPE = 2
 END

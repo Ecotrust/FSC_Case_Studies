@@ -5,13 +5,11 @@ MGMTID
 Rx3
 
 ********************************************************************************
-** Calculate financially optimal rotation age (y) using an exponential function:
-** y = A*(B**x) + C
-** where x = Douglas-fir 50-year site index
-** A = 207.55286, B = 0.96285, C = 35.34661
+** Calculate financially optimal rotation age using a linear interpolation.
 ********************************************************************************
 COMPUTE            1
-RotaAge = INT(207.55286*(0.96285**SITE) + 35.34661)
+_offset = 0
+RotaAge = INT(LININT(SITE,90,120,40,35))
 END
 
 ********************************************************************************
@@ -28,19 +26,33 @@ _smallBA = SPMCDBH(2,All,0,12,999)
 _targBA = .3*BBA
 * calculate basal area in four smallest trees >= 11" DBH that must be retained
 * during regeneration harvest
-_largeBA = 0.9*MIN(SPMCDBH(1,All,0,11,15),4) + &
-1.8*MIN(MIN(MAX(4-SPMCDBH(1,All,0,11,15),0),SPMCDBH(1,All,0,15,20)),4)+&
-2.9*MIN(MIN(MAX(4-SPMCDBH(1,All,0,11,20),0),SPMCDBH(1,All,0,20,25)),4)+&
-4.3*MIN(MIN(MAX(4-SPMCDBH(1,All,0,11,25),0),SPMCDBH(1,All,0,25,30)),4)+&
-5.9*MIN(MIN(MAX(4-SPMCDBH(1,All,0,11,30),0),SPMCDBH(1,All,0,30,35)),4)+&
-7.9*MIN(MIN(MAX(4-SPMCDBH(1,All,0,11,35),0),SPMCDBH(1,All,0,35,40)),4)+&
-10.1*MIN(MIN(MAX(4-SPMCDBH(1,All,0,11,40),0),SPMCDBH(1,All,0,40,45)),4)+&
-12.6*MIN(MIN(MAX(4-SPMCDBH(1,All,0,11,45),0),SPMCDBH(1,All,0,45,50)),4)+&
-15.3*MIN(MIN(MAX(4-SPMCDBH(1,All,0,11,50),0),SPMCDBH(1,All,0,50,55)),4)+&
-18.3*MIN(MIN(MAX(4-SPMCDBH(1,All,0,11,55),0),SPMCDBH(1,All,0,55,60)),4)+&
-21.6*MIN(MIN(MAX(4-SPMCDBH(1,All,0,11,60),0),SPMCDBH(1,All,0,60,65)),4)+&
-25.2*MIN(MIN(MAX(4-SPMCDBH(1,All,0,11,65),0),SPMCDBH(1,All,0,65,70)),4)+&
-29.0*MIN(MIN(MAX(4-SPMCDBH(1,All,0,11,70),0),SPMCDBH(1,All,0,70,75)),4)
+conBA15 = 0.9*MIN(SPMCDBH(1,CNFR,0,11,15),4)
+conBA20 = 1.8*MIN(MIN(MAX(4-SPMCDBH(1,CNFR,0,11,15),0),&
+SPMCDBH(1,CNFR,0,15,20)),4)
+conBA25 = 2.9*MIN(MIN(MAX(4-SPMCDBH(1,CNFR,0,11,20),0),&
+SPMCDBH(1,CNFR,0,20,25)),4)
+conBA30 = 4.3*MIN(MIN(MAX(4-SPMCDBH(1,CNFR,0,11,25),0),&
+SPMCDBH(1,CNFR,0,25,30)),4)
+conBA35 = 5.9*MIN(MIN(MAX(4-SPMCDBH(1,CNFR,0,11,30),0),&
+SPMCDBH(1,CNFR,0,30,35)),4)
+conBA40 = 7.9*MIN(MIN(MAX(4-SPMCDBH(1,CNFR,0,11,35),0),&
+SPMCDBH(1,CNFR,0,35,40)),4)
+conBA45 = 10.1*MIN(MIN(MAX(4-SPMCDBH(1,CNFR,0,11,40),0),&
+SPMCDBH(1,CNFR,0,40,45)),4)
+conBA50 = 12.6*MIN(MIN(MAX(4-SPMCDBH(1,CNFR,0,11,45),0),&
+SPMCDBH(1,CNFR,0,45,50)),4)
+conBA55 = 15.3*MIN(MIN(MAX(4-SPMCDBH(1,CNFR,0,11,50),0),&
+SPMCDBH(1,CNFR,0,50,55)),4)
+conBA60 = 18.3*MIN(MIN(MAX(4-SPMCDBH(1,CNFR,0,11,55),0),&
+SPMCDBH(1,CNFR,0,55,60)),4)
+conBA65 = 21.6*MIN(MIN(MAX(4-SPMCDBH(1,CNFR,0,11,60),0),&
+SPMCDBH(1,CNFR,0,60,65)),4)
+conBA70 = 25.2*MIN(MIN(MAX(4-SPMCDBH(1,CNFR,0,11,65),0),&
+SPMCDBH(1,CNFR,0,65,70)),4)
+conBA75 = 29.0*MIN(MIN(MAX(4-SPMCDBH(1,CNFR,0,11,70),0),&
+SPMCDBH(1,CNFR,0,70,75)),4)
+_largeBA = conBA15 + conBA20 + conBA25 + conBA30 + conBA35 + conBA40 + &
+conBA45 + conBA50 + conBA55 + conBA60 + conBA65 + conBA70 + conBA75
 END
 ENDIF
 
@@ -73,46 +85,18 @@ ENDIF
 
 ********************************************************************************
 ** Reset stand age. Reset offset for future rotations.
-** Re-plant 450 Douglas-fir trees per acre for Sites I and II.
-** Re-plant 300 Douglas-fir trees per acre for Sites III, IV, or V.
+** Plant 435 Douglas-fir trees per acre. 85% survival
 ********************************************************************************
 IF                30
-AGE GE (RotaAge + _offset) AND CUT EQ 1 AND SITE GE 115
+AGE GE (RotaAge + _offset) AND CUT EQ 1
 THEN
 RESETAGE           0         0
 COMPUTE            0
 _offset = 0
 END
 ESTAB
-PLANT              1    Parms(DF, 450., 100.)
+PLANT              1    Parms(DF, 435., 85.)
 END
-ENDIF
-
-IF                30
-AGE GE (RotaAge + _offset) AND CUT EQ 1 AND SITE LT 115
-THEN
-RESETAGE           0         0
-COMPUTE            0
-_offset = 0
-END
-ESTAB
-PLANT              1    Parms(DF, 300., 100.)
-END
-ENDIF
-
-********************************************************************************
-** Pre-commercial thin to 225 TPA at age 10-20 for stands Site Class I or II.
-** Site Class III, IV, and V do not receive PCT.
-********************************************************************************
-IF                30
-AGE GT 10 AND AGE LT 20 AND SITE GE 115
-THEN
-MINHARV            1         0         0         0         0
-THINBTA            0      225.        1.        0.      999.        0.      999.
-COMPUTE            0
-CUT_TYPE = 1
-END
-* 0 = No cut, 1 = PCT, 2 = CT, 3 = Regeneration
 ENDIF
 
 ********************************************************************************

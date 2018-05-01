@@ -25,6 +25,7 @@ END
 * Modify SDIMAX to adjust basal area growth - DF changed from 536 to 435
 SDIMAX           DF       435                            55.        75
 * Modify SDIMAX to adjust basal area growth - These species based on FIA
+*SDIMAX           DF       536                            55.        75
 SDIMAX           AF       545
 SDIMAX           BM       485
 SDIMAX           CH       459
@@ -59,7 +60,7 @@ and the rate calculated from the Staebler (1953) equation.
 END
 
 IF
-AGE GE 50
+AGE GE 30
 THEN
 * 10-15" DBH trees
 FIXMORT            0  PARMS(DF,1-((1-(MAX(0,4.96+0.08*AGE- 0.41*10))/100 &
@@ -85,5 +86,4 @@ FIXMORT            0  PARMS(DF,1-((1-(MAX(0,4.96+0.08*AGE- 0.41*40))/100 &
 * 45-50" DBH trees
 FIXMORT            0  PARMS(DF,1-((1-(MAX(0,4.96+0.08*AGE- 0.41*45))/100 &
 )**(0.1))**5, 45, 50, 2, 10)
-END
 ENDIF
