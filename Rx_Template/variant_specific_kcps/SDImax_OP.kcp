@@ -3,8 +3,8 @@ Select ORGANON version and whether SDIMAX affects simulations.
 END
 
 ORGANON
-* Use SMC variant of ORGANON, defaults to using SDIMAX as well
-ORGINFO            3
+* Use SMC variant of ORGANON, don't use SDIMAX
+ORGINFO            3                   0
 END
 * End of ORGANON keywords
 
@@ -45,45 +45,3 @@ SDIMAX           SS       506
 SDIMAX           WF       450
 SDIMAX           WH       565
 SDIMAX           WO       410
-
-COMMENT
-Modify mortality rates for stands once they pass 50 years of age.
-This applies a mortality Equation from:
-  Staebler, G.R., 1953. Mortality estimation in fully-stocked stands of
-  young-growth Douglas-fir (Research Paper No. 4). U.S. Department of
-  Agriculture, Forest Service, Pacific Northwest Forest and Range Experiment
-  Station, Portland, OR.
-
-This will kill trees from below to satisfy the mortality rate, and use whichever
-mortality rate is higher between ORGANON default (which may include an SDIMAX),
-and the rate calculated from the Staebler (1953) equation.
-END
-
-IF
-AGE GE 30
-THEN
-* 10-15" DBH trees
-FIXMORT            0  PARMS(DF,1-((1-(MAX(0,4.96+0.08*AGE- 0.41*10))/100 &
-)**(0.1))**5, 10, 15, 2, 10)
-* 15-20" DBH trees
-FIXMORT            0  PARMS(DF,1-((1-(MAX(0,4.96+0.08*AGE- 0.41*15))/100 &
-)**(0.1))**5, 15, 20, 2, 10)
-* 20-25" DBH trees
-FIXMORT            0  PARMS(DF,1-((1-(MAX(0,4.96+0.08*AGE- 0.41*20))/100 &
-)**(0.1))**5, 20, 25, 2, 10)
-* 25-30" DBH trees
-FIXMORT            0  PARMS(DF,1-((1-(MAX(0,4.96+0.08*AGE- 0.41*25))/100 &
-)**(0.1))**5, 25, 30, 2, 10)
-* 30-35" DBH trees
-FIXMORT            0  PARMS(DF,1-((1-(MAX(0,4.96+0.08*AGE- 0.41*30))/100 &
-)**(0.1))**5, 30, 35, 2, 10)
-* 35-40" DBH trees
-FIXMORT            0  PARMS(DF,1-((1-(MAX(0,4.96+0.08*AGE- 0.41*35))/100 &
-)**(0.1))**5, 35, 40, 2, 10)
-* 40-45" DBH trees
-FIXMORT            0  PARMS(DF,1-((1-(MAX(0,4.96+0.08*AGE- 0.41*40))/100 &
-)**(0.1))**5, 40, 45, 2, 10)
-* 45-50" DBH trees
-FIXMORT            0  PARMS(DF,1-((1-(MAX(0,4.96+0.08*AGE- 0.41*45))/100 &
-)**(0.1))**5, 45, 50, 2, 10)
-ENDIF
