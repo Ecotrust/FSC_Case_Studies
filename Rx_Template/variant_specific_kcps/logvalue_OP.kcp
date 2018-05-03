@@ -24,8 +24,8 @@ ORGANON
 ORGVOLS            1
 * BF Volume: 6" min top, 8" trim, 1' stump, 40' log length, 32' min log length
 OSUBFVOL           6         8         1        40        32
-* CF Volume: 1" min top, 0" trim, 0' stump - as close to CVTS as ORGANON gets
-OSUCFVOL           1         0         0
+* CF Volume: 4" min top SW, 1' stump, 4" min top HW
+OSUCFVOL           4         1         4
 END
 * End of ORGANON keywords
 
