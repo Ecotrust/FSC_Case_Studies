@@ -15,7 +15,7 @@ print('{:,}'.format(len(to_run)), 'keyfiles found.')
 
 #tqdm progress bar settings
 tasks = range(100)
-pbar = tqdm.tqdm(total=len(to_run))
+pbar = tqdm.tqdm(total=len(to_run)/30)
 
 #A function to execute FVS that will be mapped to all keyfiles.
 def run_fvs(keyfile):
@@ -38,17 +38,20 @@ def run_fvs(keyfile):
     shutil.move(os.path.join(base_dir,base_name+'.out'), os.path.join(base_dir,'completed','outfiles'))
 
      # delete the other files
-    os.remove(os.path.join(base_dir, base_name+'.trl'))
-    os.remove(os.path.join(base_dir, base_name+'.out'))
-    os.remove(os.path.join(base_dir, base_name+'.txt'))
-    os.remove(os.path.join(base_dir, base_name+'.key'))
-    return keyfile
+    try:
+        os.remove(os.path.join(base_dir, base_name+'.trl'))
+    except OSError:
+        pass
+    try:
+        os.remove(os.path.join(base_dir, base_name+'.txt'))
+    except OSError:
+        pass
+
 
 #run fvs on all keyfiles via 'run_fvs' function and  multiprocessing
-if __name__ == "__main__":
-    from multiprocessing import Pool
-    pool=Pool(30)
-    pool.map_async(run_fvs, to_run)
+from multiprocessing import Pool
+with Pool(processes=32) as pool:
+    pool.map(run_fvs, to_run)
     pool.close()
     pool.join()
 
