@@ -3,10 +3,21 @@ Select ORGANON version and whether SDIMAX affects simulations.
 END
 
 ORGANON
-* Use SMC variant of ORGANON, don't use SDIMAX
-ORGINFO            3                   0
+* Use SMC variant of ORGANON, defaults to using SDIMAX
+ORGINFO            3
 END
 * End of ORGANON keywords
+
+COMMENT
+Use Basal Area increment multiplier to constrain growth
+END
+BAIMULT                             0.80
+
+COMMENT
+Use Height growth multiplier to shrink tree growth
+END
+HTGMULT                             0.90
+
 
 COMMENT
 Set Maximum Stand Density Index.  OP variant.
@@ -22,10 +33,9 @@ Where >100 FIA plots in the FVS variant had single dominant species, 85% of the
 Upper limit of density related mortality is set to 75% of SDIMAX.
 END
 
-* Modify SDIMAX to adjust basal area growth - DF changed from 536 to 435
+* Modify SDIMAX to adjust basal area growth - DF changed from 536 (FIA) to 435
 SDIMAX           DF       435                            55.        75
 * Modify SDIMAX to adjust basal area growth - These species based on FIA
-*SDIMAX           DF       536                            55.        75
 SDIMAX           AF       545
 SDIMAX           BM       485
 SDIMAX           CH       459
