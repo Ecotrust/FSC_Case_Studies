@@ -12,10 +12,11 @@ Where >100 FIA plots in the FVS variant had single dominant species, 85% of the
 Upper limit of density related mortality is set to 75% of SDIMAX.
 END
 
-SDIMAX           AF       545                           55.        75
+SDIMAX           DF       450                            55.        75
+*SDIMAX           DF       536                            55.        75
+SDIMAX           AF       545
 SDIMAX           BM       485
 SDIMAX           CH       459
-SDIMAX           DF       536
 SDIMAX           DG       459
 SDIMAX           GC       583
 SDIMAX           GF       450

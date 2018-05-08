@@ -5,10 +5,11 @@ MGMTID
 Rx5
 
 ********************************************************************************
-** Calculate biologically optimal rotation age using linear interpolation.
+** Define biologically optimal rotation age
 ********************************************************************************
 COMPUTE            1
-RotaAge = INT(LININT(SITE,90,120,110,120))
+* Rotate at 75 years old, culmination of cubic volume mean annual increment
+RotaAge = 75
 END
 
 ********************************************************************************
@@ -40,9 +41,18 @@ RESETAGE           0         0
 COMPUTE            0
 _offset = 0
 END
+
 ESTAB
 PLANT              1    Parms(DF, 435., 85.)
 END
+
+* $85/acre for site preparation
+ECON
+SPECCST            1  SitePrep       85.
+* $135/acre for brush control at age 5
+SPECCST            5     Brush      135.
+END
+
 ENDIF
 
 ********************************************************************************
