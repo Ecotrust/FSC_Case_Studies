@@ -5,11 +5,12 @@ MGMTID
 Rx2
 
 ********************************************************************************
-** Calculate financially optimal rotation age using a linear interpolation.
+** Identify financially optimal rotation age
 ********************************************************************************
 COMPUTE            1
 _offset = 0
-RotaAge = INT(LININT(SITE,90,120,40,35))
+* Rotate at age 42 if SI < 100 and at age 38 if SI >= 100
+RotaAge = LININT(SITE,100,100,42,38))
 END
 
 ********************************************************************************
@@ -37,12 +38,22 @@ IF                30
 AGE GE (RotaAge + _offset) AND CUT EQ 1
 THEN
 RESETAGE           0         0
+
 COMPUTE            0
 _offset = 0
 END
+
 ESTAB
 PLANT              1    Parms(DF, 435., 85.)
 END
+
+* $85/acre for site preparation
+ECON
+SPECCST            1  SitePrep       85.
+* $135/acre for brush control at age 5
+SPECCST            5     Brush      135.
+END
+
 ENDIF
 
 

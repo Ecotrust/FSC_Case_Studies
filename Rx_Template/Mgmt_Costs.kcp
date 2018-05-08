@@ -1,20 +1,25 @@
 COMMENT
-Costs for forestry activities including harvest,
-trucking, road maintenance, harvest administration,
-road maintenance, and planting and site preparation.
+Costs for forestry activities including harvest, trucking, road maintenance,
+harvest administration, road maintenance, and planting and site preparation.
 END
 
 * turn on ECON extension
 ECON
-* Minimum harvest volume to be considered commercial
-* harvest entry set for >= 3 MBF per acre
+* Annual administration costs: $35/acre
+ANNUCST           35     Admin
+
+* Minimum harvest volume to be considered commercial harvest entry set for
+* >= 3 MBF per acre
 PCTSPEC          0.0         2         3
 
 * Pre-commercial thinning costs $150 per acre
 PCTFXCST         150
 
-* Harvesting costs $125 per MBF for ground-based
-HRVVRCST         125         2
+* Brush control
+
+
+* Harvesting costs $150 per MBF for ground-based
+HRVVRCST         150         2
 
 * Hauling costs $100 per MBF
 HRVVRCST         100         2
@@ -25,7 +30,34 @@ HRVVRCST           5         2
 * Road maintenance $15 per MBF
 HRVVRCST          15         2
 
-* Site preparation and tree planting $0.55 per seedling
-PLANTCST         550         7
+* Tree planting $0.40 per seedling
+PLANTCST         400         7
 END
 * END of ECON extension keywords
+
+* Add $50/MBF ($200/MBF total) for cable logging clearcut
+IF                 0
+CUT EQ 1 AND CUT_TYPE EQ 3 AND SLOPE GT 35
+THEN
+ECON
+SPECCST            1          PARMS(Cable, ECBDFT*50.)
+END
+ENDIF
+
+* Add $25/MBF ($175/MBF total) for ground-based commercial thin
+IF                 0
+CUT EQ 1 AND CUT_TYPE EQ 2 AND SLOPE LE 35
+THEN
+ECON
+SPECCST            1          PARMS(CT_Ground, ECBDFT*25.)
+END
+ENDIF
+
+* Add $150/MBF ($300/MBF total) for cable logging commercial thin
+IF                 0
+CUT EQ 1 AND CUT_TYPE EQ 2 AND SLOPE GT 35
+THEN
+ECON
+SPECCST            1          PARMS(CT_Cable, ECBDFT*150.)
+END
+ENDIF
