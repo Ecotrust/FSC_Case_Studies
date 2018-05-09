@@ -139,10 +139,13 @@ for rx in rxs_to_run:
         to_build.append(list(i)+[rx])
 #print (to_build)
 
+#count and print the number of stand/rx combinations are going to be created
 cnt=len(to_build)
 print("Number of keyfiles to be built:")
 print(cnt)
 
+#create keyfiles based on site index of stand!
+#with progress bar
 for item in tqdm.tqdm(iterable=to_build, total=cnt):
     if int(item[2]) >= 115:
         sdi_max = 550
