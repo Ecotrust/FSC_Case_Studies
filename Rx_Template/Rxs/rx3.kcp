@@ -7,10 +7,26 @@ Rx3
 ********************************************************************************
 ** Identify financially optimal rotation age
 ********************************************************************************
+IF               999
+SLOPE GT 35
+THEN
+COMPUTE            1
+* For steep slopes, rotate at age 46 if SI < 100 and at age 42 if SI >= 100
+RotaAge = LININT(SITE,100,100,46,42))
+END
+ENDIF
+
+IF               999
+SLOPE LE 35
+THEN
+COMPUTE            1
+* For flat slopes, rotate at age 42 if SI < 100 and at age 38 if SI >= 100
+RotaAge = LININT(SITE,100,100,42,38))
+END
+ENDIF
+
 COMPUTE            1
 _offset = 0
-* Rotate at age 42 if SI < 100 and at age 38 if SI >= 100
-RotaAge = LININT(SITE,100,100,42,38))
 END
 
 ********************************************************************************
