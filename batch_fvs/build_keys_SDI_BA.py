@@ -130,7 +130,7 @@ conn.close()
 values=list(stands.itertuples(index=False, name=None))
 
 #specify what rxs you want to rxs_to_run
-rxs_to_run = ['rx1', 'rx2', 'rx3']
+rxs_to_run = ['rx1']
 
 to_build=[]
 #add these rx combinations to our list of keyfiles to create

@@ -103,7 +103,7 @@ def create_keyfile(standID, variant, rx):
         keyfile.write(template.render(**inserts))
 
 
-def create_keyfiles(stands, variants, rxs, verbose=False):
+def create_keyfiles(stands, variants, rxs, staverbose=False):
     '''
     Creates FVS keyfiles for all stands using Base_Rx.key as a template.
     Arguments:
