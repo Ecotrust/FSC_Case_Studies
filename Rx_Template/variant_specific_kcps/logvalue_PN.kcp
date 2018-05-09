@@ -23,10 +23,10 @@ VOLEQNUM          RC          632BEHW242
 VOLEQNUM          WP          632BEHW119
 VOLEQNUM          RA          616BEHW351
 
-*COMMENT
-*Adjust Scribner boardfoot volumes to align with yield curves
-*END
-*BFDEFECT           0       All       0.0      0.25      0.20      0.20      0.20
+COMMENT
+Adjust Scribner boardfoot volumes to align with yield curves
+END
+BFDEFECT           0       All       0.0      0.25      0.20      0.20      0.20
 
 COMMENT
 Cubic volume merchantability: 5" min DBH, 4" min top DIB, 1' stump
