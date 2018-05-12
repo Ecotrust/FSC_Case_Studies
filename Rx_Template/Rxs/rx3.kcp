@@ -121,16 +121,16 @@ END
 ECON
 SPECCST            1  SitePrep       85.
 * $135/acre for brush control at age 5
-SPECCST            5     Brush      135.
+SPECCST            2     Brush      135.
 END
 
 ENDIF
 
 ********************************************************************************
-** Pile and burn slash after any harvesting.
+** Pile and burn slash after regeneration harvest.
 ********************************************************************************
 IF
-CUT EQ 1
+CUT_TYPE EQ 3
 THEN
 FMIN
 PILEBURN           1         1

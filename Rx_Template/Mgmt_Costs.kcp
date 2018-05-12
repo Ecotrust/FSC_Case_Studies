@@ -15,9 +15,6 @@ PCTSPEC          0.0         2         3
 * Pre-commercial thinning costs $150 per acre
 PCTFXCST         150
 
-* Brush control
-
-
 * Harvesting costs $150 per MBF for ground-based
 HRVVRCST         150         2
 
@@ -30,34 +27,44 @@ HRVVRCST           5         2
 * Road maintenance $15 per MBF
 HRVVRCST          15         2
 
-* Tree planting $0.40 per seedling
-PLANTCST         400         7
+* Planting costs $0.73 per seedling
+PLANTCST         730         7
 END
 * END of ECON extension keywords
 
+* Variables for extra costs for commercial thinning and logging on steep slopes
+COMPUTE            0
+* extra cost for regen harvest: cable logging
+CB_RG_EX = 0
+* extra cost for commercial thin: ground-based
+SK_CT_EX = 0
+* extra cost for commercial thin: cable logging
+CB_CT_EX = 0
+END
+
 * Add $50/MBF ($200/MBF total) for cable logging clearcut
 IF                 0
-CUT EQ 1 AND CUT_TYPE EQ 3 AND SLOPE GT 35
+CUT_TYPE EQ 3 AND SLOPE GT 35
 THEN
-ECON
-SPECCST            1          PARMS(Cable, ECBDFT*50.)
+COMPUTE
+CB_RG_EX = RBDFT*50.
 END
 ENDIF
 
 * Add $25/MBF ($175/MBF total) for ground-based commercial thin
 IF                 0
-CUT EQ 1 AND CUT_TYPE EQ 2 AND SLOPE LE 35
+CUT_TYPE EQ 2 AND SLOPE LE 35
 THEN
-ECON
-SPECCST            1          PARMS(CT_Ground, ECBDFT*25.)
+COMPUTE
+SK_CT_EX = RBDFT * 25.
 END
 ENDIF
 
 * Add $150/MBF ($300/MBF total) for cable logging commercial thin
 IF                 0
-CUT EQ 1 AND CUT_TYPE EQ 2 AND SLOPE GT 35
+CUT_TYPE EQ 2 AND SLOPE GT 35
 THEN
-ECON
-SPECCST            1          PARMS(CT_Cable, ECBDFT*150.)
+COMPUTE
+CB_CT_EX = RBDFT*150.
 END
 ENDIF
