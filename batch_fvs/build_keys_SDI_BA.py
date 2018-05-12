@@ -65,6 +65,20 @@ if len(variant_kcps) > 0:
 else:
     raise FileNotFoundError('No kcp files found in the variant_specific_kcps directory.')
 
+# Define Soil Expectation Values for Flat Ground and Steep Ground
+sev_lookup = {
+    'sev_flat':{
+        50:1, 55:1, 60:1, 65:1, 70:1, 75:1, 80:1, 85:1,
+        90:1, 95:1814, 100:2283, 105:2463, 110:2681, 115:3568, 120:3950, 125:4024,
+        130:4137, 135:4358, 140:4827, 145:5044, 150:5211, 155:5206, 160:5598
+                },
+    'sev_steep':{
+        50:1, 55:1, 60:1, 65:1, 70:1, 75:1, 80:1, 85:1,
+        90:1, 95:1388, 100:1701, 105:1942, 110:2102, 115:2870, 120:3069, 125:3326,
+        130:3406, 135:3761, 140:3870, 145:4185, 150:4172, 155:4159, 160:4540
+                }
+        }
+
 rxs_dict = {}
 # a dictionary storing the silvicultural keywords for each rx
 rx_kcps = glob.glob(os.path.join('Rx_Template', 'Rxs', 'rx*.kcp'))
@@ -85,7 +99,7 @@ else:
 
 # A function to use for creating keyfiles.
 
-def create_keyfile(standID, variant, site_index, rx):
+def create_keyfile(standID, variant, site_index, slope, rx):
     '''
     Creates a single FVS keyfile based on the jinja2 template.
     '''
@@ -95,6 +109,10 @@ def create_keyfile(standID, variant, site_index, rx):
     inserts['rx'] = rxs_dict[rx]
     inserts['site_index'] = site_index
     inserts['variant'] = variant
+    # lookup the soil expectation value for steep or flat slopes
+    # round the stand's site index down the nearest multiple of 5
+    inserts['sev'] = sev_lookup['sev_steep' if slope > 35 else 'sev_flat'][site_index//5 * 5]
+
 
     fname = 'fvs'+variant+'_stand'+str(standID)+'_'+rx+'_SI'+str(site_index)+'_off'+'.key'
 
@@ -116,7 +134,7 @@ import psycopg2
 conn = psycopg2.connect("dbname='FVSIn' user='ubuntu' host='localhost'") # password in pgpass file
 
 SQL = '''
-SELECT stand_id, variant, site_index
+SELECT stand_id, variant, site_index, slope
 FROM stand_init;
 '''
 # read the query into a pandas dataframe
@@ -130,14 +148,14 @@ conn.close()
 values=list(stands.itertuples(index=False, name=None))
 
 #specify what rxs you want to rxs_to_run
-rxs_to_run = ['rx1', 'rx2', 'rx3']
+rxs_to_run = ['rx1']
 
 to_build=[]
 #add these rx combinations to our list of keyfiles to create
 for rx in rxs_to_run:
     for i in values:
         to_build.append(list(i)+[rx])
-#print (to_build)
+print (to_build)
 
 #count and print the number of stand/rx combinations are going to be created
 cnt=len(to_build)

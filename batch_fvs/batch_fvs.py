@@ -19,8 +19,8 @@ pbar = tqdm.tqdm(total=len(to_run)/30)
 
 #A function to execute FVS that will be mapped to all keyfiles.
 def run_fvs(keyfile):
-    cmd = '/usr/local/bin/FVSop'
-    subprocess.call([cmd, '--keywordfile='+keyfile,]) # run fvs
+    cmd = '/usr/local/bin/FVSpnc'
+    subprocess.call([cmd, '--keywordfile='+keyfile+' &> out']) # run fvs
     pbar.update(1)
 
     base_dir = os.path.split(keyfile)[0]
@@ -47,11 +47,10 @@ def run_fvs(keyfile):
     except OSError:
         pass
 
-
 #run fvs on all keyfiles via 'run_fvs' function and  multiprocessing
 from multiprocessing import Pool
 with Pool(processes=32) as pool:
-    pool.map(run_fvs, to_run)
+    pool.imap_unordered(run_fvs, to_run)
     pool.close()
     pool.join()
 
