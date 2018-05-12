@@ -1,0 +1,241 @@
+Source,ID,Location,Plot,si100,siteclass,si50,age,bdft,tcuft,ba,qmd,topht,tpa
+Williamson_1963,Mount Hood_1,Mount Hood,1,134,3,,45,13267,5798,175.6,9.4,,364
+Williamson_1963,Mount Hood_1,Mount Hood,1,134,3,,50,19271,6659,188.1,10.3,,326
+Williamson_1963,Mount Hood_1,Mount Hood,1,134,3,,55,23414,6968,189.7,11.4,,269
+Williamson_1963,Mount Hood_1,Mount Hood,1,134,3,,60,28136,7635,198.2,12.6,,230
+Williamson_1963,Mount Hood_1,Mount Hood,1,134,3,,67,34028,8417,210.7,13.7,,206
+Williamson_1963,Mount Hood_2,Mount Hood,2,129,3,,45,9755,7144,226.8,9.2,,493
+Williamson_1963,Mount Hood_2,Mount Hood,2,129,3,,50,16866,8165,239.2,9.9,,443
+Williamson_1963,Mount Hood_2,Mount Hood,2,129,3,,55,22673,8811,246.5,10.8,,389
+Williamson_1963,Mount Hood_2,Mount Hood,2,129,3,,60,30232,9657,255.3,11.6,,347
+Williamson_1963,Mount Hood_2,Mount Hood,2,129,3,,67,35894,10607,269.4,12.3,,325
+Williamson_1963,Mount Hood_3,Mount Hood,3,139,3,,45,11301,6709,214.9,9.1,,481
+Williamson_1963,Mount Hood_3,Mount Hood,3,139,3,,50,17142,7449,225.6,9.7,,439
+Williamson_1963,Mount Hood_3,Mount Hood,3,139,3,,55,23390,8261,231.8,10.7,,368
+Williamson_1963,Mount Hood_3,Mount Hood,3,139,3,,60,31347,9355,242.1,11.6,,328
+Williamson_1963,Mount Hood_3,Mount Hood,3,139,3,,67,38913,10358,256.6,12.5,,303
+Williamson_1963,Olympic_1,Olympic,1,130,3,,51,14460,6265,191.0,8.9,92,444
+Williamson_1963,Olympic_1,Olympic,1,130,3,,56,18640,6945,203.2,9.7,99,400
+Williamson_1963,Olympic_1,Olympic,1,130,3,,61,23260,7725,214.7,10.4,102,365
+Williamson_1963,Olympic_1,Olympic,1,130,3,,66,25976,8194,224.8,11.4,103,318
+Williamson_1963,Olympic_1,Olympic,1,130,3,,71,30382,8726,230.4,12.0,106,291
+Williamson_1963,Olympic_1,Olympic,1,130,3,,81,42049,10544,259.0,13.1,118,278
+Williamson_1963,Olympic_2,Olympic,2,128,3,,51,10590,5925,178.0,9.0,92,403
+Williamson_1963,Olympic_2,Olympic,2,128,3,,56,14370,6585,182.3,9.7,100,357
+Williamson_1963,Olympic_2,Olympic,2,128,3,,61,19180,7325,194.3,10.2,107,341
+Williamson_1963,Olympic_2,Olympic,2,128,3,,66,22601,7710,198.7,11.0,110,299
+Williamson_1963,Olympic_2,Olympic,2,128,3,,71,26521,8142,206.6,11.7,111,279
+Williamson_1963,Olympic_2,Olympic,2,128,3,,81,36289,9292,221.4,12.7,116,252
+Williamson_1963,Olympic_3,Olympic,3,118,4,,42,1970,4440,162.2,6.5,79,714
+Williamson_1963,Olympic_3,Olympic,3,118,4,,47,4000,5125,171.6,6.9,84,655
+Williamson_1963,Olympic_3,Olympic,3,118,4,,52,6980,5475,177.6,7.6,86,557
+Williamson_1963,Olympic_3,Olympic,3,118,4,,57,9913,6320,185.2,8.3,92,498
+Williamson_1963,Olympic_3,Olympic,3,118,4,,62,11689,6242,179.9,8.9,94,412
+Williamson_1963,Olympic_3,Olympic,3,118,4,,72,17351,7070,191.3,10.1,101,344
+Williamson_1963,Olympic_4,Olympic,4,116,4,,42,980,5920,194.3,6.1,78,944
+Williamson_1963,Olympic_4,Olympic,4,116,4,,47,2340,6370,195.4,6.9,84,748
+Williamson_1963,Olympic_4,Olympic,4,116,4,,52,5443,6803,202.5,7.6,88,645
+Williamson_1963,Olympic_4,Olympic,4,116,4,,57,9905,7466,208.4,8.3,92,559
+Williamson_1963,Olympic_4,Olympic,4,116,4,,62,13105,7683,209.5,9.0,94,476
+Williamson_1963,Olympic_4,Olympic,4,116,4,,72,20245,8780,228.7,10.2,99,401
+Williamson_1963,Pinchot_1,Pinchot,1,181,2,,55,56270,12490,271.3,15.6,130,205
+Williamson_1963,Pinchot_1,Pinchot,1,181,2,,60,67900,13900,286.1,17.1,,180
+Williamson_1963,Pinchot_1,Pinchot,1,181,2,,66,77830,15375,297.5,18.2,148,164
+Williamson_1963,Pinchot_1,Pinchot,1,181,2,,76,100742,19405,322.4,19.9,163,150
+Williamson_1963,Pinchot_1,Pinchot,1,181,2,,91,103412,18629,326.0,20.7,166,140
+Williamson_1963,Pinchot_2,Pinchot,2,175,2,,50,27900,8520,223.7,11.8,,295
+Williamson_1963,Pinchot_2,Pinchot,2,175,2,,55,37350,10080,246.4,12.7,,282
+Williamson_1963,Pinchot_2,Pinchot,2,175,2,,60,44430,10920,258.3,14.2,,236
+Williamson_1963,Pinchot_2,Pinchot,2,175,2,,66,57831,12605,266.7,16.0,,192
+Williamson_1963,Pinchot_2,Pinchot,2,175,2,,76,75078,15110,290.5,17.6,,172
+Williamson_1963,Pinchot_2,Pinchot,2,175,2,,81,84344,16325,302.1,18.4,,163
+Williamson_1963,Pinchot_3,Pinchot,3,174,2,,50,36920,10180,243.7,13.2,117,256
+Williamson_1963,Pinchot_3,Pinchot,3,174,2,,55,45380,11680,267.9,14.0,121,250
+Williamson_1963,Pinchot_3,Pinchot,3,174,2,,60,57000,12980,279.3,15.4,,215
+Williamson_1963,Pinchot_3,Pinchot,3,174,2,,66,66034,14039,289.0,16.8,,188
+Williamson_1963,Pinchot_3,Pinchot,3,174,2,,76,83914,16042,294.0,18.8,,152
+Williamson_1963,Pinchot_3,Pinchot,3,174,2,,81,82029,15353,281.9,19.9,159,131
+Williamson_1963,Pinchot_4,Pinchot,4,172,2,,56,32410,8460,208.3,12.5,116,243
+Williamson_1963,Pinchot_4,Pinchot,4,172,2,,61,39900,9590,225.4,13.5,124,227
+Williamson_1963,Pinchot_4,Pinchot,4,172,2,,66,50190,11110,242.1,14.5,136,211
+Williamson_1963,Pinchot_4,Pinchot,4,172,2,,72,58791,12288,251.9,16.1,,179
+Williamson_1963,Pinchot_4,Pinchot,4,172,2,,82,77868,14792,276.1,,160,
+Williamson_1963,Pinchot_4,Pinchot,4,172,2,,87,82350,15414,288.0,,162,
+Williamson_1963,Pinchot_5,Pinchot,5,185,2,,53,40330,9600,245.7,15.6,118,186
+Williamson_1963,Pinchot_5,Pinchot,5,185,2,,57,47170,10770,255.6,15.2,124,203
+Williamson_1963,Pinchot_5,Pinchot,5,185,2,,62,58550,12380,,,136,176
+Williamson_1963,Pinchot_5,Pinchot,5,185,2,,68,67292,13389,279.9,18.7,,147
+Williamson_1963,Pinchot_5,Pinchot,5,185,2,,78,95608,17042,298.9,20.9,169,126
+Williamson_1963,Pinchot_5,Pinchot,5,185,2,,83,98919,16542,307.8,21.7,171,120
+Williamson_1963,Pinchot_7,Pinchot,7,176,2,,52,33470,9220,,,123,272
+Williamson_1963,Pinchot_7,Pinchot,7,176,2,,56,40550,10370,238.7,,127,
+Williamson_1963,Pinchot_7,Pinchot,7,176,2,,61,48490,11270,246.1,14.1,,227
+Williamson_1963,Pinchot_7,Pinchot,7,176,2,,67,60772,13177,262.3,15.0,146,215
+Williamson_1963,Pinchot_7,Pinchot,7,176,2,,77,80872,15901,286.9,16.6,163,192
+Williamson_1963,Pinchot_7,Pinchot,7,176,2,,82,85339,15786,294.4,17.4,164,178
+Williamson_1963,Pinchot_9,Pinchot,9,137,3,,58,22810,7940,222.2,9.9,99,416
+Williamson_1963,Pinchot_9,Pinchot,9,137,3,,62,27170,8460,231.8,,101,
+Williamson_1963,Pinchot_9,Pinchot,9,137,3,,67,33080,9460,237.7,11.7,108,321
+Williamson_1963,Pinchot_9,Pinchot,9,137,3,,73,38905,10983,256.7,12.5,117,301
+Williamson_1963,Pinchot_9,Pinchot,9,137,3,,83,49956,12176,280.7,13.7,124,273
+Williamson_1963,Pinchot_9,Pinchot,9,137,3,,88,56129,13001,289.8,14.4,130,257
+Williamson_1963,Siuslaw_4,Siuslaw,4,174,2,,50,48350,11980,304.7,12.5,,358
+Williamson_1963,Siuslaw_4,Siuslaw,4,174,2,,55,61620,14150,338.5,14.1,,311
+Williamson_1963,Siuslaw_4,Siuslaw,4,174,2,,60,71870,15520,353.3,15.7,,263
+Williamson_1963,Siuslaw_4,Siuslaw,4,174,2,,65,81510,16890,370.6,16.5,,251
+Williamson_1963,Siuslaw_4,Siuslaw,4,174,2,,70,100840,19435,399.0,17.4,,241
+Williamson_1963,Siuslaw_4,Siuslaw,4,174,2,,75,111110,21120,412.9,19.1,,208
+Williamson_1963,Siuslaw_4,Siuslaw,4,174,2,,80,119726,22125,425.0,20.3,,190
+Williamson_1963,Siuslaw_4,Siuslaw,4,174,2,,95,134028,24253,450.9,20.9,,190
+Williamson_1963,Siuslaw_4,Siuslaw,4,174,2,,90,143848,25716,468.5,21.7,,183
+Williamson_1963,Siuslaw_5,Siuslaw,5,175,2,,50,26370,9895,236.3,10.6,,382
+Williamson_1963,Siuslaw_5,Siuslaw,5,175,2,,55,35500,11180,255.1,11.6,,347
+Williamson_1963,Siuslaw_5,Siuslaw,5,175,2,,60,42290,11625,256.3,12.6,,297
+Williamson_1963,Siuslaw_5,Siuslaw,5,175,2,,65,47890,12395,267.0,13.1,,286
+Williamson_1963,Siuslaw_5,Siuslaw,5,175,2,,70,54940,13415,280.0,13.8,,268
+Williamson_1963,Siuslaw_5,Siuslaw,5,175,2,,75,62280,14110,281.8,15.0,,230
+Williamson_1963,Siuslaw_5,Siuslaw,5,175,2,,80,67283,14328,285.6,16.1,,202
+Williamson_1963,Siuslaw_5,Siuslaw,5,175,2,,95,75298,15474,288.3,16.7,,189
+Williamson_1963,Siuslaw_5,Siuslaw,5,175,2,,90,81013,16218,298.1,17.2,,185
+Williamson_1963,Siuslaw_6,Siuslaw,6,194,1,,38,25280,7060,191.0,13.0,,208
+Williamson_1963,Siuslaw_6,Siuslaw,6,194,1,,45,33760,8415,211.8,14.4,,188
+Williamson_1963,Siuslaw_6,Siuslaw,6,194,1,,48,,,,,,156
+Williamson_1963,Siuslaw_6,Siuslaw,6,194,1,,53,53880,11225,242.5,17.2,,151
+Williamson_1963,Siuslaw_6,Siuslaw,6,194,1,,58,63240,12655,259.4,18.3,,142
+Williamson_1963,Siuslaw_6,Siuslaw,6,194,1,,63,73710,13910,265.6,19.5,,128
+Williamson_1963,Siuslaw_6,Siuslaw,6,194,1,,68,73024,13550,256.4,20.8,,109
+Williamson_1963,Siuslaw_6,Siuslaw,6,194,1,,73,86007,15278,270.3,21.8,,104
+Williamson_1963,Siuslaw_6,Siuslaw,6,194,1,,78,90310,15762,274.8,22.7,,98
+Williamson_1963,Siuslaw_7,Siuslaw,7,196,1,,38,14440,5445,156.7,10.8,,247
+Williamson_1963,Siuslaw_7,Siuslaw,7,196,1,,45,22120,6270,165.4,13.2,,175
+Williamson_1963,Siuslaw_7,Siuslaw,7,196,1,,48,,,,,,138
+Williamson_1963,Siuslaw_7,Siuslaw,7,196,1,,53,39880,8805,194.9,16.2,,137
+Williamson_1963,Siuslaw_7,Siuslaw,7,196,1,,58,49070,9960,209.9,17.5,,125
+Williamson_1963,Siuslaw_7,Siuslaw,7,196,1,,63,59690,11455,221.2,18.9,,113
+Williamson_1963,Siuslaw_7,Siuslaw,7,196,1,,68,57793,10587,201.3,21.3,,81
+Williamson_1963,Siuslaw_7,Siuslaw,7,196,1,,73,67925,12367,218.9,22.5,,79
+Williamson_1963,Siuslaw_7,Siuslaw,7,196,1,,78,76303,13163,227.6,23.6,,75
+Williamson_1963,Siuslaw_8,Siuslaw,8,178,2,,53,44400,10985,244.8,13.8,,234
+Williamson_1963,Siuslaw_8,Siuslaw,8,178,2,,58,53320,12480,266.4,14.6,,228
+Williamson_1963,Siuslaw_8,Siuslaw,8,178,2,,63,58810,12760,265.6,16.0,,191
+Williamson_1963,Siuslaw_8,Siuslaw,8,178,2,,68,66047,13493,273.3,17.3,,168
+Williamson_1963,Siuslaw_8,Siuslaw,8,178,2,,73,70970,14030,281.8,18.4,,153
+Williamson_1963,Siuslaw_8,Siuslaw,8,178,2,,78,76875,14882,293.5,19.1,,147
+Williamson_1963,Siuslaw_9,Siuslaw,9,198,1,,74,91620,16340,286.4,21.2,,117
+Williamson_1963,Siuslaw_9,Siuslaw,9,198,1,,79,92100,16025,273.5,22.2,,102
+Williamson_1963,Siuslaw_9,Siuslaw,9,198,1,,84,98090,16370,266.0,23.8,,86
+Williamson_1963,Siuslaw_9,Siuslaw,9,198,1,,89,69346,11452,185.0,25.3,,53
+Williamson_1963,Siuslaw_9,Siuslaw,9,198,1,,94,74514,12075,191.8,26.5,,50
+Williamson_1963,Siuslaw_9,Siuslaw,9,198,1,,99,78679,12620,197.4,27.5,,48
+Williamson_1963,Siuslaw_10,Siuslaw,10,205,1,,67,84740,15305,270.0,19.8,,126
+Williamson_1963,Siuslaw_10,Siuslaw,10,205,1,,72,90040,15580,258.0,21.1,,106
+Williamson_1963,Siuslaw_10,Siuslaw,10,205,1,,77,87610,14860,245.1,22.7,,87
+Williamson_1963,Siuslaw_10,Siuslaw,10,205,1,,82,67448,11130,177.2,25.0,,52
+Williamson_1963,Siuslaw_10,Siuslaw,10,205,1,,87,74991,12099,189.9,25.9,,52
+Williamson_1963,Siuslaw_10,Siuslaw,10,205,1,,92,80072,12831,199.0,26.7,,51
+Williamson_1963,Snoqualmie_1,Snoqualmie,1,141,3,,42,13890,5140,189.4,9.4,81,394
+Williamson_1963,Snoqualmie_1,Snoqualmie,1,141,3,,46,18490,6200,207.6,10.0,85,380
+Williamson_1963,Snoqualmie_1,Snoqualmie,1,141,3,,51,26130,7420,220.2,11.6,97,300
+Williamson_1963,Snoqualmie_1,Snoqualmie,1,141,3,,57,35260,8850,240.5,12.4,108,286
+Williamson_1963,Snoqualmie_1,Snoqualmie,1,141,3,,67,41678,9986,252.9,13.8,118,244
+Williamson_1963,Snoqualmie_1,Snoqualmie,1,141,3,,72,48482,10928,263.3,14.4,128,232
+Williamson_1963,Snoqualmie_2,Snoqualmie,2,156,2,,42,14560,5010,167.3,9.8,85,318
+Williamson_1963,Snoqualmie_2,Snoqualmie,2,156,2,,46,18780,5780,185.6,10.4,88,313
+Williamson_1963,Snoqualmie_2,Snoqualmie,2,156,2,,51,25310,6760,198.7,11.9,100,257
+Williamson_1963,Snoqualmie_2,Snoqualmie,2,156,2,,57,33474,8097,218.0,12.9,112,239
+Williamson_1963,Snoqualmie_2,Snoqualmie,2,156,2,,67,42507,9564,234.3,14.1,127,216
+Williamson_1963,Snoqualmie_2,Snoqualmie,2,156,2,,72,47813,10166,237.2,14.5,136,208
+Williamson_1963,Willamette_1,Willamette,1,170,2,,54,29010,7354,189.9,12.7,119,216
+Williamson_1963,Willamette_1,Willamette,1,170,2,,59.5,37440,8709,201.2,14.0,131,188
+Williamson_1963,Willamette_1,Willamette,1,170,2,,64.5,44070,9528,210.5,15.6,137,158
+Williamson_1963,Willamette_1,Willamette,1,170,2,,69,49280,10316,221.0,16.5,139,148
+Williamson_1963,Willamette_1,Willamette,1,170,2,,74,54128,11162,228.1,17.0,143,144
+Williamson_1963,Willamette_1,Willamette,1,170,2,,79,63754,12483,242.1,18.2,151,134
+Williamson_1963,Willamette_1,Willamette,1,170,2,,84,70145,13301,252.2,18.9,156,129
+Williamson_1963,Willamette_1,Willamette,1,170,2,,90,77713,14165,260.5,20.0,163,119
+Williamson_1963,Willamette_1,Willamette,1,170,2,,95,84666,15225,273.9,20.7,166,117
+Williamson_1963,Willamette_1,Willamette,1,170,2,,100,87686,15510,274.8,21.4,,110
+Williamson_1963,Willamette_2,Willamette,2,170,2,,54,34710,8796,219.6,13.5,119,222
+Williamson_1963,Willamette_2,Willamette,2,170,2,,59.5,44040,10274,232.5,14.5,133,203
+Williamson_1963,Willamette_2,Willamette,2,170,2,,64.5,47860,10536,227.5,15.9,138,164
+Williamson_1963,Willamette_2,Willamette,2,170,2,,69,53860,11324,239.3,16.9,138,154
+Williamson_1963,Willamette_2,Willamette,2,170,2,,74,60620,12485,255.2,17.5,144,152
+Williamson_1963,Willamette_2,Willamette,2,170,2,,79,67242,13274,256.1,18.4,151,139
+Williamson_1963,Willamette_2,Willamette,2,170,2,,84,67716,12788,240.0,19.1,156,120
+Williamson_1963,Willamette_2,Willamette,2,170,2,,90,77153,13917,255.4,19.8,163,119
+Williamson_1963,Willamette_2,Willamette,2,170,2,,95,81917,14654,260.5,20.7,166,112
+Williamson_1963,Willamette_2,Willamette,2,170,2,,100,84641,14954,262.6,21.0,,109
+Williamson_1963,Willamette_3,Willamette,3,170,2,,54,36380,8833,220.0,13.9,121,208
+Williamson_1963,Willamette_3,Willamette,3,170,2,,59.5,46410,10406,235.4,15.4,133,183
+Williamson_1963,Willamette_3,Willamette,3,170,2,,64.5,50940,10934,239.2,16.4,138,164
+Williamson_1963,Willamette_3,Willamette,3,170,2,,69,57920,11864,253.0,17.4,140,153
+Williamson_1963,Willamette_3,Willamette,3,170,2,,74,63312,12741,264.0,18.1,144,148
+Williamson_1963,Willamette_3,Willamette,3,170,2,,79,69694,13628,261.6,18.8,152,135
+Williamson_1963,Willamette_3,Willamette,3,170,2,,84,76893,14536,272.8,19.3,156,134
+Williamson_1963,Willamette_3,Willamette,3,170,2,,90,83022,15052,273.3,20.4,162,120
+Williamson_1963,Willamette_3,Willamette,3,170,2,,95,87000,15508,274.9,21.2,167,112
+Williamson_1963,Willamette_3,Willamette,3,170,2,,100,92263,16216,284.0,21.2,,116
+Williamson_1963,Wind River_2,Wind River,2,146,3,,72,42270,9247,222.0,15.6,124,168
+Williamson_1963,Wind River_2,Wind River,2,146,3,,77,50400,10625,238.4,16.7,132,156
+Williamson_1963,Wind River_2,Wind River,2,146,3,,83,58850,11953,258.2,17.6,138,152
+Williamson_1963,Wind River_2,Wind River,2,146,3,,88,57320,11524,254.8,18.5,136,136
+Williamson_1963,Wind River_2,Wind River,2,146,3,,93,54357,10681,229.5,19.1,139,115
+Williamson_1963,Wind River_2,Wind River,2,146,3,,98,59175,11427,239.5,19.8,144,112
+Williamson_1963,Wind River_2,Wind River,2,146,3,,103,64514,12293,252.7,19.8,148,118
+Williamson_1963,Wind River_2,Wind River,2,146,3,,109,66557,12582,256.4,19.7,149,121
+Williamson_1963,Wind River_2,Wind River,2,146,3,,114,60726,11441,235.5,20.8,150,100
+Williamson_1963,Wind River_2,Wind River,2,146,3,,119,64265,11982,244.9,21.3,153,99
+Williamson_1963,Wind River_4,Wind River,4,148,3,,72,37400,8952,219.0,14.3,121,195
+Williamson_1963,Wind River_4,Wind River,4,148,3,,77,44660,10047,233.6,15.3,124,184
+Williamson_1963,Wind River_4,Wind River,4,148,3,,83,52640,11344,251.6,16.1,135,178
+Williamson_1963,Wind River_4,Wind River,4,148,3,,88,59440,12140,256.6,16.9,140,165
+Williamson_1963,Wind River_4,Wind River,4,148,3,,93,59630,12265,260.5,17.3,141,159
+Williamson_1963,Wind River_4,Wind River,4,148,3,,98,65807,12924,269.3,17.9,147,154
+Williamson_1963,Wind River_4,Wind River,4,148,3,,103,68268,13191,263.0,18.6,154,140
+Williamson_1963,Wind River_4,Wind River,4,148,3,,109,65872,12588,258.1,18.5,156,138
+Williamson_1963,Wind River_4,Wind River,4,148,3,,114,67845,12727,254.4,18.9,159,130
+Williamson_1963,Wind River_4,Wind River,4,148,3,,119,70304,13049,259.8,18.9,163,133
+Williamson_1963,Wind River_5,Wind River,5,150,3,,72,48130,10292,233.2,16.2,133,163
+Williamson_1963,Wind River_5,Wind River,5,150,3,,77,55630,11490,254.9,17.1,132,160
+Williamson_1963,Wind River_5,Wind River,5,150,3,,83,63200,12651,277.2,18.0,138,157
+Williamson_1963,Wind River_5,Wind River,5,150,3,,88,68810,13712,291.4,18.8,143,151
+Williamson_1963,Wind River_5,Wind River,5,150,3,,93,66310,12820,268.8,19.0,144,137
+Williamson_1963,Wind River_5,Wind River,5,150,3,,98,64433,12323,255.0,19.5,149,123
+Williamson_1963,Wind River_5,Wind River,5,150,3,,103,64715,12265,252.5,19.7,162,119
+Williamson_1963,Wind River_5,Wind River,5,150,3,,109,67984,12765,272.1,19.4,163,132
+Williamson_1963,Wind River_5,Wind River,5,150,3,,114,70404,12995,266.9,18.4,158,144
+Williamson_1963,Wind River_5,Wind River,5,150,3,,119,73067,13577,281.6,18.4,159,153
+Williamson_1963,Wind River_9,Wind River,9,122,4,,83,37830,9190,234.2,13.7,118,228
+Williamson_1963,Wind River_9,Wind River,9,122,4,,88,38378,9139,240.8,14.3,114,215
+Williamson_1963,Wind River_9,Wind River,9,122,4,,93,39414,9172,235.7,14.7,117,201
+Williamson_1963,Wind River_9,Wind River,9,122,4,,98,40858,9210,228.9,15.2,121,182
+Williamson_1963,Wind River_9,Wind River,9,122,4,,103,43473,9711,238.7,15.4,123,184
+Williamson_1963,Wind River_9,Wind River,9,122,4,,109,46625,10292,234.0,14.8,125,196
+Williamson_1963,Wind River_9,Wind River,9,122,4,,114,49445,10765,260.2,15.9,127,189
+Williamson_1963,Wind River_9,Wind River,9,122,4,,119,48824,10476,252.1,16.3,128,174
+Williamson_1963,Wind River_90,Wind River,90,157,2,,98,77908,14756,328.9,18.8,152,171
+Williamson_1963,Wind River_90,Wind River,90,157,2,,103,83577,15463,338.9,19.6,155,162
+Williamson_1963,Wind River_90,Wind River,90,157,2,,109,88811,16518,353.6,19.9,159,163
+Williamson_1963,Wind River_90,Wind River,90,157,2,,114,93475,16470,354.8,20.6,167,154
+Williamson_1963,Wind River_90,Wind River,90,157,2,,119,95653,16869,353.5,20.9,166,149
+Curtis_and_Marshall_2002,Stampede Creek_61,Stampede Creek,61,,3,111,33,1874,2455,121.7,4.6,60,1035
+Curtis_and_Marshall_2002,Stampede Creek_61,Stampede Creek,61,,3,111,38,6385,3654,153.6,5.4,70,965
+Curtis_and_Marshall_2002,Stampede Creek_61,Stampede Creek,61,,3,111,43,11974,5175,186.2,6.3,81,860
+Curtis_and_Marshall_2002,Stampede Creek_61,Stampede Creek,61,,3,111,48,20266,6780,212.0,7.6,90,675
+Curtis_and_Marshall_2002,Stampede Creek_61,Stampede Creek,61,,3,111,53,28682,8415,232.1,9.3,100,495
+Curtis_and_Marshall_2002,Stampede Creek_61,Stampede Creek,61,,3,111,58,37400,9823,247.0,10.6,110,400
+Curtis_and_Marshall_2002,Stampede Creek_61,Stampede Creek,61,,3,111,63,45825,11493,271.0,12.0,117,345
+Curtis_and_Marshall_2002,Stampede Creek_105,Stampede Creek,105,,3,111,33,2388,2211,107.7,4.8,61,845
+Curtis_and_Marshall_2002,Stampede Creek_105,Stampede Creek,105,,3,111,38,5141,3316,138.3,5.5,71,830
+Curtis_and_Marshall_2002,Stampede Creek_105,Stampede Creek,105,,3,111,43,10754,4609,165.9,6.4,81,745
+Curtis_and_Marshall_2002,Stampede Creek_105,Stampede Creek,105,,3,111,48,16661,5917,187.3,7.4,91,620
+Curtis_and_Marshall_2002,Stampede Creek_105,Stampede Creek,105,,3,111,53,23353,7088,200.0,8.8,100,470
+Curtis_and_Marshall_2002,Stampede Creek_105,Stampede Creek,105,,3,111,58,30330,8136,207.7,10.3,109,360
+Curtis_and_Marshall_2002,Stampede Creek_105,Stampede Creek,105,,3,111,63,35735,9206,222.7,11.0,116,335
+Curtis_and_Marshall_2002,Stampede Creek_122,Stampede Creek,122,,3,111,33,2730,2587,133.0,4.3,58,1345
+Curtis_and_Marshall_2002,Stampede Creek_122,Stampede Creek,122,,3,111,38,6296,3774,164.1,4.9,70,1235
+Curtis_and_Marshall_2002,Stampede Creek_122,Stampede Creek,122,,3,111,43,10880,5099,191.1,5.7,80,1065
+Curtis_and_Marshall_2002,Stampede Creek_122,Stampede Creek,122,,3,111,48,17173,6301,207.2,7.1,87,760
+Curtis_and_Marshall_2002,Stampede Creek_122,Stampede Creek,122,,3,111,53,25796,7835,224.1,8.4,100,580
+Curtis_and_Marshall_2002,Stampede Creek_122,Stampede Creek,122,,3,111,58,33404,9205,239.3,9.7,108,470
+Curtis_and_Marshall_2002,Stampede Creek_122,Stampede Creek,122,,3,111,63,40300,10555,258.4,10.6,115,420
