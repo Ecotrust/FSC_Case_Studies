@@ -21,7 +21,7 @@ END
 ** Regeneration harvest, retaining 4 smallest TPA >=12" DBH. Salvage snags.
 ********************************************************************************
 IF                30
-Age GE RotaAge + _offset
+(Age GE (RotaAge + _offset) AND YEAR GT convyr) OR YEAR EQ convyr
 THEN
 MINHARV            0         0         0         0         0
 THINATA            0        4.       1.0       12.      999.        0.      999.
@@ -40,7 +40,7 @@ ENDIF
 ** Plant 435 Douglas-fir trees per acre. 85% survival.
 ********************************************************************************
 IF                30
-AGE GE (RotaAge + _offset) AND CUT EQ 1
+CUT_TYPE EQ 3
 THEN
 RESETAGE           0         0
 COMPUTE            0
@@ -67,7 +67,7 @@ ENDIF
 ********************************************************************************
 IF
 (RotaAge + _offset - AGE) GE 15 AND BSDI GE (BSDIMAX*0.55) AND AGE GE 30 AND &
-(YEAR - lastThin) GE 15
+(YEAR - lastThin) GE 15 AND YEAR GT convyr
 THEN
 MINHARV            0         0      3000         0         0
 THINSDI            0      Parms(BSDIMAX*0.45, 1., All, 0., 999., 1)
