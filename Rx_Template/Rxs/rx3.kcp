@@ -25,10 +25,6 @@ RotaAge = LININT(SITE,100,100,42,38))
 END
 ENDIF
 
-COMPUTE            1
-_offset = 0
-END
-
 ********************************************************************************
 ** Regeneration harvest retaining 30% of basal area in smallest trees, retaining
 ** at least 4 TPA with DBH >= 12".
