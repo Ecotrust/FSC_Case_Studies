@@ -21,7 +21,7 @@ SLOPE LE 35
 THEN
 COMPUTE            1
 * For flat slopes, rotate at age 42 if SI < 100 and at age 38 if SI >= 100
-RotaAge = LININT(SITE,100,100,42,38))
+RotaAge = LININT(SITE,100,100,42,38)
 END
 ENDIF
 
