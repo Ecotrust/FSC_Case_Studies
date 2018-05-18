@@ -32,7 +32,7 @@ def run_fvs(keyfile):
     path = os.path.join(base_dir, 'completed','keyfiles', rx)
     if not os.path.exists(path):
         os.makedirs(path)
-    shutil.move(keyfile, os.path.join(base_dir,'completed','keyfiles'))
+    shutil.move(keyfile, os.path.join(base_dir,'completed','keyfiles', rx))
     path = os.path.join(base_dir, 'completed','outfiles', rx)
     if not os.path.exists(path):
         os.makedirs(path)
