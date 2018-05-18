@@ -22,7 +22,7 @@ END
 ** at least 4 TPA with DBH >= 12".
 ********************************************************************************
 IF                 30
-Age GE (RotaAge + _offset)
+((Age GE (RotaAge + _offset) AND YEAR GT convyr) OR YEAR EQ convyr)
 THEN
 COMPUTE
 * basal area in trees 0-12" DBH
@@ -64,8 +64,8 @@ ENDIF
 * If the retention target could be met harvesting from above and retaining fewer
 * than 4 TPA >=12" DBH, make sure we retain at least 4 TPA >=12" DBH.
 IF                 30
-(Age GE (RotaAge + _offset) AND _targBA LT (_smallBA + _largeBA) AND CUT EQ 0 &
-AND YEAR GT convyr) OR YEAR EQ convyr
+((Age GE (RotaAge + _offset) AND YEAR GT convyr) OR YEAR EQ convyr) AND &
+ _targBA LT (_smallBA + _largeBA) AND CUT EQ 0
 THEN
 ThinATA            0     Parms(4, 1.0, 12.0, 999.0, 0, 999)
 ThinABA            0     Parms(_targBA-_largeBA, 1.0, 0.0, 12.0, 0, 999)
@@ -79,8 +79,8 @@ ENDIF
 * TPA >=12" DBH, we can thin down to the target and be assured that enough
 * >=12" DBH trees are retained for FPA compliance.
 IF                 30
-(Age GE (RotaAge + _offset) AND _targBA GE (_smallBA + _largeBA) AND CUT EQ 0 &
-AND YEAR GT convyr) OR YEAR EQ convyr
+((Age GE (RotaAge + _offset) AND YEAR GT convyr) OR YEAR EQ convyr) AND &
+_targBA GE (_smallBA + _largeBA) AND CUT EQ 0
 THEN
 ThinABA            0     Parms(_targBA, 1.0, 0.0, 999.0, 0, 999)
 COMPUTE

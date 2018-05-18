@@ -21,7 +21,7 @@ END
 ** Regeneration harvest, retaining 4 smallest TPA >=12" DBH. Salvage snags.
 ********************************************************************************
 IF                30
-(Age GE (RotaAge + _offset) AND YEAR GT convyr) OR YEAR EQ convyr
+((Age GE (RotaAge + _offset) AND YEAR GT convyr) OR YEAR EQ convyr)
 THEN
 MINHARV            0         0         0         0         0
 THINATA            0        4.       1.0       12.      999.        0.      999.
