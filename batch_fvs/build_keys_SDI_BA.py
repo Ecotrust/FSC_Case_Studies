@@ -99,7 +99,7 @@ else:
 
 # A function to use for creating keyfiles.
 
-def create_keyfile(standID, variant, site_index, slope, rx):
+def create_keyfile(standID, variant, site_index, slope, convyr, rx):
     '''
     Creates a single FVS keyfile based on the jinja2 template.
     '''
@@ -109,6 +109,7 @@ def create_keyfile(standID, variant, site_index, slope, rx):
     inserts['rx'] = rxs_dict[rx]
     inserts['site_index'] = site_index
     inserts['variant'] = variant
+    inserts['convyr'] = convyr
     # lookup the soil expectation value for steep or flat slopes
     # round the stand's site index down the nearest multiple of 5
     inserts['sev'] = sev_lookup['sev_steep' if slope > 35 else 'sev_flat'][site_index//5 * 5]
@@ -134,7 +135,7 @@ import psycopg2
 conn = psycopg2.connect("dbname='FVSIn' user='ubuntu' host='localhost'") # password in pgpass file
 
 SQL = '''
-SELECT stand_id, variant, site_index, slope
+SELECT stand_id, variant, site_index, slope, convyr
 FROM stand_init;
 '''
 # read the query into a pandas dataframe
@@ -148,7 +149,9 @@ conn.close()
 values=list(stands.itertuples(index=False, name=None))
 
 #specify what rxs you want to rxs_to_run
-rxs_to_run = ['rx1']
+rxs_to_run = ['rx2Fm', 'rx2Fs', 'rx2Nl', 'rx2Nm', 'rx2Ns', 'rx2Sm', 'rx2Ss', 'rx2WA',
+'rx5Fl', 'rx5Fm', 'rx5Fs', 'rx5Nl', 'rx5Nm', 'rx5Ns', 'rx5Sm', 'rx5Ss', 'rx5WA']
+
 
 to_build=[]
 #add these rx combinations to our list of keyfiles to create
