@@ -186,7 +186,7 @@ ripscen EQ 1 AND mnCONba LT targSTD
 THEN
 THINABA            1 PARMS(targSTD,1.0,conDBH,999.0,0,999.0)
 COMPUTE
-CUT_TYPE = MIN(RBDFT,1) * 3
+CUT_TYPE = MIN(RTPA,1) * 3
 END
 * 0 = No cut, 1 = PCT, 2 = CT, 3 = Regeneration
 ENDIF
@@ -198,7 +198,7 @@ ripscen EQ 1 AND mnCONba GE targSTD
 THEN
 THINABA            1 PARMS(mnCONba,1.0,conDBH,999.0,0,999.0)
 COMPUTE
-CUT_TYPE = MIN(RBDFT,1) * 3
+CUT_TYPE = MIN(RTPA,1) * 3
 END
 * 0 = No cut, 1 = PCT, 2 = CT, 3 = Regeneration
 ENDIF
@@ -214,7 +214,7 @@ ripscen EQ 2
 THEN
 THINATA            1        66       1.0       6.0     999.0
 COMPUTE
-CUT_TYPE = MIN(RBDFT,1) * 3
+CUT_TYPE = MIN(RTPA,1) * 3
 END
 * 0 = No cut, 1 = PCT, 2 = CT, 3 = Regeneration
 ENDIF
@@ -276,7 +276,7 @@ ripscen EQ 4 AND mnCONba GE targBA
 THEN
 THINABA            1 PARMS(mnCONba,1.0,8.0,999.0,0.0,999.0)
 COMPUTE
-CUT_TYPE = MIN(RBDFT,1) * 3
+CUT_TYPE = MIN(RTPA,1) * 3
 END
 * 0 = No cut, 1 = PCT, 2 = CT, 3 = Regeneration
 ENDIF
@@ -288,7 +288,7 @@ ripscen EQ 4 AND mnCONba LT targBA
 THEN
 THINABA            1 PARMS(targBA,1.0,6.0,999.0,0.0,999.0)
 COMPUTE
-CUT_TYPE = MIN(RBDFT,1) * 3
+CUT_TYPE = MIN(RTPA,1) * 3
 END
 * 0 = No cut, 1 = PCT, 2 = CT, 3 = Regeneration
 ENDIF
@@ -328,7 +328,7 @@ ripscen EQ 5
 THEN
 THINBTA            1 PARMS(minCON,1.0,12.0,999.0,0.0,999.0)
 COMPUTE
-CUT_TYPE = MIN(RBDFT,1) * 3
+CUT_TYPE = MIN(RTPA,1) * 3
 END
 * 0 = No cut, 1 = PCT, 2 = CT, 3 = Regeneration
 ENDIF

@@ -37,7 +37,7 @@ FMIN
 SALVAGE            0        0.      999.      999.        0.        1.        0.
 END
 COMPUTE
-CUT_TYPE = MIN(RBDFT,1) * 3
+CUT_TYPE = MIN(RTPA,1) * 3
 END
 * 0 = No cut, 1 = PCT, 2 = CT, 3 = Regeneration
 ENDIF
