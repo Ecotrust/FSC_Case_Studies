@@ -25,17 +25,18 @@ def run_fvs(keyfile):
 
     base_dir = os.path.split(keyfile)[0]
     base_name = os.path.split(keyfile)[-1].split('.')[0]
+    rx = base_name.split('_')[2]
 
     # clean-up the outputs
     # move the .out and .key file
-    path = os.path.join(base_dir, 'completed','keyfiles')
+    path = os.path.join(base_dir, 'completed','keyfiles', rx)
     if not os.path.exists(path):
         os.makedirs(path)
     shutil.move(keyfile, os.path.join(base_dir,'completed','keyfiles'))
-    path = os.path.join(base_dir, 'completed','outfiles')
+    path = os.path.join(base_dir, 'completed','outfiles', rx)
     if not os.path.exists(path):
         os.makedirs(path)
-    shutil.move(os.path.join(base_dir,base_name+'.out'), os.path.join(base_dir,'completed','outfiles'))
+    shutil.move(os.path.join(base_dir,base_name+'.out'), os.path.join(base_dir,'completed','outfiles', rx))
 
      # delete the other files
     try:
