@@ -33,9 +33,6 @@ END
 * END of ECON extension keywords
 
 * Variables for extra costs for commercial thinning and logging on steep slopes
-IF                 0
-EVPHASE EQ 2
-THEN
 COMPUTE
 * extra cost for regen harvest: cable logging
 CB_RG_EX = 0
@@ -44,7 +41,6 @@ SK_CT_EX = 0
 * extra cost for commercial thin: cable logging
 CB_CT_EX = 0
 END
-ENDIF
 
 * Add $50/MBF ($200/MBF total) for cable logging clearcut
 IF                 0
