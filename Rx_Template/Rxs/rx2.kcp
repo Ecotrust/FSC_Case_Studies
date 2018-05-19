@@ -11,7 +11,7 @@ IF               999
 SLOPE GT 35
 THEN
 COMPUTE            1
-* For steep slopes, rotate at age 46 if SI < 100 and at age 42 if SI >= 100
+* For steep slopes, rotate at age 44 if SI < 100 and at age 40 if SI >= 100
 RotaAge = LININT(SITE,100,100,44,40)
 END
 ENDIF

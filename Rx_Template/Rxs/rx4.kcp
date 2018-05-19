@@ -26,9 +26,9 @@ IF                 30
 THEN
 COMPUTE
 * basal area in trees 0-12" DBH
-_smallBA = SPMCDBH(2,All,0,12,999)
+smallBA = SPMCDBH(2,All,0,12,999)
 * post-harvest BA target is 10% of pre-harvest BA
-_targBA = .1*BBA
+targBA = .1*BBA
 * calculate basal area in four smallest trees >= 11" DBH that must be retained
 * during regeneration harvest
 conBA15 = 0.9*MIN(SPMCDBH(1,CNFR,0,11,15),4)
@@ -56,7 +56,7 @@ conBA70 = 25.2*MIN(MIN(MAX(4-SPMCDBH(1,CNFR,0,11,65),0),&
 SPMCDBH(1,CNFR,0,65,70)),4)
 conBA75 = 29.0*MIN(MIN(MAX(4-SPMCDBH(1,CNFR,0,11,70),0),&
 SPMCDBH(1,CNFR,0,70,75)),4)
-_largeBA = conBA15 + conBA20 + conBA25 + conBA30 + conBA35 + conBA40 + &
+largeBA = conBA15 + conBA20 + conBA25 + conBA30 + conBA35 + conBA40 + &
 conBA45 + conBA50 + conBA55 + conBA60 + conBA65 + conBA70 + conBA75
 END
 ENDIF
@@ -65,10 +65,10 @@ ENDIF
 * than 4 TPA >=12" DBH, make sure we retain at least 4 TPA >=12" DBH.
 IF                 30
 ((Age GE (RotaAge + _offset) AND YEAR GT convyr) OR YEAR EQ convyr) AND &
- _targBA LT (_smallBA + _largeBA) AND CUT EQ 0
+ targBA LT (smallBA + largeBA) AND CUT EQ 0
 THEN
 ThinATA            0     Parms(4, 1.0, 12.0, 999.0, 0, 999)
-ThinABA            0     Parms(_targBA-_largeBA, 1.0, 0.0, 12.0, 0, 999)
+ThinABA            0     Parms(targBA-largeBA, 1.0, 0.0, 12.0, 0, 999)
 COMPUTE
 CUT_TYPE = MIN(RTPA,1) * 3
 END
@@ -80,9 +80,9 @@ ENDIF
 * >=12" DBH trees are retained for FPA compliance.
 IF                 30
 ((Age GE (RotaAge + _offset) AND YEAR GT convyr) OR YEAR EQ convyr) AND &
-_targBA GE (_smallBA + _largeBA) AND CUT EQ 0
+targBA GE (smallBA + largeBA) AND CUT EQ 0
 THEN
-ThinABA            0     Parms(_targBA, 1.0, 0.0, 999.0, 0, 999)
+ThinABA            0     Parms(targBA, 1.0, 0.0, 999.0, 0, 999)
 COMPUTE
 CUT_TYPE = MIN(RTPA,1) * 3
 END
