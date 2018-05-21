@@ -1,9 +1,9 @@
 ********************************************************************************
-** Forest Practices Riparian Rules - Max NPV
-** Stream Type:
-** Stream Size:
-** Buffer Type (WA):
+** Washington Forest Practices Riparian Rules - Max NPV
+** Stream Type: Type F
 ********************************************************************************
+MGMTID
+2WAo
 
 ********************************************************************************
 ** Identify financially optimal rotation age
@@ -45,13 +45,11 @@ BM RA WA PB GC AS CW WO DG HT CH WI OT
 COMPUTE            1
 *initialize the stream classification variables
 *strTYPE - Type N = 1, Type D = 2, Type F = 3, Type SSBT = 4
-strTYPE = {{STRTYPE}}
+strTYPE = 3
 *strSIZE = Small = 1, Medium = 2, Large = 3
-strSIZE = {{STRSIZE}}
+strSIZE = 2
 *statecd = 41 for Oregon, 53 for Washington
-statecd = {{STATE}}
-bufftype = {{buff_type}}
-* 1 for inner, 2 for outer, Washington only
+statecd = 53
 END
 
 COMPUTE            1
@@ -349,11 +347,11 @@ ripscen = 6
 END
 ENDIF
 
-* Thin from below to 20 TPA
+* Thin from below to 20 TPA >= 20"
 IF                30
 ripscen EQ 6
 THEN
-THINBTA            1 PARMS(20,1.0,12.0,999.0,0.0,999.0)
+THINBTA            1 PARMS(20,1.0,20.0,999.0,0.0,999.0)
 COMPUTE
 CUT_TYPE = MIN(RTPA,1) * 3
 END
