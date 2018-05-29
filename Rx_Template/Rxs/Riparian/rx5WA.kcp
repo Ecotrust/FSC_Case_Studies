@@ -33,6 +33,8 @@ strTYPE = 3
 strSIZE = 2
 *statecd = 41 for Oregon, 53 for Washington
 statecd = 53
+bufftype = 1
+* 1 for inner, 2 for outer, Washington only
 END
 
 COMPUTE            1
