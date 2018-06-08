@@ -36,7 +36,7 @@ smallBA = SPMCDBH(2,All,0,0,12)
 targBA = .3*BBA
 * calculate basal area in four smallest trees >= 12" DBH that must be retained
 * during regeneration harvest
-conBA15 = 0.9*MIN(SPMCDBH(1,CNFR,0,11,15),4)
+conBA15 = 0.9*MIN(SPMCDBH(1,CNFR,0,12,15),4)
 conBA20 = 1.8*MIN(MIN(MAX(4-SPMCDBH(1,CNFR,0,12,15),0),&
 SPMCDBH(1,CNFR,0,15,20)),4)
 conBA25 = 2.9*MIN(MIN(MAX(4-SPMCDBH(1,CNFR,0,12,20),0),&
