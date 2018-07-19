@@ -14,5 +14,7 @@ dependencies:
   - matplotlib=2.2
   - scipy=1.1
   - jinja2=2.10
+  - rasterio=1.0
+  - fiona=1.7
 
 prefix: C:\Users\ddiaz\AppData\Local\Continuum\miniconda3\envs\fvs
