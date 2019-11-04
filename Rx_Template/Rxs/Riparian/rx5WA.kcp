@@ -1,0 +1,356 @@
+********************************************************************************
+** Washington Forest Practices Riparian Rules - Max Sustained Yield
+** Stream Type: Type F
+********************************************************************************
+MGMTID
+x5WA
+
+********************************************************************************
+** Define biologically optimal rotation age
+********************************************************************************
+COMPUTE            1
+* Rotate at 75 years old, culmination of cubic volume mean annual increment
+RotaAge = 75
+END
+
+********************************************************************************
+** Add Silviculture Keywords
+********************************************************************************
+COMMENT
+Define a conifer species group
+END
+
+SPGROUP     CNFR
+SF WF GF AF RF SS NF YC IC ES LP JP SP WP PP DF RW RC WH MH WJ LL WB KP PY
+SPGROUP    HDWD
+BM RA WA PB GC AS CW WO DG HT CH WI OT
+
+COMPUTE            1
+*initialize the stream classification variables
+*strTYPE - Type N = 1, Type D = 2, Type F = 3, Type SSBT = 4
+strTYPE = 3
+*strSIZE = Small = 1, Medium = 2, Large = 3
+strSIZE = 2
+*statecd = 41 for Oregon, 53 for Washington
+statecd = 53
+bufftype = 1
+* 1 for inner, 2 for outer, Washington only
+END
+
+COMPUTE            1
+* initialize riparian 'scenario' variable, 1 if General Prescription, 2 if
+* "Situation A", and 3 if "Situation B", 4 if SSBT stream.
+ripscen = 0
+END
+
+********************************************************************************
+** OREGON RIPARIAN RULES
+********************************************************************************
+
+********************************************************************************
+** TYPE F, D, and N STREAMS
+********************************************************************************
+* Calculate minimum conifer DBH and TPA for retention
+IF               999
+strTYPE GT 0 AND strSIZE GT 0 AND statecd EQ 41
+THEN
+COMPUTE
+* Minimum DBH of conifers credited in retention
+conDBH = LININT(strSIZE,1,1,2,2,3,3,0.0,0.0,0.0,8.0,8.0,11.0)
+END
+ENDIF
+
+* Calculate the basal area "Standard Target" and minimum number of conifers
+* to retain for Type F Streams
+IF               999
+strTYPE EQ 3 AND strSIZE GT 0 AND statecd EQ 41
+THEN
+COMPUTE
+targSTD = LININT(strSIZE,1,1,2,2,3,3,0,35,35,75,75,100)
+minCON = LININT(strSIZE,1,1,2,2,3,3,4,4,4,19,19,18)
+END
+ENDIF
+
+* Calculate the basal area "Standard Target" and minimum number of conifers
+* to retain for Type D and N Streams
+IF               999
+(strTYPE EQ 2 OR strTYPE EQ 1) AND strSIZE GT 0 AND statecd EQ 41
+THEN
+COMPUTE
+targSTD = LININT(strSIZE,1,1,2,2,3,3,0,0,0,44,44,56)
+minCON = LININT(strSIZE,1,1,2,2,3,3,0,4,4,9,9,19)
+END
+ENDIF
+
+* Determine which riparian scenario we will follow for Type F, D, and N streams
+
+* Calculate conifer basal area above the minimum DBH for that stream type
+IF                30
+((Age GE (RotaAge + _offset) AND YEAR GT convyr) OR YEAR EQ convyr) AND &
+statecd EQ 41 AND strTYPE GE 1 AND strTYPE LE 3 AND strSIZE GT 0
+THEN
+COMPUTE
+BAcon = SPMCDBH(2,CNFR,0,conDBH,999.)
+END
+ENDIF
+
+* General Prescription - Conifer BA is at or above Standard Target
+IF                30
+((Age GE (RotaAge + _offset) AND YEAR GT convyr) OR YEAR EQ convyr) AND &
+BAcon GE targSTD AND statecd EQ 41 AND strTYPE GE 1 AND strTYPE LE 3 AND &
+strSIZE GT 0
+THEN
+COMPUTE
+ripscen = 1
+END
+ENDIF
+
+* "Situation A" - Conifer BA >= 50% of Standard Target
+IF                30
+((Age GE (RotaAge + _offset) AND YEAR GT convyr) OR YEAR EQ convyr) AND &
+BAcon LT targSTD AND BAcon GE 0.5*targSTD AND statecd EQ 41  AND strTYPE GE 1 &
+AND strTYPE LE 3 AND strSIZE GT 0
+THEN
+COMPUTE
+ripscen = 2
+END
+ENDIF
+
+* "Situation B" - Conifer BA < 50% of Standard Target
+IF                30
+((Age GE (RotaAge + _offset) AND YEAR GT convyr) OR YEAR EQ convyr) AND &
+BAcon LT 0.5*targSTD AND statecd EQ 41 AND strTYPE GE 1 AND strTYPE LE 3 AND &
+strSIZE GT 0
+THEN
+COMPUTE
+ripscen = 3
+END
+ENDIF
+
+********************************************************************************
+* General Prescription for Type F, D, and N streams
+********************************************************************************
+* Calculate the basal area for minimum conifer TPA (minCON) >= the minimum DBH
+* (conDBH) that must be retained along Type F, D, and N streams
+IF                30
+ripscen EQ 1
+THEN
+COMPUTE
+* BA of minimum number of large conifer trees
+conBA15 = 0.9*MIN(SPMCDBH(1,CNFR,0,conDBH,15),minCON)
+conBA20 = 1.8*MIN(MIN(MAX(minCON-SPMCDBH(1,CNFR,0,conDBH,15),0),&
+SPMCDBH(1,CNFR,0,15,20)),minCON)
+conBA25 = 2.9*MIN(MIN(MAX(minCON-SPMCDBH(1,CNFR,0,conDBH,20),0),&
+SPMCDBH(1,CNFR,0,20,25)),minCON)
+conBA30 = 4.3*MIN(MIN(MAX(minCON-SPMCDBH(1,CNFR,0,conDBH,25),0),&
+SPMCDBH(1,CNFR,0,25,30)),minCON)
+conBA35 = 5.9*MIN(MIN(MAX(minCON-SPMCDBH(1,CNFR,0,conDBH,30),0),&
+SPMCDBH(1,CNFR,0,30,35)),minCON)
+conBA40 = 7.9*MIN(MIN(MAX(minCON-SPMCDBH(1,CNFR,0,conDBH,35),0),&
+SPMCDBH(1,CNFR,0,35,40)),minCON)
+conBA45 = 10.1*MIN(MIN(MAX(minCON-SPMCDBH(1,CNFR,0,conDBH,40),0),&
+SPMCDBH(1,CNFR,0,40,45)),minCON)
+conBA50 = 12.6*MIN(MIN(MAX(minCON-SPMCDBH(1,CNFR,0,conDBH,45),0),&
+SPMCDBH(1,CNFR,0,45,50)),minCON)
+conBA55 = 15.3*MIN(MIN(MAX(minCON-SPMCDBH(1,CNFR,0,conDBH,50),0),&
+SPMCDBH(1,CNFR,0,50,55)),minCON)
+conBA60 = 18.3*MIN(MIN(MAX(minCON-SPMCDBH(1,CNFR,0,conDBH,55),0),&
+SPMCDBH(1,CNFR,0,55,60)),minCON)
+conBA65 = 21.6*MIN(MIN(MAX(minCON-SPMCDBH(1,CNFR,0,conDBH,60),0),&
+SPMCDBH(1,CNFR,0,60,65)),minCON)
+conBA70 = 25.2*MIN(MIN(MAX(minCON-SPMCDBH(1,CNFR,0,conDBH,65),0),&
+SPMCDBH(1,CNFR,0,65,70)),minCON)
+conBA75 = 29.0*MIN(MIN(MAX(minCON-SPMCDBH(1,CNFR,0,conDBH,70),0),&
+SPMCDBH(1,CNFR,0,70,75)),minCON)
+mnCONba = conBA15 + conBA20 + conBA25 + conBA30 + conBA35 + conBA40 + &
+conBA45 + conBA50 + conBA55 + conBA60 + conBA65 + conBA70 + conBA75
+END
+ENDIF
+
+* If we're using the General Prescription, but retaining the minimum number
+* of conifers won't achieve the Standard Target, retain the Standard Target BA
+IF                30
+ripscen EQ 1 AND mnCONba LT targSTD
+THEN
+THINABA            1 PARMS(targSTD,1.0,conDBH,999.0,0,999.0)
+COMPUTE
+CUT_TYPE = MIN(RTPA,1) * 3
+END
+* 0 = No cut, 1 = PCT, 2 = CT, 3 = Regeneration
+ENDIF
+
+* If we're using the General Prescription, and retaining the minimum number
+* of conifers will achieve the Standard Target, retain the minimum number.
+IF                30
+ripscen EQ 1 AND mnCONba GE targSTD
+THEN
+THINABA            1 PARMS(mnCONba,1.0,conDBH,999.0,0,999.0)
+COMPUTE
+CUT_TYPE = MIN(RTPA,1) * 3
+END
+* 0 = No cut, 1 = PCT, 2 = CT, 3 = Regeneration
+ENDIF
+
+
+********************************************************************************
+* "Scenario A" for Type F, D, and N streams
+********************************************************************************
+* If we fall under Scenario A (conifer BA is 50-100% of Standard Target),
+* thin from above to retain 66 conifer TPA >= 6" DBH
+IF                30
+ripscen EQ 2
+THEN
+THINATA            1        66       1.0       6.0     999.0
+COMPUTE
+CUT_TYPE = MIN(RTPA,1) * 3
+END
+* 0 = No cut, 1 = PCT, 2 = CT, 3 = Regeneration
+ENDIF
+
+********************************************************************************
+* "Scenario B" for Type F, D, and N streams
+********************************************************************************
+* If we fall under Scenario B (conifer BA is <50% of Standard Target),
+* do nothing.
+* If ripscen EQ 3, then do nothing.
+
+********************************************************************************
+** TYPE SSBT (Salmon, Steelhead, and Bull Trout) STREAMS
+********************************************************************************
+* SSBT Prescription 2: Thin from Above to target BA (all species) so long as
+* minimum conifer TPA (>=8" DBH) are retained.
+IF                30
+((Age GE (RotaAge + _offset) AND YEAR GT convyr) OR YEAR EQ convyr) AND &
+statecd EQ 41 AND strTYPE EQ 4 AND strSIZE GT 0
+THEN
+COMPUTE
+ripscen = 4
+* BA of minimum number of large conifer trees
+conBA15 = 0.9*MIN(SPMCDBH(1,CNFR,0,8,15),22)
+conBA20 = 1.8*MIN(MIN(MAX(22-SPMCDBH(1,CNFR,0,8,15),0),&
+SPMCDBH(1,CNFR,0,15,20)),22)
+conBA25 = 2.9*MIN(MIN(MAX(22-SPMCDBH(1,CNFR,0,8,20),0),&
+SPMCDBH(1,CNFR,0,20,25)),22)
+conBA30 = 4.3*MIN(MIN(MAX(22-SPMCDBH(1,CNFR,0,8,25),0),&
+SPMCDBH(1,CNFR,0,25,30)),22)
+conBA35 = 5.9*MIN(MIN(MAX(22-SPMCDBH(1,CNFR,0,8,30),0),&
+SPMCDBH(1,CNFR,0,30,35)),22)
+conBA40 = 7.9*MIN(MIN(MAX(22-SPMCDBH(1,CNFR,0,8,35),0),&
+SPMCDBH(1,CNFR,0,35,40)),22)
+conBA45 = 10.1*MIN(MIN(MAX(22-SPMCDBH(1,CNFR,0,8,40),0),&
+SPMCDBH(1,CNFR,0,40,45)),22)
+conBA50 = 12.6*MIN(MIN(MAX(22-SPMCDBH(1,CNFR,0,8,45),0),&
+SPMCDBH(1,CNFR,0,45,50)),22)
+conBA55 = 15.3*MIN(MIN(MAX(22-SPMCDBH(1,CNFR,0,8,50),0),&
+SPMCDBH(1,CNFR,0,50,55)),22)
+conBA60 = 18.3*MIN(MIN(MAX(22-SPMCDBH(1,CNFR,0,8,55),0),&
+SPMCDBH(1,CNFR,0,55,60)),22)
+conBA65 = 21.6*MIN(MIN(MAX(22-SPMCDBH(1,CNFR,0,8,60),0),&
+SPMCDBH(1,CNFR,0,60,65)),22)
+conBA70 = 25.2*MIN(MIN(MAX(22-SPMCDBH(1,CNFR,0,8,65),0),&
+SPMCDBH(1,CNFR,0,65,70)),22)
+conBA75 = 29.0*MIN(MIN(MAX(22-SPMCDBH(1,CNFR,0,8,70),0),&
+SPMCDBH(1,CNFR,0,70,75)),22)
+mnCONba = conBA15 + conBA20 + conBA25 + conBA30 + conBA35 + conBA40 + &
+conBA45 + conBA50 + conBA55 + conBA60 + conBA65 + conBA70 + conBA75
+targBA = LININT(strSIZE,1,1,2,2,0,81,81,100)
+END
+ENDIF
+
+* If BA of minimum number of conifers is at or above required BA retention,
+* we have to leave all those conifers (i.e., will be above target BA)
+IF                30
+ripscen EQ 4 AND mnCONba GE targBA
+THEN
+THINABA            1 PARMS(mnCONba,1.0,8.0,999.0,0.0,999.0)
+COMPUTE
+CUT_TYPE = MIN(RTPA,1) * 3
+END
+* 0 = No cut, 1 = PCT, 2 = CT, 3 = Regeneration
+ENDIF
+
+* If BA of minimum number of conifers is below required BA retention, we
+* have to retain the minimum required BA
+IF                30
+ripscen EQ 4 AND mnCONba LT targBA
+THEN
+THINABA            1 PARMS(targBA,1.0,6.0,999.0,0.0,999.0)
+COMPUTE
+CUT_TYPE = MIN(RTPA,1) * 3
+END
+* 0 = No cut, 1 = PCT, 2 = CT, 3 = Regeneration
+ENDIF
+
+********************************************************************************
+** WASHINGTON RIPARIAN RULES
+********************************************************************************
+* Only Type F and Type S streams have intermediate management options in
+* Washington state, and the requirements are the same for both stream types.
+* We will treat all these as Type F streams
+
+IF                30
+((Age GE (RotaAge + _offset) AND YEAR GT convyr) OR YEAR EQ convyr) AND &
+statecd EQ 53 AND strTYPE EQ 3 AND strSIZE GT 0
+THEN
+COMPUTE
+ripscen = 5
+END
+ENDIF
+
+* Calculate the minimum number of conifers (>=12" DBH) we need to retain for
+* Type F Streams. These values were determined by using the online model WA DNR
+* requires for calculating retention. The desired future condition is 325 ft2/ac
+* at age 140. To determine minimum retention at the financial rotation age for
+* each site class, retained TPA (of 12" trees) was varied until the target BA
+* was satisfied.
+IF               999
+strTYPE EQ 3 AND statecd EQ 53
+THEN
+COMPUTE
+minCON = LININT(SITE,50,50,75,75,95,95,115,115,999,100,100,66,66,60,60,57)
+END
+ENDIF
+
+IF                30
+ripscen EQ 5
+THEN
+THINBTA            1 PARMS(minCON,1.0,12.0,999.0,0.0,999.0)
+COMPUTE
+CUT_TYPE = MIN(RTPA,1) * 3
+END
+* 0 = No cut, 1 = PCT, 2 = CT, 3 = Regeneration
+ENDIF
+
+********************************************************************************
+** Reset stand age. Reset offset for future rotations.
+** If fewer than 50 TPA remain, plant 435 TPA (10 x 10 ft spacing).
+** If 50+ trees remain, plant 194 TPA (15 x 15 ft spacing).
+********************************************************************************
+IF                30
+CUT_TYPE EQ 3
+THEN
+RESETAGE           0         0
+COMPUTE            0
+_offset = 0
+ripscen = 0
+END
+ENDIF
+
+IF                30
+CUT_TYPE EQ 3 AND ATPA LT 50
+THEN
+ESTAB
+PLANT              1    Parms(DF, 435., 85.)
+END
+ENDIF
+
+IF                30
+CUT_TYPE EQ 3 AND ATPA GE 50
+THEN
+ESTAB
+PLANT              1    Parms(DF, 194., 85.)
+END
+ENDIF
+
+PROCESS
+STOP

@@ -1,0 +1,57 @@
+COMMENT
+Select ORGANON version and whether SDIMAX affects simulations.
+END
+
+ORGANON
+* Use SMC variant of ORGANON, defaults to using SDIMAX
+ORGINFO            3
+END
+* End of ORGANON keywords
+
+COMMENT
+Use Basal Area increment multiplier to constrain growth
+END
+BAIMULT                             0.80
+
+COMMENT
+Use Height growth multiplier to shrink tree growth
+END
+HTGMULT                             0.90
+
+
+COMMENT
+Set Maximum Stand Density Index.  OP variant.
+Following methods described by:
+Vandendriesche, D., 2010. FVS out of the box—assembly required, in: Proceedings
+RMRS-P-61. Presented at the 2009 National Silviculture Workshop (June 15-18,
+2009), U.S. Department of Agriculture, Forest Service, Rocky Mountain Research
+Station, Fort Collins, CO, pp. 289–306.
+https://www.fs.fed.us/rm/pubs/rmrs_p061/rmrs_p061_289_306.pdf
+
+Where >100 FIA plots in the FVS variant had single dominant species, 85% of the
+98th percentile of observed SDI is used to represent an endemic maximum limit.
+Upper limit of density related mortality is set to 75% of SDIMAX.
+END
+
+* Modify SDIMAX to adjust basal area growth - DF changed from 536 (FIA) to 435
+SDIMAX           DF       435                            55.        75
+* Modify SDIMAX to adjust basal area growth - These species based on FIA
+SDIMAX           AF       545
+SDIMAX           BM       485
+SDIMAX           CH       459
+SDIMAX           DG       459
+SDIMAX           GC       583
+SDIMAX           GF       450
+SDIMAX           IC       579
+SDIMAX           LP       552
+SDIMAX           MH       564
+SDIMAX           NF       536
+SDIMAX           PP       555
+SDIMAX           RA       504
+SDIMAX           RC       558
+SDIMAX           RF       495
+SDIMAX           SF       606
+SDIMAX           SS       506
+SDIMAX           WF       450
+SDIMAX           WH       565
+SDIMAX           WO       410

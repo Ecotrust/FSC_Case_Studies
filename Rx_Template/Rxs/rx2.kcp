@@ -5,69 +5,75 @@ MGMTID
 Rx2
 
 ********************************************************************************
-** Read in rotation age from database. Becomes Event Monitor variable "RotaAge".
+** Identify financially optimal rotation age
 ********************************************************************************
-DATABASE
-SQLIN              0
-SELECT fpa_npv AS RotaAge
-FROM
-rotation_age
-WHERE
-stand_id = '%StandID%'
-ENDSQL
+IF               999
+SLOPE GT 35
+THEN
+COMPUTE            1
+* For steep slopes, rotate at age 44 if SI < 100 and at age 40 if SI >= 100
+RotaAge = LININT(SITE,100,100,44,40)
 END
+ENDIF
+
+IF               999
+SLOPE LE 35
+THEN
+COMPUTE            1
+* For flat slopes, rotate at age 42 if SI < 100 and at age 38 if SI >= 100
+RotaAge = LININT(SITE,100,100,42,38)
+END
+ENDIF
 
 ********************************************************************************
 ** Regeneration harvest, retaining 4 smallest TPA >=12" DBH. Salvage snags.
 ********************************************************************************
 IF                30
-Age GE RotaAge + Offset
+(Age GE (RotaAge + _offset) AND YEAR GT convyr) OR YEAR EQ convyr
 THEN
 THINATA            0        4.       1.0       12.      999.        0.      999.
 THINDBH            0        0.       12.        1.        0.        0.        0.
 FMIN
 SALVAGE            0        0.      999.      999.        0.        1.        0.
 END
-COMPUTE            0
-CUT_TYPE = 3
+COMPUTE
+CUT_TYPE = MIN(RTPA,1) * 3
 END
 * 0 = No cut, 1 = PCT, 2 = CT, 3 = Regeneration
 ENDIF
 
 ********************************************************************************
 ** Reset stand age. Reset offset for future rotations.
-** Re-plant to 450 TPA with 100% Douglas-fir.
+** Re-plant 435 Douglas-fir trees per acre.
 ********************************************************************************
 IF                30
-AGE GE (RotaAge + Offset) AND CUT EQ 1
+CUT_TYPE EQ 3
 THEN
 RESETAGE           0         0
+
 COMPUTE            0
-Offset = 0
+_offset = 0
 END
+
 ESTAB
-PLANT              1    Parms(DF, 450., 100.)
+PLANT              1    Parms(DF, 435., 85.)
 END
+
+* $85/acre for site preparation
+ECON
+SPECCST            1  SitePrep       85.
+* $135/acre for brush control at age 5
+SPECCST            2     Brush      135.
+END
+
 ENDIF
 
-********************************************************************************
-** Pre-commercial thin to 250 TPA at age 15-20.
-********************************************************************************
-IF                30
-AGE GE 15 AND AGE LE 20
-THEN
-THINBTA            0      250.        1.        0.      999.        0.      999.
-COMPUTE            0
-CUT_TYPE = 1
-END
-* 0 = No cut, 1 = PCT, 2 = CT, 3 = Regeneration
-ENDIF
 
 ********************************************************************************
-** Pile and burn slash after any harvesting.
+** Pile and burn slash after regeneration harvest.
 ********************************************************************************
 IF
-CUT EQ 1
+CUT_TYPE EQ 3
 THEN
 FMIN
 PILEBURN           1         1

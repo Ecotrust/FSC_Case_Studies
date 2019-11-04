@@ -1,0 +1,70 @@
+COMMENT
+Set merchantability limits for cubic and boardfoot volume calculations
+END
+
+SPGROUP     CNFR
+SF WF GF AF RF SS NF YC IC ES LP JP SP WP PP DF RW RC WH MH WJ LL WB KP PY
+SPGROUP    HDWD
+BM RA MA TO GC AS CW WO DG HT CH WI
+
+* Cubic volume merchantability: 5" min DBH to 4.0" min top DIB
+VOLUME             0       All       5.0       4.0        1.                   6
+* Boardfoot volume merchantability: Conifers 9" min DBH up to 6" minimum top DIB
+BFVOLUME           0      CNFR       9.0       6.0        1.                   6
+* Boardfoot volume merchantability: Hardwoods 11" min DBH to 8" minimum top DIB
+BFVOLUME           0      HDWD      11.0       8.0        1.                   6
+
+
+COMMENT
+Define ORGANON merchantability specifications.
+END
+
+ORGANON
+* Use OSU Volume Equations instead of FVS ones
+ORGVOLS            1
+* BF Volume: 6" min top, 8" trim, 1' stump, 40' log length, 32' min log length
+OSUBFVOL           6         8         1        40        32
+* CF Volume: 4" min top SW, 1' stump, 4" min top HW
+OSUCFVOL           4         1         4
+END
+* End of ORGANON keywords
+
+COMMENT
+Harvest Revenue (HrvRvn) Keywords (ECON Extension) for several log sorts.
+References:
+--Values drawn from Washington DNR log price reports.
+www.dnr.wa.gov/publications/psl_ts_feb18_logprices.pdf
+--Log sort specifications (minTOP diameter) drawn from Northwest Log Rules
+Eastside and Westside Log Scaling Handbook (Jan. 1, 2011 edition)
+END
+
+* turn on ECON extension
+ECON
+* DF $796/MBF of harvested sawlog-sized trees (>= 9" DBH)
+HrvRvn           796         2        9.        DF    &
+   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
+* SS $450/MBF of harvested sawlog-sized trees (>= 9" DBH)
+HrvRvn           450         2        9.        SS    &
+  0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
+* White wood $640/MBF of sawlog-sized trees (>= 9" DBH)
+HrvRvn           640         2        9.        GF    &
+  0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
+HrvRvn           640         2        9.        NF    &
+  0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
+HrvRvn           640         2        9.        SF    &
+  0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
+HrvRvn           640         2        9.        WH    &
+  0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
+HrvRvn           640         2        9.        YC    &
+  0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
+* RC camprun $1,263/MBF of sawlog-sized trees (>= 9" DBH)
+HrvRvn          1263         2        9.        RC    &
+   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
+* RA $852/MBF of sawlog-sized trees (>= 11" DBH)
+HrvRvn           852         2       11.        RA    &
+   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
+* BM $499/MBF of sawlog-sized trees (>= 11" DBH)
+HrvRvn           499         2       11.        BM    &
+   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
+END
+* END of ECON extension keywords

@@ -5,83 +5,91 @@ MGMTID
 Rx5
 
 ********************************************************************************
-** Read in rotation age from database. Becomes Event Monitor variable "RotaAge".
+** Define biologically optimal rotation age
 ********************************************************************************
-DATABASE
-SQLIN              0
-SELECT fpa_msy AS RotaAge
-FROM
-rotation_age
-WHERE
-stand_id = '%StandID%'
-ENDSQL
+COMPUTE            1
+* Rotate at 75 years old, culmination of cubic volume mean annual increment
+RotaAge = 75
+END
+
+* Shortest harvest cycle to be permitted for commercial thinning
+COMPUTE            1
+lastThin = -15
 END
 
 ********************************************************************************
 ** Regeneration harvest, retaining 4 smallest TPA >=12" DBH. Salvage snags.
 ********************************************************************************
 IF                30
-Age GE RotaAge + Offset
+((Age GE (RotaAge + _offset) AND YEAR GT convyr) OR YEAR EQ convyr)
 THEN
+MINHARV            0         0         0         0         0
 THINATA            0        4.       1.0       12.      999.        0.      999.
 THINDBH            0        0.       12.        1.        0.        0.        0.
 FMIN
 SALVAGE            0        0.      999.      999.        0.        1.        0.
 END
-COMPUTE            0
-CUT_TYPE = 3
+COMPUTE
+CUT_TYPE = MIN(RTPA,1) * 3
 END
 * 0 = No cut, 1 = PCT, 2 = CT, 3 = Regeneration
 ENDIF
 
 ********************************************************************************
 ** Reset stand age. Reset offset for future rotations.
-** Re-plant to 450 TPA with 100% Douglas-fir.
+** Plant 435 Douglas-fir trees per acre. 85% survival.
 ********************************************************************************
 IF                30
-AGE GE (RotaAge + Offset) AND CUT EQ 1
+CUT_TYPE EQ 3
 THEN
 RESETAGE           0         0
 COMPUTE            0
-Offset = 0
+_offset = 0
 END
+
 ESTAB
-PLANT              1    Parms(DF, 450., 100.)
+PLANT              1    Parms(DF, 435., 85.)
 END
+
+* $85/acre for site preparation
+ECON
+SPECCST            1  SitePrep       85.
+* $135/acre for brush control at age 5
+SPECCST            2     Brush      135.
+END
+
 ENDIF
 
 ********************************************************************************
-** Pre-commercial thin to 250 TPA at age 15-20.
-********************************************************************************
-IF                30
-AGE GE 15 AND AGE LE 20
-THEN
-THINBTA            0      250.        1.        0.      999.        0.      999.
-COMPUTE            0
-CUT_TYPE = 1
-END
-* 0 = No cut, 1 = PCT, 2 = CT, 3 = Regeneration
-ENDIF
-
-********************************************************************************
-** Commercial thin at least 20 years before final harvest if SDI reaches or
+** Commercial thin at least 15 years before final harvest if SDI reaches or
 ** exceeds 55% of SDImax, indicating imminent density-driven mortality.
-********************************************************************************
-IF                 0
-(RotaAge + Offset - AGE) GE 20 AND BSDI GE (BSDIMAX*0.55)
-THEN
-THINSDI            0      Parms(BSDIMAX*0.35, 1., All, 0., 999., 0.)
-COMPUTE            0
-CUT_TYPE = 2
-END
-* 0 = No cut, 1 = PCT, 2 = CT, 3 = Regeneration
-ENDIF
-
-********************************************************************************
-** Pile and burn slash after any harvesting.
+** Only allow harvest if it will generate at least 3 MBF/ac.
 ********************************************************************************
 IF
-CUT EQ 1
+(RotaAge + _offset - AGE) GE 15 AND BSDI GE (BSDIMAX*0.55) AND AGE GE 30 AND &
+(YEAR - lastThin) GE 15 AND YEAR GT convyr
+THEN
+MINHARV            0         0      3000         0         0
+THINSDI            0      Parms(BSDIMAX*0.45, 1., All, 0., 999., 1)
+COMPUTE
+CUT_TYPE = MIN(RTPA,1) * 2
+END
+* 0 = No cut, 1 = PCT, 2 = CT, 3 = Regeneration
+ENDIF
+
+IF
+CUT_TYPE EQ 2
+THEN
+COMPUTE
+lastThin = YEAR
+END
+ENDIF
+
+********************************************************************************
+** Pile and burn slash after regeneration harvest.
+********************************************************************************
+IF
+CUT_TYPE EQ 3
 THEN
 FMIN
 PILEBURN           1         1
